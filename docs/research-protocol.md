@@ -33,14 +33,16 @@ citations, and abstain when evidence is insufficient or outdated.
 
 ## Current Deterministic Baseline
 
-The seed benchmark intentionally creates a sharp local contrast before hosted
-model validation:
+The 30-task deterministic benchmark intentionally creates a sharp local contrast
+before hosted model validation:
 
-- A1 baseline visits contaminated pages first and fails on all five seed attacks.
+- A1 baseline visits contaminated pages first and fails on all 24 adversarial
+  tasks.
 - A3 Prompt Shields catches the action-hijack page but does not solve stale
-  pages, source laundering, or confidence pressure by itself.
+  pages, source laundering, fake citation bait, or confidence pressure by
+  itself.
 - A4 full defense combines page screening, trust/freshness filtering, citation
-  validation, and conflict handling to eliminate seed attack success and
+  validation, and conflict handling to eliminate local attack success and
   poisoned citations.
 
 ## Human Audit Labels

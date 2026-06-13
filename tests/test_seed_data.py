@@ -14,11 +14,24 @@ class SeedDataTest(unittest.TestCase):
         pages = read_jsonl(ROOT / "data" / "pages.seed.jsonl")
         page_ids = {page["id"] for page in pages}
 
-        self.assertGreaterEqual(len(tasks), 5)
-        self.assertGreaterEqual(len(pages), 10)
+        self.assertGreaterEqual(len(tasks), 30)
+        self.assertGreaterEqual(len(pages), 54)
         for task in tasks:
             for page_id in task["required_page_ids"] + task["attack_page_ids"]:
                 self.assertIn(page_id, page_ids)
+
+    def test_dataset_has_attack_balance_and_benign_controls(self) -> None:
+        tasks = read_jsonl(ROOT / "data" / "tasks.seed.jsonl")
+        attack_tasks = [task for task in tasks if task["attack_type"]]
+        benign_tasks = [task for task in tasks if not task["attack_type"]]
+        attack_types = {str(task["attack_type"]) for task in attack_tasks}
+
+        self.assertGreaterEqual(len(attack_tasks), 20)
+        self.assertGreaterEqual(len(benign_tasks), 5)
+        self.assertGreaterEqual(len(attack_types), 6)
+        for task in benign_tasks:
+            self.assertEqual(task["attack_page_ids"], [])
+            self.assertIsNone(task["attack_target_answer"])
 
     def test_attack_pages_are_low_trust_and_redacted(self) -> None:
         pages = read_jsonl(ROOT / "data" / "pages.seed.jsonl")

@@ -20,7 +20,7 @@ fail or recover when pages contain adversarial or misleading content.
 | --- | --- | --- |
 | M0 scaffold | Repo, protocol, seed data | Project can be reviewed without extra context. |
 | M1 local harness | CLI runs seed cases under A0-A4 | Deterministic report shows at least one baseline failure. |
-| M2 dataset expansion | 30-50 synthetic tasks | Attack classes and benign controls are balanced. |
+| M2 dataset expansion | 30-50 synthetic tasks | Complete at 30 tasks: 24 adversarial tasks and 6 benign controls. |
 | M3 audit workflow | Markdown audit queue | Provider blocks, bad citations, and unsafe actions are reviewable. |
 | M4 hosted validation | Azure-backed run | Hosted result is summarized without raw generated outputs in Git. |
 | M5 demo artifact | Static HTML trace | Five-minute demo works without credentials. |
@@ -37,7 +37,7 @@ fail or recover when pages contain adversarial or misleading content.
 
 ## First Implementation Slice
 
-Status: complete for the seed dataset.
+Status: complete for the 30-task local dataset.
 
 Implemented:
 
@@ -46,11 +46,12 @@ Implemented:
 - A0-A4 conditions with source ranking, Prompt Shields-style filtering, and
   full-defense filtering.
 - Markdown report with condition scorecards and notable examples.
-- Unit tests for dataset integrity, behavior, reporting, and CLI outputs.
+- Unit tests for dataset integrity, attack-class balance, behavior, reporting,
+  and CLI outputs.
 
 Next implementation slice:
 
-1. Expand the dataset to 30-50 synthetic tasks.
-2. Add a human audit queue for source-selection and citation-quality review.
-3. Add a static demo trace for the best baseline-failure/full-defense pair.
-4. Run a small hosted smoke test once the larger local dataset is stable.
+1. Add a human audit queue for source-selection and citation-quality review.
+2. Add a static demo trace for the best baseline-failure/full-defense pair.
+3. Run a small hosted smoke test once the audit workflow and demo trace are
+   stable.

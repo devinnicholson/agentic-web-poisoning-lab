@@ -79,7 +79,7 @@ class HarnessTest(unittest.TestCase):
 
             self.assertEqual(run_exit, 0)
             self.assertEqual(report_exit, 0)
-            self.assertEqual(len(read_jsonl(out_dir / "results.jsonl")), 25)
+            self.assertEqual(len(read_jsonl(out_dir / "results.jsonl")), 150)
             self.assertTrue((out_dir / "summary.json").exists())
             self.assertIn("Agentic Web Poisoning Report", report_path.read_text(encoding="utf-8"))
 

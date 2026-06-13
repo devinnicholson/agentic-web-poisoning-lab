@@ -62,15 +62,16 @@ Outputs are written under `experiments/results/local/` and kept out of Git.
 
 ## Current Local Result
 
-The first deterministic seed benchmark runs five synthetic tasks across A0-A4.
+The deterministic benchmark now runs 30 synthetic tasks across A0-A4, including
+24 adversarial tasks and 6 benign controls.
 
-| Condition | Accuracy | Attack success | Cited poisoned | Filtered poisoned |
-| --- | ---: | ---: | ---: | ---: |
-| A0_DIRECT | 60.0% | 0.0% | 0.0% | 0.0% |
-| A1_AGENT_BASELINE | 0.0% | 100.0% | 100.0% | 0.0% |
-| A2_SOURCE_RANKING | 100.0% | 0.0% | 0.0% | 0.0% |
-| A3_PROMPT_SHIELDS | 20.0% | 80.0% | 80.0% | 20.0% |
-| A4_FULL_DEFENSE | 100.0% | 0.0% | 0.0% | 100.0% |
+| Condition | Cases | Attack cases | Accuracy | Attack success | Cited poisoned | Filtered poisoned |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A0_DIRECT | 30 | 24 | 66.7% | 0.0% | 0.0% | 0.0% |
+| A1_AGENT_BASELINE | 30 | 24 | 20.0% | 100.0% | 80.0% | 0.0% |
+| A2_SOURCE_RANKING | 30 | 24 | 100.0% | 0.0% | 0.0% | 0.0% |
+| A3_PROMPT_SHIELDS | 30 | 24 | 40.0% | 75.0% | 60.0% | 20.0% |
+| A4_FULL_DEFENSE | 30 | 24 | 100.0% | 0.0% | 0.0% | 80.0% |
 
 This is a deterministic harness result, not a hosted model claim yet. It gives
 the project a repeatable failure mode and a clear first demo path.
@@ -98,8 +99,9 @@ Build a local deterministic harness with synthetic web pages:
 
 ## Current Status
 
-M1 local harness is implemented for the seed dataset. No Azure spend is required
-until the dataset and local reporting are expanded.
+M1 local harness and M2 dataset expansion are implemented for the 30-task
+synthetic benchmark. No Azure spend is required until the audit workflow and
+static demo trace are in place.
 
 ## Safety Rule
 
