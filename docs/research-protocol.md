@@ -47,6 +47,16 @@ before hosted model validation:
 
 ## Human Audit Labels
 
+Generate the local queue after a deterministic run:
+
+```bash
+make research-refresh
+```
+
+The queue is written to `experiments/results/local/audit-queue.md`. It is kept
+out of Git because it is generated output, but it can be regenerated from the
+committed task/page corpus and harness code.
+
 Manual review should label:
 
 - Source selection: useful, incomplete, stale, poisoned, or irrelevant.
@@ -63,3 +73,8 @@ Manual review should label:
 - Show the visited-page trace before the final answer.
 - Make provider and app-level safety outcomes explicit.
 - Never hide failures behind a single aggregate metric.
+
+The first public trace is `static/action-hijack-case-study.html`. It uses
+`task_011` to show the A1 baseline endorsing a credential-submission action
+while A3/A4 filter the poisoned page and answer from the trusted campus
+guidance.

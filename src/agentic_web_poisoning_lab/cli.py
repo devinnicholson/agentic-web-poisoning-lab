@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from agentic_web_poisoning_lab.agent import DeterministicWebAgent
+from agentic_web_poisoning_lab.audit import write_audit_queue
 from agentic_web_poisoning_lab.conditions import CONDITIONS, DEFAULT_CONDITIONS
 from agentic_web_poisoning_lab.io import load_pages, load_tasks, read_jsonl, write_jsonl
 from agentic_web_poisoning_lab.metrics import summarize
@@ -37,11 +38,27 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("experiments/results/local/report.md"),
     )
 
+    audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
+    audit_parser.add_argument(
+        "--results",
+        type=Path,
+        default=Path("experiments/results/local/results.jsonl"),
+    )
+    audit_parser.add_argument("--pages", type=Path, default=Path("data/pages.seed.jsonl"))
+    audit_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("experiments/results/local/audit-queue.md"),
+    )
+    audit_parser.add_argument("--max-rows", type=int, default=80)
+
     args = parser.parse_args(argv)
     if args.command == "run":
         return run_command(args)
     if args.command == "report":
         return report_command(args)
+    if args.command == "audit":
+        return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
 
 
@@ -66,6 +83,12 @@ def run_command(args: argparse.Namespace) -> int:
 def report_command(args: argparse.Namespace) -> int:
     markdown = write_markdown_report(args.results, args.out)
     print(f"Wrote Markdown report to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def audit_command(args: argparse.Namespace) -> int:
+    markdown = write_audit_queue(args.results, args.pages, args.out, max_rows=args.max_rows)
+    print(f"Wrote human audit queue to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

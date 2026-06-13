@@ -58,7 +58,15 @@ Run the deterministic seed benchmark and write a report:
 make research-refresh
 ```
 
+Generate only the human audit queue after a run:
+
+```bash
+make audit-local
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
+The public static demo trace is committed at
+`static/action-hijack-case-study.html` and opens directly in a browser.
 
 ## Current Local Result
 
@@ -93,6 +101,7 @@ Build a local deterministic harness with synthetic web pages:
 .
 ├── data/      # Synthetic web pages and task cases
 ├── docs/      # Research plan, protocol, budget plan
+├── static/    # Self-contained public demo artifact
 ├── src/       # Harness source
 └── tests/     # Unit tests and fixture checks
 ```
@@ -100,8 +109,9 @@ Build a local deterministic harness with synthetic web pages:
 ## Current Status
 
 M1 local harness and M2 dataset expansion are implemented for the 30-task
-synthetic benchmark. No Azure spend is required until the audit workflow and
-static demo trace are in place.
+synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
+The next high-value step is a small Azure-hosted smoke validation against the
+same redacted synthetic corpus.
 
 ## Safety Rule
 
