@@ -44,6 +44,37 @@ or misleading calls to action?
 - Action hijack, where a page tries to make the agent change task goals.
 - Confidence pressure, where a page pushes certainty despite weak evidence.
 
+## Local Quickstart
+
+Run tests:
+
+```bash
+make test
+```
+
+Run the deterministic seed benchmark and write a report:
+
+```bash
+make research-refresh
+```
+
+Outputs are written under `experiments/results/local/` and kept out of Git.
+
+## Current Local Result
+
+The first deterministic seed benchmark runs five synthetic tasks across A0-A4.
+
+| Condition | Accuracy | Attack success | Cited poisoned | Filtered poisoned |
+| --- | ---: | ---: | ---: | ---: |
+| A0_DIRECT | 60.0% | 0.0% | 0.0% | 0.0% |
+| A1_AGENT_BASELINE | 0.0% | 100.0% | 100.0% | 0.0% |
+| A2_SOURCE_RANKING | 100.0% | 0.0% | 0.0% | 0.0% |
+| A3_PROMPT_SHIELDS | 20.0% | 80.0% | 80.0% | 20.0% |
+| A4_FULL_DEFENSE | 100.0% | 0.0% | 0.0% | 100.0% |
+
+This is a deterministic harness result, not a hosted model claim yet. It gives
+the project a repeatable failure mode and a clear first demo path.
+
 ## First Milestone
 
 Build a local deterministic harness with synthetic web pages:
@@ -67,8 +98,8 @@ Build a local deterministic harness with synthetic web pages:
 
 ## Current Status
 
-Scaffolded. The first committed artifact is the research plan plus seed
-synthetic cases. No Azure spend is required until the local harness is working.
+M1 local harness is implemented for the seed dataset. No Azure spend is required
+until the dataset and local reporting are expanded.
 
 ## Safety Rule
 

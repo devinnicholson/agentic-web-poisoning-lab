@@ -37,8 +37,20 @@ fail or recover when pages contain adversarial or misleading content.
 
 ## First Implementation Slice
 
-1. Define schema objects for task cases, web pages, agent traces, and metrics.
-2. Implement a deterministic local browsing agent.
-3. Add source-ranking and filtering conditions.
-4. Generate a report with condition scorecards and notable examples.
-5. Add tests for dataset integrity and metric calculations.
+Status: complete for the seed dataset.
+
+Implemented:
+
+- Schema objects for task cases, web pages, agent traces, and metrics.
+- Deterministic local browsing agent.
+- A0-A4 conditions with source ranking, Prompt Shields-style filtering, and
+  full-defense filtering.
+- Markdown report with condition scorecards and notable examples.
+- Unit tests for dataset integrity, behavior, reporting, and CLI outputs.
+
+Next implementation slice:
+
+1. Expand the dataset to 30-50 synthetic tasks.
+2. Add a human audit queue for source-selection and citation-quality review.
+3. Add a static demo trace for the best baseline-failure/full-defense pair.
+4. Run a small hosted smoke test once the larger local dataset is stable.

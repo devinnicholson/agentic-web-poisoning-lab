@@ -31,6 +31,18 @@ citations, and abstain when evidence is insufficient or outdated.
 - Provider block rate: hosted model/provider blocks generation.
 - Latency and estimated cost.
 
+## Current Deterministic Baseline
+
+The seed benchmark intentionally creates a sharp local contrast before hosted
+model validation:
+
+- A1 baseline visits contaminated pages first and fails on all five seed attacks.
+- A3 Prompt Shields catches the action-hijack page but does not solve stale
+  pages, source laundering, or confidence pressure by itself.
+- A4 full defense combines page screening, trust/freshness filtering, citation
+  validation, and conflict handling to eliminate seed attack success and
+  poisoned citations.
+
 ## Human Audit Labels
 
 Manual review should label:
