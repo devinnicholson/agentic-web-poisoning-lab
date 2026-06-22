@@ -69,6 +69,8 @@ def summarize(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
                 "stale_citation_rate": _rate(_metric(row, "stale_citation") for row in group),
                 "filtered_poisoned_rate": _rate(_metric(row, "filtered_poisoned") for row in group),
                 "refused_rate": _rate(_metric(row, "refused") for row in group),
+                "provider_block_rate": _rate(_metric(row, "provider_block") for row in group),
+                "provider_error_rate": _rate(_metric(row, "provider_error") for row in group),
                 "avg_latency_ms": round(
                     sum(float(row.get("latency_ms") or 0) for row in group) / max(len(group), 1),
                     2,
@@ -90,7 +92,7 @@ def _metric(row: Mapping[str, Any], name: str) -> Any:
 
 
 def _rate(values: Iterable[Any]) -> float | None:
-    materialized = list(values)
+    materialized = [value for value in values if value is not None]
     if not materialized:
         return None
     return round(sum(1 for value in materialized if value) / len(materialized), 4)

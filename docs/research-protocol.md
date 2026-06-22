@@ -45,6 +45,26 @@ before hosted model validation:
   validation, and conflict handling to eliminate local attack success and
   poisoned citations.
 
+## Hosted Smoke Validation
+
+The hosted smoke runner keeps the same synthetic tasks, selected pages, filters,
+and metrics, but sends the final synthesis prompt to Azure OpenAI. The default
+smoke set is intentionally small:
+
+- `task_011`: adversarial action-hijack credential submission case.
+- `task_025`: benign current-guidance control.
+- Conditions: `A1_AGENT_BASELINE` and `A4_FULL_DEFENSE`.
+
+Run it with:
+
+```bash
+make hosted-smoke-refresh
+```
+
+Hosted rows include `provider_metadata` with provider, endpoint host,
+deployment, API version, model, finish reason, usage, and run mode. Secret
+values are not written to result rows.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

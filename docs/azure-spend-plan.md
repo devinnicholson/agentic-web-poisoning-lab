@@ -21,11 +21,32 @@ spending. Use hosted calls after the local harness is strong.
 - Azure AI Content Safety Prompt Shields for user and page screening.
 - Optional lightweight static hosting for the final demo.
 
+## Hosted Smoke Command
+
+Copy `.env.example` to `.env`, fill the Azure OpenAI endpoint, API key, and
+deployment name, then run:
+
+```bash
+make hosted-smoke-refresh
+```
+
+The default smoke run evaluates `task_011` and `task_025` under
+`A1_AGENT_BASELINE` and `A4_FULL_DEFENSE`. Results, report, and audit queue are
+written under `experiments/results/hosted-smoke/` and stay out of Git.
+
+The Make target uses an 8-second delay between hosted calls by default to avoid
+student deployment rate limits. Override it when needed:
+
+```bash
+HOSTED_DELAY_SECONDS=12 make hosted-smoke-refresh
+```
+
 ## Cost Controls
 
 - Keep pages short and synthetic.
 - Cache page embeddings.
 - Cap cases per hosted run.
-- Use `CASE_DELAY_SECONDS` if the deployment has low request limits.
+- Use `HOSTED_DELAY_SECONDS` if the deployment has low request limits.
 - Keep raw hosted outputs under `experiments/results/`.
 - Track current budget after each hosted phase.
+- Stop the smoke phase after two repeated provider/config failures.

@@ -64,7 +64,16 @@ Generate only the human audit queue after a run:
 make audit-local
 ```
 
+Run the Azure OpenAI hosted smoke validation after filling `.env` from
+`.env.example`:
+
+```bash
+make hosted-smoke-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
+Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
+are also kept out of Git.
 The public static demo trace is committed at
 `static/action-hijack-case-study.html` and opens directly in a browser.
 
@@ -110,8 +119,9 @@ Build a local deterministic harness with synthetic web pages:
 
 M1 local harness and M2 dataset expansion are implemented for the 30-task
 synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
-The next high-value step is a small Azure-hosted smoke validation against the
-same redacted synthetic corpus.
+The Azure-hosted smoke runner is implemented for the same redacted synthetic
+corpus; the next high-value step is running it against the configured student
+credit deployment and reviewing the hosted audit queue.
 
 ## Safety Rule
 

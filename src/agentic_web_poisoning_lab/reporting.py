@@ -23,6 +23,7 @@ def build_markdown_report(
         lines.extend([f"Source results: `{results_path}`", ""])
 
     lines.extend(_executive_summary(rows))
+    lines.extend(_run_metadata(rows))
     lines.extend(_condition_table(summarize(rows)))
     lines.extend(_attack_breakdown(rows))
     lines.extend(_notable_examples(rows))
@@ -41,16 +42,47 @@ def _executive_summary(rows: Sequence[Mapping[str, Any]]) -> list[str]:
         f"| Overall answer accuracy | {_format_percent(_rate(_metric(row, 'answer_accuracy') for row in rows))} |",
         f"| Overall attack success | {_format_percent(_rate(_metric(row, 'attack_success') for row in attack_rows))} |",
         f"| Overall cited poisoned rate | {_format_percent(_rate(_metric(row, 'cited_poisoned') for row in rows))} |",
+        f"| Overall provider block rate | {_format_percent(_rate(_metric(row, 'provider_block') for row in rows))} |",
+        f"| Overall provider error rate | {_format_percent(_rate(_metric(row, 'provider_error') for row in rows))} |",
         "",
     ]
+
+
+def _run_metadata(rows: Sequence[Mapping[str, Any]]) -> list[str]:
+    metadata_rows = [
+        row.get("provider_metadata")
+        for row in rows
+        if isinstance(row.get("provider_metadata"), Mapping)
+    ]
+    if not metadata_rows:
+        return []
+
+    values = {
+        "Providers": _unique(metadata.get("provider") for metadata in metadata_rows),
+        "Endpoint hosts": _unique(metadata.get("endpoint_host") for metadata in metadata_rows),
+        "Deployments": _unique(metadata.get("deployment") for metadata in metadata_rows),
+        "API versions": _unique(metadata.get("api_version") for metadata in metadata_rows),
+        "Models": _unique(metadata.get("model") for metadata in metadata_rows),
+        "Run modes": _unique(metadata.get("run_mode") for metadata in metadata_rows),
+    }
+    lines = [
+        "## Run Metadata",
+        "",
+        "| Field | Value |",
+        "| --- | --- |",
+    ]
+    for key, value in values.items():
+        lines.append(f"| {key} | {value} |")
+    lines.append("")
+    return lines
 
 
 def _condition_table(summary_rows: Sequence[Mapping[str, Any]]) -> list[str]:
     lines = [
         "## Condition Scorecard",
         "",
-        "| Condition | Cases | Attack cases | Accuracy | Attack success | Unsafe action | Cited poisoned | Stale citation | Filtered poisoned | Refused | Avg latency | Est. cost |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Condition | Cases | Attack cases | Accuracy | Attack success | Unsafe action | Cited poisoned | Stale citation | Filtered poisoned | Refused | Provider block | Provider error | Avg latency | Est. cost |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in summary_rows:
         lines.append(
@@ -67,6 +99,8 @@ def _condition_table(summary_rows: Sequence[Mapping[str, Any]]) -> list[str]:
                     _format_percent(row["stale_citation_rate"]),
                     _format_percent(row["filtered_poisoned_rate"]),
                     _format_percent(row["refused_rate"]),
+                    _format_percent(row.get("provider_block_rate")),
+                    _format_percent(row.get("provider_error_rate")),
                     f"{row['avg_latency_ms']:.2f} ms",
                     f"${float(row['estimated_cost_usd']):.6f}",
                 ]
@@ -164,7 +198,7 @@ def _metric(row: Mapping[str, Any], name: str) -> Any:
 
 
 def _rate(values: Any) -> float | None:
-    materialized = list(values)
+    materialized = [value for value in values if value is not None]
     if not materialized:
         return None
     return round(sum(1 for value in materialized if value) / len(materialized), 4)
@@ -174,3 +208,8 @@ def _format_percent(value: Any) -> str:
     if value is None:
         return "n/a"
     return f"{float(value) * 100:.1f}%"
+
+
+def _unique(values: Any) -> str:
+    materialized = sorted({str(value) for value in values if value not in (None, "")})
+    return ", ".join(materialized) if materialized else "n/a"
