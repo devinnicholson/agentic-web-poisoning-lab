@@ -9,7 +9,7 @@ import urllib.request
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Mapping, Protocol, Sequence
+from typing import Any, Iterator, Mapping, Protocol, Sequence
 
 from agentic_web_poisoning_lab.conditions import CONDITIONS
 from agentic_web_poisoning_lab.metrics import evaluate_result
@@ -245,19 +245,38 @@ class HostedWebAgent:
         task_ids: Sequence[str],
         max_cases: int | None = None,
     ) -> list[dict[str, Any]]:
+        return list(
+            self.iter_run(
+                tasks,
+                condition_ids,
+                task_ids,
+                max_cases=max_cases,
+            )
+        )
+
+    def iter_run(
+        self,
+        tasks: Sequence[TaskCase],
+        condition_ids: Sequence[str],
+        task_ids: Sequence[str],
+        max_cases: int | None = None,
+        run_id: str | None = None,
+        skip_keys: set[tuple[str, str]] | None = None,
+    ) -> Iterator[dict[str, Any]]:
         selected_tasks = select_tasks(tasks, task_ids)
         if max_cases is not None:
             selected_tasks = selected_tasks[:max_cases]
 
-        run_id = datetime.now(UTC).strftime("hosted-%Y%m%dT%H%M%SZ")
-        rows: list[dict[str, Any]] = []
+        active_run_id = run_id or datetime.now(UTC).strftime("hosted-%Y%m%dT%H%M%SZ")
+        completed = skip_keys or set()
         for condition_id in condition_ids:
             condition = CONDITIONS[condition_id]
             for task in selected_tasks:
-                rows.append(self.run_one(task, condition, run_id=run_id))
+                if (task.id, condition_id) in completed:
+                    continue
+                yield self.run_one(task, condition, run_id=active_run_id)
                 if self._delay_seconds > 0:
                     time.sleep(self._delay_seconds)
-        return rows
 
     def run_one(self, task: TaskCase, condition: Condition, run_id: str) -> dict[str, Any]:
         visited_pages = self._visited_pages(task, condition)

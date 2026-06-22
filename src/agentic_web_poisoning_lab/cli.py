@@ -16,8 +16,9 @@ from agentic_web_poisoning_lab.hosted import (
     HostedWebAgent,
     azure_config_from_env,
 )
-from agentic_web_poisoning_lab.io import load_pages, load_tasks, read_jsonl, write_jsonl
+from agentic_web_poisoning_lab.io import append_jsonl, load_pages, load_tasks, read_jsonl, write_jsonl
 from agentic_web_poisoning_lab.metrics import summarize
+from agentic_web_poisoning_lab.research_stats import write_research_stats
 from agentic_web_poisoning_lab.reporting import write_markdown_report
 
 
@@ -46,13 +47,18 @@ def main(argv: list[str] | None = None) -> int:
     hosted_parser.add_argument(
         "--task-ids",
         default=",".join(DEFAULT_HOSTED_TASK_IDS),
-        help="Comma-separated task IDs for the hosted smoke run.",
+        help="Comma-separated task IDs for the hosted run, or 'all'.",
     )
     hosted_parser.add_argument("--max-cases", type=int, default=None)
     hosted_parser.add_argument("--env-file", type=Path, default=Path(".env"))
     hosted_parser.add_argument("--out-dir", type=Path, default=Path("experiments/results/hosted-smoke"))
     hosted_parser.add_argument("--delay-seconds", type=float, default=0.0)
     hosted_parser.add_argument("--run-mode", default="hosted_smoke")
+    hosted_parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Append missing hosted rows and skip existing task/condition pairs.",
+    )
 
     report_parser = subparsers.add_parser("report", help="Generate Markdown report.")
     report_parser.add_argument(
@@ -83,6 +89,18 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("experiments/results/hosted-focused/comparison.md"),
     )
 
+    stats_parser = subparsers.add_parser("stats", help="Generate research statistics report.")
+    stats_parser.add_argument(
+        "--results",
+        type=Path,
+        default=Path("experiments/results/hosted-full/results.jsonl"),
+    )
+    stats_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("experiments/results/hosted-full/stats.md"),
+    )
+
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
     audit_parser.add_argument(
         "--results",
@@ -106,6 +124,8 @@ def main(argv: list[str] | None = None) -> int:
         return report_command(args)
     if args.command == "compare":
         return compare_command(args)
+    if args.command == "stats":
+        return stats_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -133,7 +153,7 @@ def run_hosted_command(args: argparse.Namespace) -> int:
     tasks = load_tasks(args.tasks)
     pages = load_pages(args.pages)
     condition_ids = parse_conditions(args.conditions)
-    task_ids = parse_csv(args.task_ids)
+    task_ids = parse_task_ids(args.task_ids, tasks)
     try:
         config = azure_config_from_env(args.env_file)
     except HostedConfigError as exc:
@@ -147,14 +167,35 @@ def run_hosted_command(args: argparse.Namespace) -> int:
         delay_seconds=args.delay_seconds,
         run_mode=args.run_mode,
     )
-    rows = agent.run(tasks, condition_ids, task_ids, max_cases=args.max_cases)
-
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    write_jsonl(args.out_dir / "results.jsonl", rows)
-    summary = summarize(read_jsonl(args.out_dir / "results.jsonl"))
+    results_path = args.out_dir / "results.jsonl"
+    existing_rows = read_jsonl(results_path) if args.resume and results_path.exists() else []
+    skip_keys = completed_keys(existing_rows)
+    run_id = resume_run_id(existing_rows)
+    if args.resume and existing_rows:
+        print(f"Resuming hosted run with {len(skip_keys)} completed rows from {results_path}", flush=True)
+    else:
+        write_jsonl(results_path, [])
+
+    planned_total = planned_hosted_total(task_ids, condition_ids, args.max_cases)
+    rows = list(existing_rows)
+    for row in agent.iter_run(
+        tasks,
+        condition_ids,
+        task_ids,
+        max_cases=args.max_cases,
+        run_id=run_id,
+        skip_keys=skip_keys,
+    ):
+        append_jsonl(results_path, row)
+        rows.append(row)
+        skip_keys.add((str(row["task_id"]), str(row["condition"])))
+        print(hosted_progress_line(row, len(skip_keys), planned_total), flush=True)
+
+    summary = summarize(read_jsonl(results_path))
     (args.out_dir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
 
-    print(f"Wrote {len(rows)} hosted result rows to {args.out_dir / 'results.jsonl'}")
+    print(f"Wrote {len(rows)} hosted result rows to {results_path}")
     print(f"Wrote hosted summary to {args.out_dir / 'summary.json'}")
     print_summary(summary)
     return 0
@@ -169,6 +210,12 @@ def report_command(args: argparse.Namespace) -> int:
 def compare_command(args: argparse.Namespace) -> int:
     markdown = write_comparison_report(args.local, args.hosted, args.out)
     print(f"Wrote comparison report to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def stats_command(args: argparse.Namespace) -> int:
+    markdown = write_research_stats(args.results, args.out)
+    print(f"Wrote research statistics to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 
@@ -188,6 +235,48 @@ def parse_conditions(value: str) -> list[str]:
 
 def parse_csv(value: str) -> list[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def parse_task_ids(value: str, tasks: list[object]) -> list[str]:
+    if value.strip().lower() == "all":
+        return [str(getattr(task, "id")) for task in tasks]
+    return parse_csv(value)
+
+
+def completed_keys(rows: list[dict[str, object]]) -> set[tuple[str, str]]:
+    return {
+        (str(row.get("task_id")), str(row.get("condition")))
+        for row in rows
+        if row.get("task_id") and row.get("condition")
+    }
+
+
+def resume_run_id(rows: list[dict[str, object]]) -> str | None:
+    run_ids = [str(row.get("run_id")) for row in rows if row.get("run_id")]
+    return run_ids[0] if run_ids else None
+
+
+def planned_hosted_total(
+    task_ids: list[str],
+    condition_ids: list[str],
+    max_cases: int | None,
+) -> int:
+    task_count = min(len(task_ids), max_cases) if max_cases is not None else len(task_ids)
+    return task_count * len(condition_ids)
+
+
+def hosted_progress_line(row: dict[str, object], completed: int, total: int) -> str:
+    metrics = row.get("metrics") if isinstance(row.get("metrics"), dict) else {}
+    metadata = row.get("provider_metadata") if isinstance(row.get("provider_metadata"), dict) else {}
+    retries = metadata.get("retry_count", "n/a")
+    return (
+        f"[{completed}/{total}] "
+        f"{row.get('condition')} {row.get('task_id')} "
+        f"answer={row.get('actual_answer')} "
+        f"attack_success={metrics.get('attack_success')} "
+        f"provider_error={metrics.get('provider_error')} "
+        f"retries={retries}"
+    )
 
 
 def print_summary(summary: list[dict[str, object]]) -> None:

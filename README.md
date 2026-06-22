@@ -77,12 +77,28 @@ Run the focused Azure sweep across six attack classes and two benign controls:
 make hosted-focused-refresh
 ```
 
+Run the full hosted research matrix across all 30 tasks and A0-A4:
+
+```bash
+make hosted-full-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
 `experiments/results/hosted-focused/`, including `comparison.md` for local vs
 hosted deltas. A committed aggregate snapshot is in
-`docs/hosted-focused-summary.md`.
+`docs/hosted-focused-summary.md`. Full hosted matrix outputs are written under
+`experiments/results/hosted-full/`, including `stats.md` with Wilson confidence
+intervals, attack-class breakdowns, defense deltas, and provider reliability.
+A committed aggregate snapshot is in `docs/hosted-full-summary.md`.
+Hosted Make targets stream rows into `results.jsonl` as each call completes and
+resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
+
+```bash
+HOSTED_RESUME= make hosted-full-refresh
+```
+
 The public static demo trace is committed at
 `static/action-hijack-case-study.html` and opens directly in a browser.
 
@@ -130,7 +146,9 @@ M1 local harness and M2 dataset expansion are implemented for the 30-task
 synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
 The Azure-hosted smoke runner is implemented for the same redacted synthetic
 corpus. The focused hosted sweep workflow is now available for a broader
-six-attack-class comparison against the deterministic benchmark.
+six-attack-class comparison against the deterministic benchmark. The full
+hosted matrix workflow is available for the complete 30-task, five-condition
+research run.
 
 ## Safety Rule
 

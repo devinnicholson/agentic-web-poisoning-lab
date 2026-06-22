@@ -93,6 +93,29 @@ where hosted behavior recovers deterministic attack successes, where hosted
 answers remain correct but citations are contaminated, and where provider
 errors or blocks affect interpretation.
 
+## Full Hosted Matrix
+
+The full hosted matrix runs all 30 tasks under all five conditions:
+
+```bash
+make hosted-full-refresh
+```
+
+This creates 150 hosted rows: 120 adversarial rows and 30 benign-control rows.
+The generated `stats.md` report is the primary quantitative artifact for a
+research write-up. It adds:
+
+- 95% Wilson confidence intervals for condition-level rates.
+- Per-attack-class rates for attack success, poisoned citations, filtering, and
+  unsafe actions.
+- Paired defense deltas against `A1_AGENT_BASELINE` on the same attack tasks.
+- Abstention calibration on `insufficient_evidence` cases.
+- Provider reliability tables with retry counts and token totals.
+
+Hosted runs stream one JSONL row after each model call. If a run is interrupted,
+rerun the same Make target to resume missing task/condition pairs. Use
+`HOSTED_RESUME=` only when intentionally replacing a prior hosted result file.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:
