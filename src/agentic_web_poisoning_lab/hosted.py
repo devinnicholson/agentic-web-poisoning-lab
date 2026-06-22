@@ -25,6 +25,17 @@ from agentic_web_poisoning_lab.schema import (
 
 DEFAULT_HOSTED_CONDITIONS = ["A1_AGENT_BASELINE", "A4_FULL_DEFENSE"]
 DEFAULT_HOSTED_TASK_IDS = ["task_011", "task_025"]
+DEFAULT_FOCUSED_CONDITIONS = ["A1_AGENT_BASELINE", "A3_PROMPT_SHIELDS", "A4_FULL_DEFENSE"]
+DEFAULT_FOCUSED_TASK_IDS = [
+    "task_001",
+    "task_002",
+    "task_005",
+    "task_006",
+    "task_011",
+    "task_015",
+    "task_025",
+    "task_027",
+]
 DEFAULT_AZURE_API_VERSION = "2024-12-01-preview"
 DEFAULT_MAX_COMPLETION_TOKENS = 1200
 PROMPT_SHIELD_ATTACKS = {"action_hijack", "indirect_prompt_injection"}
@@ -55,6 +66,8 @@ class AzureOpenAIConfig:
     temperature: float = 0.0
     max_completion_tokens: int = DEFAULT_MAX_COMPLETION_TOKENS
     timeout_seconds: float = 45.0
+    max_retries: int = 3
+    retry_base_seconds: float = 12.0
 
     @property
     def endpoint_host(self) -> str:
@@ -68,6 +81,8 @@ class AzureOpenAIConfig:
             "api_version": self.api_version,
             "temperature": self.temperature,
             "max_completion_tokens": self.max_completion_tokens,
+            "max_retries": self.max_retries,
+            "retry_base_seconds": self.retry_base_seconds,
         }
 
 
@@ -111,34 +126,48 @@ class AzureOpenAIChatClient:
 
     def _post_completion(self, url: str, payload: Mapping[str, Any]) -> HostedCompletion:
         body = json.dumps(payload).encode("utf-8")
-        request = urllib.request.Request(
-            url,
-            data=body,
-            headers={
-                "Content-Type": "application/json",
-                "api-key": self._config.api_key,
-            },
-            method="POST",
-        )
 
         start = time.monotonic()
-        try:
-            with urllib.request.urlopen(request, timeout=self._config.timeout_seconds) as response:
-                response_body = response.read().decode("utf-8")
-        except urllib.error.HTTPError as exc:
-            response_body = exc.read().decode("utf-8", errors="replace")
-            raise HostedProviderError(
-                message=_safe_error_message(response_body),
-                status_code=exc.code,
-                provider_block=_looks_like_provider_block(response_body),
-            ) from exc
-        except TimeoutError as exc:
-            raise HostedProviderError(message="Azure OpenAI request timed out") from exc
-        except OSError as exc:
-            raise HostedProviderError(message=f"Azure OpenAI request failed: {exc}") from exc
+        attempts = self._config.max_retries + 1
+        for attempt in range(attempts):
+            request = urllib.request.Request(
+                url,
+                data=body,
+                headers={
+                    "Content-Type": "application/json",
+                    "api-key": self._config.api_key,
+                },
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(request, timeout=self._config.timeout_seconds) as response:
+                    response_body = response.read().decode("utf-8")
+                latency_ms = round((time.monotonic() - start) * 1000)
+                completion = _completion_from_response(response_body, latency_ms)
+                completion.metadata["retry_count"] = attempt
+                return completion
+            except urllib.error.HTTPError as exc:
+                response_body = exc.read().decode("utf-8", errors="replace")
+                if _should_retry(exc.code, attempt, attempts):
+                    time.sleep(_retry_delay_seconds(exc, attempt, self._config.retry_base_seconds))
+                    continue
+                raise HostedProviderError(
+                    message=_safe_error_message(response_body),
+                    status_code=exc.code,
+                    provider_block=_looks_like_provider_block(response_body),
+                ) from exc
+            except TimeoutError as exc:
+                if attempt + 1 < attempts:
+                    time.sleep(self._config.retry_base_seconds * (attempt + 1))
+                    continue
+                raise HostedProviderError(message="Azure OpenAI request timed out") from exc
+            except OSError as exc:
+                if attempt + 1 < attempts:
+                    time.sleep(self._config.retry_base_seconds * (attempt + 1))
+                    continue
+                raise HostedProviderError(message=f"Azure OpenAI request failed: {exc}") from exc
 
-        latency_ms = round((time.monotonic() - start) * 1000)
-        return _completion_from_response(response_body, latency_ms)
+        raise HostedProviderError("Azure OpenAI request failed after retries")
 
 
 def azure_config_from_env(
@@ -172,6 +201,8 @@ def azure_config_from_env(
         temperature=float(values.get("AZURE_OPENAI_TEMPERATURE", "0")),
         max_completion_tokens=int(values.get("AZURE_OPENAI_MAX_TOKENS", str(DEFAULT_MAX_COMPLETION_TOKENS))),
         timeout_seconds=float(values.get("AZURE_OPENAI_TIMEOUT_SECONDS", "45")),
+        max_retries=int(values.get("AZURE_OPENAI_MAX_RETRIES", "3")),
+        retry_base_seconds=float(values.get("AZURE_OPENAI_RETRY_BASE_SECONDS", "12")),
     )
 
 
@@ -199,11 +230,13 @@ class HostedWebAgent:
         client: ChatClient,
         provider_metadata: Mapping[str, Any],
         delay_seconds: float = 0.0,
+        run_mode: str = "hosted_smoke",
     ) -> None:
         self._pages_by_id = {page.id: page for page in pages}
         self._client = client
         self._provider_metadata = dict(provider_metadata)
         self._delay_seconds = delay_seconds
+        self._run_mode = run_mode
 
     def run(
         self,
@@ -259,7 +292,7 @@ class HostedWebAgent:
         metrics = evaluate_result(task, answer, visited_pages, selected_pages, filtered_pages)
         metrics["provider_block"] = provider_block
         metrics["provider_error"] = provider_error
-        provider_metadata["run_mode"] = "hosted_smoke"
+        provider_metadata["run_mode"] = self._run_mode
 
         return {
             "run_id": run_id,
@@ -553,6 +586,20 @@ def _safe_error_message(response_body: str) -> str:
 def _looks_like_provider_block(value: str) -> bool:
     lowered = value.lower()
     return "content_filter" in lowered or "content management policy" in lowered or "filtered" in lowered
+
+
+def _should_retry(status_code: int, attempt: int, attempts: int) -> bool:
+    return status_code in {429, 500, 502, 503, 504} and attempt + 1 < attempts
+
+
+def _retry_delay_seconds(exc: urllib.error.HTTPError, attempt: int, base_seconds: float) -> float:
+    retry_after = exc.headers.get("Retry-After")
+    if retry_after:
+        try:
+            return min(float(retry_after), 90.0)
+        except ValueError:
+            pass
+    return min(base_seconds * (attempt + 1), 90.0)
 
 
 def _truncate(value: str, limit: int) -> str:

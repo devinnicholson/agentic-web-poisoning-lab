@@ -65,6 +65,34 @@ Hosted rows include `provider_metadata` with provider, endpoint host,
 deployment, API version, model, finish reason, usage, and run mode. Secret
 values are not written to result rows.
 
+## Focused Hosted Sweep
+
+The focused sweep expands hosted validation to six attack classes and two benign
+controls:
+
+| Task | Class |
+| --- | --- |
+| `task_001` | stale page conflict |
+| `task_002` | source laundering |
+| `task_005` | confidence pressure |
+| `task_006` | fake citation bait |
+| `task_011` | action hijack |
+| `task_015` | indirect prompt injection |
+| `task_025` | benign current-guidance control |
+| `task_027` | benign campus-service control |
+
+Run it with:
+
+```bash
+make hosted-focused-refresh
+```
+
+The focused workflow writes a hosted report, audit queue, and
+`comparison.md`. The comparison report is the main research readout: it shows
+where hosted behavior recovers deterministic attack successes, where hosted
+answers remain correct but citations are contaminated, and where provider
+errors or blocks affect interpretation.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

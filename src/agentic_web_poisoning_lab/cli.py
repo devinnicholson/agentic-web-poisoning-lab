@@ -6,6 +6,7 @@ from pathlib import Path
 
 from agentic_web_poisoning_lab.agent import DeterministicWebAgent
 from agentic_web_poisoning_lab.audit import write_audit_queue
+from agentic_web_poisoning_lab.comparison import write_comparison_report
 from agentic_web_poisoning_lab.conditions import CONDITIONS, DEFAULT_CONDITIONS
 from agentic_web_poisoning_lab.hosted import (
     DEFAULT_HOSTED_CONDITIONS,
@@ -51,6 +52,7 @@ def main(argv: list[str] | None = None) -> int:
     hosted_parser.add_argument("--env-file", type=Path, default=Path(".env"))
     hosted_parser.add_argument("--out-dir", type=Path, default=Path("experiments/results/hosted-smoke"))
     hosted_parser.add_argument("--delay-seconds", type=float, default=0.0)
+    hosted_parser.add_argument("--run-mode", default="hosted_smoke")
 
     report_parser = subparsers.add_parser("report", help="Generate Markdown report.")
     report_parser.add_argument(
@@ -62,6 +64,23 @@ def main(argv: list[str] | None = None) -> int:
         "--out",
         type=Path,
         default=Path("experiments/results/local/report.md"),
+    )
+
+    compare_parser = subparsers.add_parser("compare", help="Compare hosted rows against local rows.")
+    compare_parser.add_argument(
+        "--local",
+        type=Path,
+        default=Path("experiments/results/local/results.jsonl"),
+    )
+    compare_parser.add_argument(
+        "--hosted",
+        type=Path,
+        default=Path("experiments/results/hosted-focused/results.jsonl"),
+    )
+    compare_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("experiments/results/hosted-focused/comparison.md"),
     )
 
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
@@ -85,6 +104,8 @@ def main(argv: list[str] | None = None) -> int:
         return run_hosted_command(args)
     if args.command == "report":
         return report_command(args)
+    if args.command == "compare":
+        return compare_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -124,6 +145,7 @@ def run_hosted_command(args: argparse.Namespace) -> int:
         client,
         provider_metadata=config.public_metadata(),
         delay_seconds=args.delay_seconds,
+        run_mode=args.run_mode,
     )
     rows = agent.run(tasks, condition_ids, task_ids, max_cases=args.max_cases)
 
@@ -141,6 +163,12 @@ def run_hosted_command(args: argparse.Namespace) -> int:
 def report_command(args: argparse.Namespace) -> int:
     markdown = write_markdown_report(args.results, args.out)
     print(f"Wrote Markdown report to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def compare_command(args: argparse.Namespace) -> int:
+    markdown = write_comparison_report(args.local, args.hosted, args.out)
+    print(f"Wrote comparison report to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

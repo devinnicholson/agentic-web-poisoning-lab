@@ -41,6 +41,21 @@ student deployment rate limits. Override it when needed:
 HOSTED_DELAY_SECONDS=12 make hosted-smoke-refresh
 ```
 
+After the smoke run succeeds, run the focused sweep:
+
+```bash
+make hosted-focused-refresh
+```
+
+The focused sweep runs 8 tasks under `A1_AGENT_BASELINE`,
+`A3_PROMPT_SHIELDS`, and `A4_FULL_DEFENSE`, for 24 hosted calls. It writes the
+same hosted report and audit queue plus `comparison.md`, which pairs hosted rows
+with deterministic local rows.
+
+Hosted calls retry transient 429/5xx failures before recording a provider-error
+row. Tune retry behavior with `AZURE_OPENAI_MAX_RETRIES` and
+`AZURE_OPENAI_RETRY_BASE_SECONDS` in `.env`.
+
 ## Cost Controls
 
 - Keep pages short and synthetic.

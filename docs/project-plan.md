@@ -22,7 +22,7 @@ fail or recover when pages contain adversarial or misleading content.
 | M1 local harness | CLI runs seed cases under A0-A4 | Deterministic report shows at least one baseline failure. |
 | M2 dataset expansion | 30-50 synthetic tasks | Complete at 30 tasks: 24 adversarial tasks and 6 benign controls. |
 | M3 audit workflow | Markdown audit queue | Complete locally: provider blocks, bad citations, and unsafe actions are reviewable. |
-| M4 hosted validation | Azure-backed run | Smoke runner implemented; hosted outputs stay out of Git. |
+| M4 hosted validation | Azure-backed run | Smoke runner and focused-sweep workflow implemented; hosted outputs stay out of Git. |
 | M5 demo artifact | Static HTML trace | First trace complete: five-minute action-hijack demo works without credentials. |
 
 ## Engineering Approach
@@ -57,7 +57,7 @@ Completed local artifact slice:
 
 Next implementation slice:
 
-1. Run `make hosted-smoke-refresh` against the configured Azure deployment.
-2. Review `experiments/results/hosted-smoke/report.md` and `audit-queue.md`.
-3. Decide whether to spend on the focused hosted sweep of 6 to 10 high-signal
-   cases.
+1. Review `experiments/results/hosted-focused/comparison.md` after the focused
+   Azure run.
+2. Promote the most interesting hosted/local deltas into the static demo.
+3. Decide whether to spend on a full 30-task hosted sweep under A1, A3, and A4.

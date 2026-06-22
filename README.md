@@ -71,9 +71,18 @@ Run the Azure OpenAI hosted smoke validation after filling `.env` from
 make hosted-smoke-refresh
 ```
 
+Run the focused Azure sweep across six attack classes and two benign controls:
+
+```bash
+make hosted-focused-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
-are also kept out of Git.
+are also kept out of Git. Focused sweep outputs are written under
+`experiments/results/hosted-focused/`, including `comparison.md` for local vs
+hosted deltas. A committed aggregate snapshot is in
+`docs/hosted-focused-summary.md`.
 The public static demo trace is committed at
 `static/action-hijack-case-study.html` and opens directly in a browser.
 
@@ -120,8 +129,8 @@ Build a local deterministic harness with synthetic web pages:
 M1 local harness and M2 dataset expansion are implemented for the 30-task
 synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
 The Azure-hosted smoke runner is implemented for the same redacted synthetic
-corpus; the next high-value step is running it against the configured student
-credit deployment and reviewing the hosted audit queue.
+corpus. The focused hosted sweep workflow is now available for a broader
+six-attack-class comparison against the deterministic benchmark.
 
 ## Safety Rule
 
