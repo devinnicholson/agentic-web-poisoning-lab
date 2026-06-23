@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Sequence as RuntimeSequence
 from math import sqrt
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
@@ -28,6 +29,8 @@ def build_research_stats(
     lines.extend(_attack_class_rates(rows))
     lines.extend(_defense_deltas(rows))
     lines.extend(_abstention_table(rows))
+    lines.extend(_answer_confusion_table(rows))
+    lines.extend(_false_non_abstain_examples(rows))
     lines.extend(_provider_reliability(rows))
     return "\n".join(lines).rstrip() + "\n"
 
@@ -182,6 +185,92 @@ def _abstention_table(rows: Sequence[Mapping[str, Any]]) -> list[str]:
     return lines
 
 
+def _answer_confusion_table(rows: Sequence[Mapping[str, Any]]) -> list[str]:
+    answers = ["yes", "no", "insufficient_evidence"]
+    grouped = _group_by(rows, lambda row: str(row.get("condition")))
+    lines = [
+        "## Answer Confusion Matrix",
+        "",
+        "| Condition | Expected | Actual yes | Actual no | Actual insufficient_evidence |",
+        "| --- | --- | ---: | ---: | ---: |",
+    ]
+    for condition, group in sorted(grouped.items()):
+        for expected in answers:
+            expected_group = [row for row in group if row.get("expected_answer") == expected]
+            if not expected_group:
+                continue
+            counts = {
+                actual: sum(1 for row in expected_group if row.get("actual_answer") == actual)
+                for actual in answers
+            }
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        condition,
+                        expected,
+                        str(counts["yes"]),
+                        str(counts["no"]),
+                        str(counts["insufficient_evidence"]),
+                    ]
+                )
+                + " |"
+            )
+    lines.append("")
+    return lines
+
+
+def _false_non_abstain_examples(
+    rows: Sequence[Mapping[str, Any]],
+    max_per_condition: int = 5,
+) -> list[str]:
+    examples = [
+        row
+        for row in rows
+        if row.get("expected_answer") == "insufficient_evidence"
+        and row.get("actual_answer") != "insufficient_evidence"
+    ]
+    lines = [
+        "## False Non-Abstain Examples",
+        "",
+    ]
+    if not examples:
+        lines.extend(["No false non-abstain rows found.", ""])
+        return lines
+
+    lines.extend(
+        [
+            "| Condition | Task | Actual | Attack type | Cited poisoned | Cited pages |",
+            "| --- | --- | --- | --- | ---: | --- |",
+        ]
+    )
+    by_condition = _group_by(examples, lambda row: str(row.get("condition")))
+    for condition, group in sorted(by_condition.items()):
+        sorted_group = sorted(group, key=lambda item: str(item.get("task_id")))
+        for row in sorted_group[:max_per_condition]:
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        condition,
+                        str(row.get("task_id")),
+                        str(row.get("actual_answer")),
+                        str(row.get("attack_type") or "none"),
+                        "yes" if _metric(row, "cited_poisoned") else "no",
+                        _join_ids(row.get("cited_page_ids")),
+                    ]
+                )
+                + " |"
+            )
+        if len(sorted_group) > max_per_condition:
+            omitted = len(sorted_group) - max_per_condition
+            lines.append(
+                f"| {condition} | {omitted} additional rows omitted | ... | ... | ... | ... |"
+            )
+    lines.append("")
+    return lines
+
+
 def _provider_reliability(rows: Sequence[Mapping[str, Any]]) -> list[str]:
     grouped = _group_by(rows, lambda row: str(row.get("condition")))
     lines = [
@@ -294,3 +383,9 @@ def _usage_value(row: Mapping[str, Any], key: str) -> int:
         return 0
     value = usage.get(key)
     return int(value) if isinstance(value, (int, float)) else 0
+
+
+def _join_ids(value: Any) -> str:
+    if isinstance(value, RuntimeSequence) and not isinstance(value, (str, bytes)):
+        return ", ".join(str(item) for item in value) or "none"
+    return "none"

@@ -60,6 +60,9 @@ class ResearchStatsTest(unittest.TestCase):
 
             self.assertTrue(out_path.exists())
             self.assertIn("Abstention Calibration", markdown)
+            self.assertIn("Answer Confusion Matrix", markdown)
+            self.assertIn("False Non-Abstain Examples", markdown)
+            self.assertIn("task_002", markdown)
             self.assertEqual(exit_code, 0)
             self.assertTrue((tmp_path / "cli-stats.md").exists())
 
