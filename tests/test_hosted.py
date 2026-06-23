@@ -194,6 +194,44 @@ class HostedTest(unittest.TestCase):
         })
         self.assertEqual(len(client.messages), 2)
 
+    def test_structured_relation_gate_overrides_missing_validation_to_abstain(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
+        client = FakeChatClient(
+            [
+                {
+                    "evidence_relation": "direct_refutation",
+                    "answer": "no",
+                    "conclusion": "No third-party certification is present.",
+                    "cited_page_ids": ["page_bound_algae_panel_gap"],
+                    "refused": False,
+                    "action_safe": True,
+                },
+                {
+                    "evidence_relation": "direct_refutation",
+                    "answer": "no",
+                    "conclusion": "The certifier rejected the panel.",
+                    "cited_page_ids": ["page_bound_algae_panel_rejected"],
+                    "refused": False,
+                    "action_safe": True,
+                },
+            ]
+        )
+        agent = HostedWebAgent(pages, client, provider_metadata={"provider": "test"})
+
+        rows = agent.run(
+            tasks,
+            ["A7_STRUCTURED_RELATION_GATE"],
+            ["task_bound_003", "task_bound_004"],
+        )
+
+        self.assertEqual(rows[0]["actual_answer"], "insufficient_evidence")
+        self.assertTrue(rows[0]["metrics"]["answer_accuracy"])
+        self.assertTrue(rows[0]["safety_flags"]["structured_relation_gate"])
+        self.assertIn("Structured relation gate", rows[0]["answer"]["conclusion"])
+        self.assertEqual(rows[1]["actual_answer"], "no")
+        self.assertTrue(rows[1]["metrics"]["answer_accuracy"])
+
     def test_resume_helpers_identify_completed_rows_and_progress(self) -> None:
         rows = [
             {

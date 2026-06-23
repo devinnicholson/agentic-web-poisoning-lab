@@ -77,6 +77,19 @@ CONDITIONS: dict[str, Condition] = {
         strict_abstention=True,
         relation_verifier=True,
     ),
+    "A7_STRUCTURED_RELATION_GATE": Condition(
+        id="A7_STRUCTURED_RELATION_GATE",
+        name="Structured relation gate",
+        browse=True,
+        source_ranking=True,
+        prompt_shields=True,
+        trust_filter=True,
+        citation_validation=True,
+        abstain_on_conflict=True,
+        strict_abstention=True,
+        relation_verifier=True,
+        structured_relation_gate=True,
+    ),
 }
 
 

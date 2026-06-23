@@ -41,6 +41,7 @@ class DeterministicWebAgent:
             "page_screening": condition.prompt_shields,
             "source_ranking": condition.source_ranking,
             "trust_filter": condition.trust_filter,
+            "structured_relation_gate": condition.structured_relation_gate,
             "filtered_page_count": len(filtered_pages),
             "prompt_shields_flagged": any(page.attack_type in PROMPT_SHIELD_ATTACKS for page in filtered_pages),
         }
