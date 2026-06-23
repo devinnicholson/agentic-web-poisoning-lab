@@ -14,8 +14,12 @@ CHALLENGE_HOSTED_CONDITIONS ?= $(CHALLENGE_CONDITIONS)
 CHALLENGE_HOSTED_TASK_IDS ?= all
 STRICT_CHALLENGE_CONDITIONS ?= A1_AGENT_BASELINE,A2_SOURCE_RANKING,A3_PROMPT_SHIELDS,A4_FULL_DEFENSE,A5_STRICT_ABSTENTION
 STRICT_CHALLENGE_HOSTED_TASK_IDS ?= all
+BOUNDARY_TASKS ?= data/tasks.boundary.jsonl
+BOUNDARY_PAGES ?= data/pages.boundary.jsonl
+BOUNDARY_CONDITIONS ?= A4_FULL_DEFENSE,A5_STRICT_ABSTENTION
+BOUNDARY_HOSTED_TASK_IDS ?= all
 
-.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh
+.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-boundary-local report-boundary-local audit-boundary-local boundary-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary hosted-boundary-refresh
 
 help:
 	@printf '%s\n' \
@@ -27,11 +31,13 @@ help:
 		'  make research-refresh Run local benchmark, report, and audit queue.' \
 		'  make challenge-refresh Run hard local challenge benchmark.' \
 		'  make strict-challenge-refresh Run hard local challenge benchmark with A5.' \
+		'  make boundary-refresh Run local evidence-boundary benchmark.' \
 		'  make hosted-smoke-refresh Run Azure hosted smoke, report, and audit queue.' \
 		'  make hosted-focused-refresh Run focused Azure sweep, reports, and audit queue.' \
 		'  make hosted-full-refresh Run full Azure matrix with comparison and stats.' \
 		'  make hosted-challenge-refresh Run hard Azure challenge matrix with stats.' \
-		'  make hosted-strict-challenge-refresh Run hard Azure challenge matrix with A5.'
+		'  make hosted-strict-challenge-refresh Run hard Azure challenge matrix with A5.' \
+		'  make hosted-boundary-refresh Run hosted A4/A5 evidence-boundary matrix.'
 
 test:
 	$(LOCAL_ENV) $(PYTHON) -m unittest discover -s tests
@@ -92,6 +98,26 @@ audit-strict-challenge-local:
 		--out experiments/results/strict-challenge-local/audit-queue.md
 
 strict-challenge-refresh: run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local
+
+run-boundary-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run \
+		--tasks $(BOUNDARY_TASKS) \
+		--pages $(BOUNDARY_PAGES) \
+		--conditions $(BOUNDARY_CONDITIONS) \
+		--out-dir experiments/results/boundary-local
+
+report-boundary-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/boundary-local/results.jsonl \
+		--out experiments/results/boundary-local/report.md
+
+audit-boundary-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/boundary-local/results.jsonl \
+		--pages $(BOUNDARY_PAGES) \
+		--out experiments/results/boundary-local/audit-queue.md
+
+boundary-refresh: run-boundary-local report-boundary-local audit-boundary-local
 
 run-hosted-smoke:
 	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
@@ -242,3 +268,38 @@ stats-hosted-strict-challenge:
 		--out experiments/results/hosted-strict-challenge/stats.md
 
 hosted-strict-challenge-refresh: strict-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge
+
+run-hosted-boundary:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
+		--tasks $(BOUNDARY_TASKS) \
+		--pages $(BOUNDARY_PAGES) \
+		--conditions $(BOUNDARY_CONDITIONS) \
+		--task-ids $(BOUNDARY_HOSTED_TASK_IDS) \
+		--out-dir experiments/results/hosted-boundary \
+		--delay-seconds $(HOSTED_DELAY_SECONDS) \
+		--run-mode hosted_boundary \
+		$(HOSTED_RESUME)
+
+report-hosted-boundary:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/hosted-boundary/results.jsonl \
+		--out experiments/results/hosted-boundary/report.md
+
+audit-hosted-boundary:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/hosted-boundary/results.jsonl \
+		--pages $(BOUNDARY_PAGES) \
+		--out experiments/results/hosted-boundary/audit-queue.md
+
+compare-hosted-boundary:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli compare \
+		--local experiments/results/boundary-local/results.jsonl \
+		--hosted experiments/results/hosted-boundary/results.jsonl \
+		--out experiments/results/hosted-boundary/comparison.md
+
+stats-hosted-boundary:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/hosted-boundary/results.jsonl \
+		--out experiments/results/hosted-boundary/stats.md
+
+hosted-boundary-refresh: boundary-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary

@@ -95,6 +95,12 @@ Run the same challenge set with the experimental A5 strict-abstention condition:
 make hosted-strict-challenge-refresh
 ```
 
+Run the focused evidence-boundary set for A4/A5:
+
+```bash
+make hosted-boundary-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -111,6 +117,9 @@ Strict-abstention challenge outputs are written under
 `experiments/results/hosted-strict-challenge/`; this keeps the A1-A4 snapshot
 fixed while adding A5 as a follow-up calibration experiment. A committed
 aggregate snapshot is in `docs/hosted-strict-challenge-summary.md`.
+Boundary-set outputs are written under `experiments/results/hosted-boundary/`
+and use `data/tasks.boundary.jsonl` plus `data/pages.boundary.jsonl`. A
+committed aggregate snapshot is in `docs/hosted-boundary-summary.md`.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 

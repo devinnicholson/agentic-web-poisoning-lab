@@ -77,6 +77,14 @@ Completed strict-abstention slice:
    A5 reduced false non-abstains from A4's 10/13 to 1/13 while keeping 0/20
    attack success and 0/24 poisoned citations.
 
+Completed boundary slice:
+
+1. `data/tasks.boundary.jsonl` and `data/pages.boundary.jsonl` isolate missing
+   validation vs direct negative evidence.
+2. `make hosted-boundary-refresh` ran the focused A4/A5 boundary matrix.
+3. `docs/hosted-boundary-summary.md` documents the result: A5 improved correct
+   abstention from 1/4 to 2/4 while preserving all direct `no` answers.
+
 Next implementation slice:
 
 1. Extend manual audit labels from representative challenge rows to every

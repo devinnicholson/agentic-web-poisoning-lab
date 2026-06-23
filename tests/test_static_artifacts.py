@@ -24,6 +24,8 @@ class StaticArtifactsTest(unittest.TestCase):
         self.assertIn("A5_STRICT_ABSTENTION", html)
         self.assertIn("95.8%", html)
         self.assertIn("12/13", html)
+        self.assertIn("Evidence Boundary", html)
+        self.assertIn("2/4", html)
         self.assertIn("task_chal_005", html)
         self.assertNotRegex(html, re.compile(r'<(?:script|img|link)[^>]+(?:src|href)="https?://', re.I))
         self.assertNotIn("ignore previous", html.lower())

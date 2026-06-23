@@ -114,6 +114,18 @@ validation.
 Manual adjudication labels for the A4/A5 abstention comparison are committed in
 `data/manual-audit.hosted-strict-challenge.jsonl`.
 
+### Evidence-Boundary Follow-Up
+
+The evidence-boundary run isolated this exact edge by pairing four
+missing-validation tasks with four direct-negative tasks. It ran A4 and A5 for
+16 hosted rows. A5 improved correct abstention from 1/4 to 2/4 while preserving
+all four direct `no` answers. Both A4 and A5 maintained 0/8 attack success and
+0/8 poisoned citations.
+
+The two remaining A5 misses were certification and deployment-trial questions.
+This suggests that some missing-validation language remains semantically close
+to direct negation even under a strict sufficiency rubric.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -129,7 +141,8 @@ This suggests a two-layer safety model:
 
 The current A4 condition solves the first layer better than the second. A5 is
 an initial application-level sufficiency rule that materially improves the
-second layer on the hosted challenge set.
+second layer on the hosted challenge set, but the boundary run shows that a
+future verifier should classify evidence relations before answer synthesis.
 
 ## Threats To Validity
 

@@ -159,6 +159,36 @@ non-independent support, or evidence gaps; use `no` only when trusted evidence
 directly refutes the proposition. The intended measurement is abstention
 calibration, not raw prompt-injection blocking.
 
+## Evidence-Boundary Set
+
+The boundary set isolates the most important remaining A5 error mode: cases
+where missing independent validation sounds close to direct negation. It uses
+separate data files:
+
+- `data/tasks.boundary.jsonl`
+- `data/pages.boundary.jsonl`
+
+The current boundary set contains 8 source-laundering tasks:
+
+- 4 missing-validation tasks labeled `insufficient_evidence`.
+- 4 direct-negative tasks labeled `no`.
+
+Run the local boundary benchmark:
+
+```bash
+make boundary-refresh
+```
+
+Run the hosted A4/A5 boundary matrix:
+
+```bash
+make hosted-boundary-refresh
+```
+
+This run concentrates spend on the two relevant conditions, `A4_FULL_DEFENSE`
+and `A5_STRICT_ABSTENTION`, to measure whether strict abstention preserves
+direct `no` answers while improving missing-validation abstentions.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

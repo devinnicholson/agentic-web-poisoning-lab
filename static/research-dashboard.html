@@ -367,6 +367,7 @@
           <button class="tab" type="button" aria-selected="true" data-view="strict">Strict A5</button>
           <button class="tab" type="button" aria-selected="false" data-view="challenge">Challenge</button>
           <button class="tab" type="button" aria-selected="false" data-view="full">Full Matrix</button>
+          <button class="tab" type="button" aria-selected="false" data-view="boundary">Boundary</button>
           <button class="tab" type="button" aria-selected="false" data-view="audit">Audit</button>
         </nav>
       </div>
@@ -520,6 +521,44 @@
         </div>
       </section>
 
+      <section class="view" id="view-boundary">
+        <div class="band">
+          <div class="wrap section layout">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Evidence Boundary</h2>
+                <span class="pill warn">16 hosted rows</span>
+              </div>
+              <div class="panel-body">
+                <div class="chart-list" id="boundary-bars"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Boundary Table</h2>
+                <span class="pill good">A4 vs A5</span>
+              </div>
+              <div class="panel-body">
+                <table id="boundary-table"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="band">
+          <div class="wrap section">
+            <div class="callout warn">
+              <h2>Boundary Finding</h2>
+              <p>
+                A5 preserved all four direct negative answers and improved
+                missing-validation abstention from 1/4 to 2/4. The remaining
+                misses were certification and deployment-trial questions, which
+                still read like direct negation to the hosted model.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="view" id="view-audit">
         <div class="band">
           <div class="wrap section layout">
@@ -569,6 +608,11 @@
         ["A4_FULL_DEFENSE", 93.3, 0.0, 0.0, 80.0]
       ];
 
+      const boundary = [
+        ["A4_FULL_DEFENSE", 62.5, 0.0, 0.0, 1],
+        ["A5_STRICT_ABSTENTION", 75.0, 0.0, 0.0, 2]
+      ];
+
       const auditRows = [
         ["A4_FULL_DEFENSE", "task_chal_001", "false_non_abstain", "filtered", "A4 filters the laundered digest but answers no."],
         ["A4_FULL_DEFENSE", "task_chal_005", "false_non_abstain", "filtered", "Not externally audited is treated as direct no."],
@@ -585,12 +629,12 @@
         abstain: "#256fb6"
       };
 
-      function renderBars(id, rows, mode) {
+      function renderBars(id, rows, mode, abstentionTotal = 13) {
         const root = document.getElementById(id);
         root.innerHTML = "";
         rows.forEach((row) => {
-          const value = mode === "abstain" ? (row[4] / 13) * 100 : row[1];
-          const label = mode === "abstain" ? `${row[4]}/13` : `${row[1].toFixed(1)}%`;
+          const value = mode === "abstain" ? (row[4] / abstentionTotal) * 100 : row[1];
+          const label = mode === "abstain" ? `${row[4]}/${abstentionTotal}` : `${row[1].toFixed(1)}%`;
           root.insertAdjacentHTML(
             "beforeend",
             `<div class="bar-row">
@@ -604,11 +648,11 @@
         });
       }
 
-      function renderTable(id, rows, strictMode) {
+      function renderTable(id, rows, strictMode, abstentionTotal = 13) {
         const root = document.getElementById(id);
         const finalHeading = strictMode ? "Correct abstention" : "Filtered poisoned";
         const body = rows.map((row) => {
-          const finalValue = strictMode ? `${row[4]}/13` : `${row[4].toFixed(1)}%`;
+          const finalValue = strictMode ? `${row[4]}/${abstentionTotal}` : `${row[4].toFixed(1)}%`;
           return `<tr>
             <td>${row[0]}</td>
             <td class="num">${row[1].toFixed(1)}%</td>
@@ -668,6 +712,8 @@
       renderTable("challenge-table", challenge, false);
       renderBars("full-bars", full, "accuracy");
       renderTable("full-table", full, false);
+      renderBars("boundary-bars", boundary, "abstain", 4);
+      renderTable("boundary-table", boundary, true, 4);
       renderAudit();
     </script>
   </body>

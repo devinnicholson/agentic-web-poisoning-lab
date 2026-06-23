@@ -45,6 +45,13 @@ Strict-abstention follow-up, 120 rows:
 | A4_FULL_DEFENSE | 58.3% | 0.0% | 0.0% | 3/13 |
 | A5_STRICT_ABSTENTION | 95.8% | 0.0% | 0.0% | 12/13 |
 
+Evidence-boundary follow-up, 16 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A4_FULL_DEFENSE | 62.5% | 0.0% | 0.0% | 1/4 |
+| A5_STRICT_ABSTENTION | 75.0% | 0.0% | 0.0% | 2/4 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -55,7 +62,9 @@ Strict-abstention follow-up, 120 rows:
    failing abstention calibration.
 4. A strict evidence-sufficiency ablation showing a large improvement in false
    non-abstain behavior without blanket refusal.
-5. Manual adjudication labels and a static dashboard for inspection.
+5. A boundary probe showing that certification and deployment-trial language
+   remains hard even after strict abstention.
+6. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 
