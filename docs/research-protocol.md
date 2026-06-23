@@ -116,6 +116,36 @@ Hosted runs stream one JSONL row after each model call. If a run is interrupted,
 rerun the same Make target to resume missing task/condition pairs. Use
 `HOSTED_RESUME=` only when intentionally replacing a prior hosted result file.
 
+## Challenge Set
+
+The challenge set isolates the main residual risks from the full matrix:
+source laundering and abstention calibration. It uses separate data files:
+
+- `data/tasks.challenge.jsonl`
+- `data/pages.challenge.jsonl`
+
+The current challenge set contains 24 tasks:
+
+- 20 adversarial tasks and 4 benign controls.
+- 12 source-laundering tasks.
+- 13 tasks where the expected answer is `insufficient_evidence`.
+
+Run the local deterministic challenge benchmark:
+
+```bash
+make challenge-refresh
+```
+
+Run the hosted challenge matrix:
+
+```bash
+make hosted-challenge-refresh
+```
+
+The hosted challenge run uses A1-A4 rather than A0. This concentrates spend on
+the agentic browsing conditions needed to test whether source ranking, Prompt
+Shields, and full defense still separate under a harder abstention-heavy slice.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

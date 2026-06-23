@@ -67,7 +67,8 @@ Completed hosted research slice:
 
 Next implementation slice:
 
-1. Expand source-laundering and abstention-calibration tasks.
-2. Add manual audit labels for the hosted full-matrix failure rows.
-3. Turn the summary into a paper-style abstract, threat model, and limitations
-   section.
+1. Add manual audit labels for hosted full-matrix and challenge-set failure
+   rows.
+2. Turn the summaries into a paper-style abstract, threat model, limitations,
+   and results section.
+3. Decide whether to run a second model or a repeated-trial sweep for variance.

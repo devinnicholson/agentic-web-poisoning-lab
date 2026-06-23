@@ -7,8 +7,13 @@ FOCUSED_HOSTED_CONDITIONS ?= A1_AGENT_BASELINE,A3_PROMPT_SHIELDS,A4_FULL_DEFENSE
 FOCUSED_HOSTED_TASK_IDS ?= task_001,task_002,task_005,task_006,task_011,task_015,task_025,task_027
 FULL_HOSTED_CONDITIONS ?= A0_DIRECT,A1_AGENT_BASELINE,A2_SOURCE_RANKING,A3_PROMPT_SHIELDS,A4_FULL_DEFENSE
 FULL_HOSTED_TASK_IDS ?= all
+CHALLENGE_TASKS ?= data/tasks.challenge.jsonl
+CHALLENGE_PAGES ?= data/pages.challenge.jsonl
+CHALLENGE_CONDITIONS ?= A1_AGENT_BASELINE,A2_SOURCE_RANKING,A3_PROMPT_SHIELDS,A4_FULL_DEFENSE
+CHALLENGE_HOSTED_CONDITIONS ?= $(CHALLENGE_CONDITIONS)
+CHALLENGE_HOSTED_TASK_IDS ?= all
 
-.PHONY: help test run-local report-local audit-local research-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh
+.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh
 
 help:
 	@printf '%s\n' \
@@ -18,9 +23,11 @@ help:
 		'  make report-local     Generate a Markdown report from local results.' \
 		'  make audit-local      Generate a human audit queue from local results.' \
 		'  make research-refresh Run local benchmark, report, and audit queue.' \
+		'  make challenge-refresh Run hard local challenge benchmark.' \
 		'  make hosted-smoke-refresh Run Azure hosted smoke, report, and audit queue.' \
 		'  make hosted-focused-refresh Run focused Azure sweep, reports, and audit queue.' \
-		'  make hosted-full-refresh Run full Azure matrix with comparison and stats.'
+		'  make hosted-full-refresh Run full Azure matrix with comparison and stats.' \
+		'  make hosted-challenge-refresh Run hard Azure challenge matrix with stats.'
 
 test:
 	$(LOCAL_ENV) $(PYTHON) -m unittest discover -s tests
@@ -41,6 +48,26 @@ audit-local:
 		--out experiments/results/local/audit-queue.md
 
 research-refresh: run-local report-local audit-local
+
+run-challenge-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run \
+		--tasks $(CHALLENGE_TASKS) \
+		--pages $(CHALLENGE_PAGES) \
+		--conditions $(CHALLENGE_CONDITIONS) \
+		--out-dir experiments/results/challenge-local
+
+report-challenge-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/challenge-local/results.jsonl \
+		--out experiments/results/challenge-local/report.md
+
+audit-challenge-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/challenge-local/results.jsonl \
+		--pages $(CHALLENGE_PAGES) \
+		--out experiments/results/challenge-local/audit-queue.md
+
+challenge-refresh: run-challenge-local report-challenge-local audit-challenge-local
 
 run-hosted-smoke:
 	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
@@ -121,3 +148,38 @@ stats-hosted-full:
 		--out experiments/results/hosted-full/stats.md
 
 hosted-full-refresh: research-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full
+
+run-hosted-challenge:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
+		--tasks $(CHALLENGE_TASKS) \
+		--pages $(CHALLENGE_PAGES) \
+		--conditions $(CHALLENGE_HOSTED_CONDITIONS) \
+		--task-ids $(CHALLENGE_HOSTED_TASK_IDS) \
+		--out-dir experiments/results/hosted-challenge \
+		--delay-seconds $(HOSTED_DELAY_SECONDS) \
+		--run-mode hosted_challenge \
+		$(HOSTED_RESUME)
+
+report-hosted-challenge:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/hosted-challenge/results.jsonl \
+		--out experiments/results/hosted-challenge/report.md
+
+audit-hosted-challenge:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/hosted-challenge/results.jsonl \
+		--pages $(CHALLENGE_PAGES) \
+		--out experiments/results/hosted-challenge/audit-queue.md
+
+compare-hosted-challenge:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli compare \
+		--local experiments/results/challenge-local/results.jsonl \
+		--hosted experiments/results/hosted-challenge/results.jsonl \
+		--out experiments/results/hosted-challenge/comparison.md
+
+stats-hosted-challenge:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/hosted-challenge/results.jsonl \
+		--out experiments/results/hosted-challenge/stats.md
+
+hosted-challenge-refresh: challenge-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge
