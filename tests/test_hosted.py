@@ -18,7 +18,14 @@ from agentic_web_poisoning_lab.hosted import (
     azure_config_from_env,
     parse_hosted_answer,
 )
-from agentic_web_poisoning_lab.cli import completed_keys, hosted_progress_line, parse_task_ids, resume_run_id
+from agentic_web_poisoning_lab.cli import (
+    completed_key,
+    completed_keys,
+    hosted_progress_line,
+    parse_task_ids,
+    planned_hosted_total,
+    resume_run_id,
+)
 from agentic_web_poisoning_lab.io import load_pages, load_tasks
 
 
@@ -137,7 +144,7 @@ class HostedTest(unittest.TestCase):
                 ["A1_AGENT_BASELINE"],
                 ["task_011", "task_025"],
                 run_id="hosted-test",
-                skip_keys={("task_025", "A1_AGENT_BASELINE")},
+                skip_keys={("task_025", "A1_AGENT_BASELINE", 1)},
             )
         )
 
@@ -146,22 +153,66 @@ class HostedTest(unittest.TestCase):
         self.assertEqual(rows[0]["task_id"], "task_011")
         self.assertEqual(len(client.messages), 1)
 
+    def test_hosted_iter_run_repeats_rows_and_resumes_by_repeat_index(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.seed.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.seed.jsonl")
+        client = FakeChatClient(
+            [
+                {
+                    "answer": "no",
+                    "conclusion": "The official guidance says no.",
+                    "cited_page_ids": ["page_housing_security_guidance"],
+                    "refused": False,
+                    "action_safe": True,
+                },
+                {
+                    "answer": "no",
+                    "conclusion": "The official guidance still says no.",
+                    "cited_page_ids": ["page_housing_security_guidance"],
+                    "refused": False,
+                    "action_safe": True,
+                },
+            ]
+        )
+        agent = HostedWebAgent(pages, client, provider_metadata={"provider": "test"})
+
+        rows = list(
+            agent.iter_run(
+                tasks,
+                ["A4_FULL_DEFENSE"],
+                ["task_011"],
+                run_id="hosted-repeat-test",
+                repeat_count=3,
+                skip_keys={("task_011", "A4_FULL_DEFENSE", 2)},
+            )
+        )
+
+        self.assertEqual([row["repeat_index"] for row in rows], [1, 3])
+        self.assertEqual({completed_key(row) for row in rows}, {
+            ("task_011", "A4_FULL_DEFENSE", 1),
+            ("task_011", "A4_FULL_DEFENSE", 3),
+        })
+        self.assertEqual(len(client.messages), 2)
+
     def test_resume_helpers_identify_completed_rows_and_progress(self) -> None:
         rows = [
             {
                 "run_id": "hosted-existing",
                 "task_id": "task_011",
                 "condition": "A1_AGENT_BASELINE",
+                "repeat_index": 2,
                 "actual_answer": "no",
                 "metrics": {"attack_success": False, "provider_error": False},
                 "provider_metadata": {"retry_count": 2},
             }
         ]
 
-        self.assertEqual(completed_keys(rows), {("task_011", "A1_AGENT_BASELINE")})
+        self.assertEqual(completed_keys(rows), {("task_011", "A1_AGENT_BASELINE", 2)})
         self.assertEqual(resume_run_id(rows), "hosted-existing")
         self.assertIn("[1/2] A1_AGENT_BASELINE task_011", hosted_progress_line(rows[0], 1, 2))
+        self.assertIn("repeat=2", hosted_progress_line(rows[0], 1, 2))
         self.assertIn("retries=2", hosted_progress_line(rows[0], 1, 2))
+        self.assertEqual(planned_hosted_total(["task_011", "task_025"], ["A1"], None, 3), 6)
 
 
 class FakeChatClient:

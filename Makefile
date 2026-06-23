@@ -20,8 +20,9 @@ BOUNDARY_CONDITIONS ?= A4_FULL_DEFENSE,A5_STRICT_ABSTENTION
 BOUNDARY_HOSTED_TASK_IDS ?= all
 RELATION_BOUNDARY_CONDITIONS ?= A5_STRICT_ABSTENTION,A6_RELATION_VERIFIER
 RELATION_BOUNDARY_HOSTED_TASK_IDS ?= all
+RELATION_BOUNDARY_REPEATS ?= 5
 
-.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-boundary-local report-boundary-local audit-boundary-local boundary-refresh run-relation-boundary-local report-relation-boundary-local audit-relation-boundary-local relation-boundary-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary hosted-boundary-refresh run-hosted-relation-boundary report-hosted-relation-boundary audit-hosted-relation-boundary compare-hosted-relation-boundary stats-hosted-relation-boundary hosted-relation-boundary-refresh
+.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-boundary-local report-boundary-local audit-boundary-local boundary-refresh run-relation-boundary-local report-relation-boundary-local audit-relation-boundary-local relation-boundary-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary hosted-boundary-refresh run-hosted-relation-boundary report-hosted-relation-boundary audit-hosted-relation-boundary compare-hosted-relation-boundary stats-hosted-relation-boundary hosted-relation-boundary-refresh run-hosted-relation-boundary-repeats report-hosted-relation-boundary-repeats audit-hosted-relation-boundary-repeats stats-hosted-relation-boundary-repeats hosted-relation-boundary-repeats-refresh
 
 help:
 	@printf '%s\n' \
@@ -41,7 +42,8 @@ help:
 		'  make hosted-challenge-refresh Run hard Azure challenge matrix with stats.' \
 		'  make hosted-strict-challenge-refresh Run hard Azure challenge matrix with A5.' \
 		'  make hosted-boundary-refresh Run hosted A4/A5 evidence-boundary matrix.' \
-		'  make hosted-relation-boundary-refresh Run hosted A5/A6 relation-boundary matrix.'
+		'  make hosted-relation-boundary-refresh Run hosted A5/A6 relation-boundary matrix.' \
+		'  make hosted-relation-boundary-repeats-refresh Run hosted repeated A5/A6 boundary trials.'
 
 test:
 	$(LOCAL_ENV) $(PYTHON) -m unittest discover -s tests
@@ -362,3 +364,33 @@ stats-hosted-relation-boundary:
 		--out experiments/results/hosted-relation-boundary/stats.md
 
 hosted-relation-boundary-refresh: relation-boundary-refresh run-hosted-relation-boundary report-hosted-relation-boundary audit-hosted-relation-boundary compare-hosted-relation-boundary stats-hosted-relation-boundary
+
+run-hosted-relation-boundary-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
+		--tasks $(BOUNDARY_TASKS) \
+		--pages $(BOUNDARY_PAGES) \
+		--conditions $(RELATION_BOUNDARY_CONDITIONS) \
+		--task-ids $(RELATION_BOUNDARY_HOSTED_TASK_IDS) \
+		--out-dir experiments/results/hosted-relation-boundary-repeats \
+		--delay-seconds $(HOSTED_DELAY_SECONDS) \
+		--run-mode hosted_relation_boundary_repeats \
+		--repeats $(RELATION_BOUNDARY_REPEATS) \
+		$(HOSTED_RESUME)
+
+report-hosted-relation-boundary-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/hosted-relation-boundary-repeats/results.jsonl \
+		--out experiments/results/hosted-relation-boundary-repeats/report.md
+
+audit-hosted-relation-boundary-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/hosted-relation-boundary-repeats/results.jsonl \
+		--pages $(BOUNDARY_PAGES) \
+		--out experiments/results/hosted-relation-boundary-repeats/audit-queue.md
+
+stats-hosted-relation-boundary-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/hosted-relation-boundary-repeats/results.jsonl \
+		--out experiments/results/hosted-relation-boundary-repeats/stats.md
+
+hosted-relation-boundary-repeats-refresh: run-hosted-relation-boundary-repeats report-hosted-relation-boundary-repeats audit-hosted-relation-boundary-repeats stats-hosted-relation-boundary-repeats

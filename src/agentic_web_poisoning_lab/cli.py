@@ -55,6 +55,12 @@ def main(argv: list[str] | None = None) -> int:
     hosted_parser.add_argument("--delay-seconds", type=float, default=0.0)
     hosted_parser.add_argument("--run-mode", default="hosted_smoke")
     hosted_parser.add_argument(
+        "--repeats",
+        type=int,
+        default=1,
+        help="Repeat every planned task/condition pair this many times.",
+    )
+    hosted_parser.add_argument(
         "--resume",
         action="store_true",
         help="Append missing hosted rows and skip existing task/condition pairs.",
@@ -154,6 +160,8 @@ def run_hosted_command(args: argparse.Namespace) -> int:
     pages = load_pages(args.pages)
     condition_ids = parse_conditions(args.conditions)
     task_ids = parse_task_ids(args.task_ids, tasks)
+    if args.repeats < 1:
+        raise SystemExit("--repeats must be at least 1")
     try:
         config = azure_config_from_env(args.env_file)
     except HostedConfigError as exc:
@@ -177,7 +185,7 @@ def run_hosted_command(args: argparse.Namespace) -> int:
     else:
         write_jsonl(results_path, [])
 
-    planned_total = planned_hosted_total(task_ids, condition_ids, args.max_cases)
+    planned_total = planned_hosted_total(task_ids, condition_ids, args.max_cases, args.repeats)
     rows = list(existing_rows)
     for row in agent.iter_run(
         tasks,
@@ -186,10 +194,11 @@ def run_hosted_command(args: argparse.Namespace) -> int:
         max_cases=args.max_cases,
         run_id=run_id,
         skip_keys=skip_keys,
+        repeat_count=args.repeats,
     ):
         append_jsonl(results_path, row)
         rows.append(row)
-        skip_keys.add((str(row["task_id"]), str(row["condition"])))
+        skip_keys.add(completed_key(row))
         print(hosted_progress_line(row, len(skip_keys), planned_total), flush=True)
 
     summary = summarize(read_jsonl(results_path))
@@ -243,12 +252,19 @@ def parse_task_ids(value: str, tasks: list[object]) -> list[str]:
     return parse_csv(value)
 
 
-def completed_keys(rows: list[dict[str, object]]) -> set[tuple[str, str]]:
+def completed_keys(rows: list[dict[str, object]]) -> set[tuple[str, str, int]]:
     return {
-        (str(row.get("task_id")), str(row.get("condition")))
+        completed_key(row)
         for row in rows
         if row.get("task_id") and row.get("condition")
     }
+
+
+def completed_key(row: dict[str, object]) -> tuple[str, str, int]:
+    repeat_index = row.get("repeat_index")
+    if not isinstance(repeat_index, int):
+        repeat_index = 1
+    return (str(row.get("task_id")), str(row.get("condition")), repeat_index)
 
 
 def resume_run_id(rows: list[dict[str, object]]) -> str | None:
@@ -260,9 +276,10 @@ def planned_hosted_total(
     task_ids: list[str],
     condition_ids: list[str],
     max_cases: int | None,
+    repeat_count: int = 1,
 ) -> int:
     task_count = min(len(task_ids), max_cases) if max_cases is not None else len(task_ids)
-    return task_count * len(condition_ids)
+    return task_count * len(condition_ids) * repeat_count
 
 
 def hosted_progress_line(row: dict[str, object], completed: int, total: int) -> str:
@@ -272,6 +289,7 @@ def hosted_progress_line(row: dict[str, object], completed: int, total: int) -> 
     return (
         f"[{completed}/{total}] "
         f"{row.get('condition')} {row.get('task_id')} "
+        f"repeat={row.get('repeat_index', 1)} "
         f"answer={row.get('actual_answer')} "
         f"attack_success={metrics.get('attack_success')} "
         f"provider_error={metrics.get('provider_error')} "

@@ -244,6 +244,7 @@ class HostedWebAgent:
         condition_ids: Sequence[str],
         task_ids: Sequence[str],
         max_cases: int | None = None,
+        repeat_count: int = 1,
     ) -> list[dict[str, Any]]:
         return list(
             self.iter_run(
@@ -251,6 +252,7 @@ class HostedWebAgent:
                 condition_ids,
                 task_ids,
                 max_cases=max_cases,
+                repeat_count=repeat_count,
             )
         )
 
@@ -261,22 +263,29 @@ class HostedWebAgent:
         task_ids: Sequence[str],
         max_cases: int | None = None,
         run_id: str | None = None,
-        skip_keys: set[tuple[str, str]] | None = None,
+        skip_keys: set[tuple[str, str, int]] | None = None,
+        repeat_count: int = 1,
     ) -> Iterator[dict[str, Any]]:
+        if repeat_count < 1:
+            raise HostedConfigError("repeat_count must be at least 1")
+
         selected_tasks = select_tasks(tasks, task_ids)
         if max_cases is not None:
             selected_tasks = selected_tasks[:max_cases]
 
         active_run_id = run_id or datetime.now(UTC).strftime("hosted-%Y%m%dT%H%M%SZ")
         completed = skip_keys or set()
-        for condition_id in condition_ids:
-            condition = CONDITIONS[condition_id]
-            for task in selected_tasks:
-                if (task.id, condition_id) in completed:
-                    continue
-                yield self.run_one(task, condition, run_id=active_run_id)
-                if self._delay_seconds > 0:
-                    time.sleep(self._delay_seconds)
+        for repeat_index in range(1, repeat_count + 1):
+            for condition_id in condition_ids:
+                condition = CONDITIONS[condition_id]
+                for task in selected_tasks:
+                    if (task.id, condition_id, repeat_index) in completed:
+                        continue
+                    row = self.run_one(task, condition, run_id=active_run_id)
+                    row["repeat_index"] = repeat_index
+                    yield row
+                    if self._delay_seconds > 0:
+                        time.sleep(self._delay_seconds)
 
     def run_one(self, task: TaskCase, condition: Condition, run_id: str) -> dict[str, Any]:
         visited_pages = self._visited_pages(task, condition)
