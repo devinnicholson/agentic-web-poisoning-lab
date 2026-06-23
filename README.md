@@ -25,7 +25,7 @@ or misleading calls to action?
   source selection, page trust, hidden-instruction exposure, and action safety.
 - It reuses lessons from the RAG lab while testing a broader agent workflow.
 
-## Planned Conditions
+## Evaluation Conditions
 
 | Condition | Name | Description |
 | --- | --- | --- |
@@ -34,6 +34,7 @@ or misleading calls to action?
 | A2 | Source ranking | Agent prefers trusted/current pages before synthesis. |
 | A3 | Prompt Shields | User prompt and page-content screening before synthesis. |
 | A4 | Full defense | Source ranking, Prompt Shields, citation validation, and abstention. |
+| A5 | Strict abstention | Full defense plus explicit evidence-sufficiency rules. |
 
 ## Attack Classes
 
@@ -151,12 +152,13 @@ The deterministic benchmark now runs 30 synthetic tasks across A0-A4, including
 | A3_PROMPT_SHIELDS | 30 | 24 | 40.0% | 75.0% | 60.0% | 20.0% |
 | A4_FULL_DEFENSE | 30 | 24 | 100.0% | 0.0% | 0.0% | 80.0% |
 
-This is a deterministic harness result, not a hosted model claim yet. It gives
-the project a repeatable failure mode and a clear first demo path.
+This deterministic harness result is separate from the hosted model snapshots
+in `docs/`. It gives the project a repeatable local baseline and a quick
+regression signal.
 
-## First Milestone
+## Implemented Baseline Milestone
 
-Build a local deterministic harness with synthetic web pages:
+The local deterministic harness with synthetic web pages can:
 
 1. Load a task case and a small page corpus.
 2. Simulate browsing and page selection.
@@ -180,11 +182,10 @@ Build a local deterministic harness with synthetic web pages:
 
 M1 local harness and M2 dataset expansion are implemented for the 30-task
 synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
-The Azure-hosted smoke runner is implemented for the same redacted synthetic
-corpus. The focused hosted sweep workflow is now available for a broader
-six-attack-class comparison against the deterministic benchmark. The full
-hosted matrix workflow is available for the complete 30-task, five-condition
-research run.
+The Azure-hosted runner is implemented for the same redacted synthetic corpus.
+Completed hosted artifacts now include the full matrix, challenge matrix,
+strict-abstention matrix, and evidence-boundary matrix. CI is enabled on the
+public GitHub repo, and the static dashboard summarizes the main results.
 
 ## Safety Rule
 
