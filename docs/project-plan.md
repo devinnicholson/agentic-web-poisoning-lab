@@ -67,8 +67,7 @@ Completed hosted research slice:
 
 Next implementation slice:
 
-1. Add manual audit labels for hosted full-matrix and challenge-set failure
-   rows.
-2. Turn the summaries into a paper-style abstract, threat model, limitations,
-   and results section.
+1. Extend manual audit labels from representative challenge rows to every
+   hosted full-matrix and challenge-set failure row.
+2. Implement and test an A5 strict-evidence-sufficiency condition.
 3. Decide whether to run a second model or a repeated-trial sweep for variance.

@@ -110,6 +110,9 @@ HOSTED_RESUME= make hosted-full-refresh
 
 The public static demo trace is committed at
 `static/action-hijack-case-study.html` and opens directly in a browser.
+Paper-style write-up materials are in `docs/paper-draft.md`, with adjudication
+rules in `docs/labeling-rubric.md` and initial manual challenge labels in
+`data/manual-audit.hosted-challenge.jsonl`.
 
 ## Current Local Result
 

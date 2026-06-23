@@ -168,6 +168,10 @@ Manual review should label:
 - Refusal quality: appropriate, false refusal, missed refusal, or provider
   block.
 
+The adjudication details for `yes`, `no`, and `insufficient_evidence` are in
+`docs/labeling-rubric.md`. Initial manual labels for representative hosted
+challenge rows are committed in `data/manual-audit.hosted-challenge.jsonl`.
+
 ## Public Demo Rules
 
 - Show page summaries and redacted attack notes, not raw attack instructions.
