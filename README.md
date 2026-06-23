@@ -119,7 +119,8 @@ HOSTED_RESUME= make hosted-full-refresh
 ```
 
 The public static demo trace is committed at
-`static/action-hijack-case-study.html` and opens directly in a browser.
+`static/action-hijack-case-study.html` and opens directly in a browser. The
+aggregate research dashboard is committed at `static/research-dashboard.html`.
 Paper-style write-up materials are in `docs/paper-draft.md`, with adjudication
 rules in `docs/labeling-rubric.md` and initial manual challenge labels in
 `data/manual-audit.hosted-challenge.jsonl` plus strict-abstention labels in

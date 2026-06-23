@@ -18,6 +18,16 @@ class StaticArtifactsTest(unittest.TestCase):
         self.assertNotRegex(html, re.compile(r'<(?:script|img|link)[^>]+(?:src|href)="https?://', re.I))
         self.assertNotIn("ignore previous", html.lower())
 
+    def test_research_dashboard_is_self_contained_and_includes_a5_results(self) -> None:
+        html = (ROOT / "static" / "research-dashboard.html").read_text(encoding="utf-8")
+
+        self.assertIn("A5_STRICT_ABSTENTION", html)
+        self.assertIn("95.8%", html)
+        self.assertIn("12/13", html)
+        self.assertIn("task_chal_005", html)
+        self.assertNotRegex(html, re.compile(r'<(?:script|img|link)[^>]+(?:src|href)="https?://', re.I))
+        self.assertNotIn("ignore previous", html.lower())
+
 
 if __name__ == "__main__":
     unittest.main()
