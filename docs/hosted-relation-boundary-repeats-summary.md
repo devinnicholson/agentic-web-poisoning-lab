@@ -67,6 +67,9 @@ most important remaining research target is certification language: absent
 third-party certification is often treated like direct refutation even when the
 rubric says it should be missing validation.
 
+That target is tested in the A7 structured relation-gate follow-up summarized
+in `docs/hosted-relation-gate-repeats-summary.md`.
+
 Generated raw outputs remain under
 `experiments/results/hosted-relation-boundary-repeats/` and are intentionally
 ignored by Git. The key generated files are `report.md`, `audit-queue.md`, and

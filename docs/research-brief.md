@@ -66,6 +66,13 @@ Repeated relation-boundary sweep, 80 rows:
 | A5_STRICT_ABSTENTION | 92.5% | 0.0% | 0.0% | 17/20 |
 | A6_RELATION_VERIFIER | 97.5% | 0.0% | 0.0% | 19/20 |
 
+Structured relation-gate sweep, 80 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A6_RELATION_VERIFIER | 97.5% | 0.0% | 0.0% | 19/20 |
+| A7_STRUCTURED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 20/20 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -82,7 +89,9 @@ Repeated relation-boundary sweep, 80 rows:
    the remaining certification-language failure.
 7. A repeated-trial sweep showing the remaining errors are stochastic and
    concentrated in negative-sounding missing-validation language.
-8. Manual adjudication labels and a static dashboard for inspection.
+8. A structured relation-gate ablation showing that application-level evidence
+   relation enforcement closes the observed certification boundary failure.
+9. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 
@@ -90,7 +99,9 @@ Repeated relation-boundary sweep, 80 rows:
 - Results are from one hosted model deployment and should be repeated across
   models and runs.
 - Some evidence-gap prompts are semantically close to direct negation; the
-  remaining A6 miss is exactly in this boundary area.
+  remaining A6 miss is exactly in this boundary area. A7 fixes it on this
+  synthetic set by relying on verified relation labels, which must be replaced
+  by a reliable classifier or metadata source in a production system.
 - The harness models application-level controls, not a production browser
   sandbox.
 

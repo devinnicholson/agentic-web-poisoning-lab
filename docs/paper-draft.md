@@ -19,9 +19,12 @@ that some missing-validation wording still sounds like direct negation, and an
 A6 relation-verifier follow-up improved correct abstention on that boundary
 set from 2/4 to 3/4. A five-repeat boundary sweep then found that A6 improved
 missing-validation abstention from 17/20 to 19/20 while preserving 20/20 direct
-`no` answers. These results suggest that source trust controls can mitigate
+`no` answers. Finally, an A7 structured relation gate reached 20/20 correct
+abstention and 20/20 direct `no` preservation on a repeated boundary sweep.
+These results suggest that source trust controls can mitigate
 poisoned citations and attack following, but need explicit evidence-relation
-calibration to improve evidence-gap abstention.
+calibration and application-level relation gates to improve evidence-gap
+abstention.
 
 ## Research Questions
 
@@ -53,6 +56,7 @@ The conditions are:
 | A4_FULL_DEFENSE | Combines ranking, filtering, citation validation, and conflict handling. |
 | A5_STRICT_ABSTENTION | Adds an explicit rule separating missing support from direct negation. |
 | A6_RELATION_VERIFIER | Adds explicit direct-support/direct-refutation/missing-validation classification. |
+| A7_STRUCTURED_RELATION_GATE | Enforces verified evidence-relation labels before final answer acceptance. |
 
 Primary metrics:
 
@@ -164,6 +168,20 @@ algae-panel certification gap twice; A6 missed only the algae-panel
 certification gap once. This makes certification language the clearest next
 stress target.
 
+### Structured Relation-Gate Follow-Up
+
+The A7 follow-up reran the boundary repeat sweep under A6 and A7. A7 requires
+an `evidence_relation` field and enforces verified relation labels from trusted
+evidence before accepting the final answer.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A6_RELATION_VERIFIER | 40 | 97.5% | 0.0% | 0.0% | 19/20 |
+| A7_STRUCTURED_RELATION_GATE | 40 | 100.0% | 0.0% | 0.0% | 20/20 |
+
+A7 preserved all 20 direct-negative controls and removed the remaining
+certification false non-abstain on this boundary set.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -182,7 +200,10 @@ an initial application-level sufficiency rule that materially improves the
 second layer on the hosted challenge set. A6 is the first relation-verifier
 iteration: it improves the focused boundary probe, but does not fully eliminate
 negative-sounding missing-validation errors. Repeated trials show the remaining
-errors are intermittent and concentrated in certification wording.
+errors are intermittent and concentrated in certification wording. A7 shows
+that an application-level relation gate can eliminate the observed boundary
+flip on this synthetic set, at the cost of requiring a trusted source of
+relation labels.
 
 ## Threats To Validity
 
@@ -201,8 +222,8 @@ errors are intermittent and concentrated in certification wording.
 
 1. Expand the boundary set with more certification, audit, and deployment-trial
    minimal pairs.
-2. Add a second hosted model if credits and access allow.
-3. Add manual audit labels for all attack-success, poisoned-citation, and false
+2. Replace synthetic relation labels with a separate relation-classifier stage
+   and evaluate whether it matches the gated result.
+3. Add a second hosted model if credits and access allow.
+4. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
-4. Prototype a stricter two-stage verifier that emits a structured evidence
-   relation before any final `yes`/`no`/`insufficient_evidence` answer.

@@ -17,6 +17,7 @@ citations, and abstain when evidence is insufficient or outdated.
 | A4 | Full defense | Do combined controls reduce failures without excessive abstention? |
 | A5 | Strict abstention | Does an explicit sufficiency rule reduce false non-abstains? |
 | A6 | Relation verifier | Does classifying evidence relations improve the hard boundary cases? |
+| A7 | Structured relation gate | Does application enforcement of verified relations close boundary flips? |
 
 ## Metrics
 
@@ -213,6 +214,17 @@ make hosted-relation-boundary-repeats-refresh
 This repeat workflow adds `repeat_index` to each hosted row and resumes by
 task, condition, and repeat number. Its purpose is to measure whether remaining
 false non-abstains are stable task failures or stochastic boundary flips.
+
+Run five repeated A6/A7 structured-gate trials:
+
+```bash
+make hosted-relation-gate-repeats-refresh
+```
+
+This workflow tests whether an application-level relation gate can eliminate
+the remaining certification-language false non-abstain. A7 asks the model for
+an `evidence_relation` field and then enforces verified relation labels from
+selected trusted evidence before accepting the final answer.
 
 ## Human Audit Labels
 

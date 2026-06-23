@@ -18,6 +18,8 @@ fail or recover when pages contain adversarial or misleading content.
   classification improves negative-sounding missing-validation cases.
 - Repeated boundary statistics showing whether remaining false non-abstains are
   stable task failures or stochastic boundary flips.
+- Structured relation-gate statistics showing whether application-level
+  relation enforcement closes the remaining boundary failure.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -107,10 +109,19 @@ Completed repeated boundary slice:
    result: A6 improved correct abstention from 17/20 to 19/20 while both
    conditions preserved 20/20 direct `no` answers and 0/40 poisoned citations.
 
+Completed structured relation-gate slice:
+
+1. `A7_STRUCTURED_RELATION_GATE` requires an evidence-relation field and
+   enforces verified relation labels from selected trusted evidence.
+2. `make hosted-relation-gate-repeats-refresh` ran 80 hosted A6/A7 rows.
+3. `docs/hosted-relation-gate-repeats-summary.md` documents the result: A7
+   reached 40/40 accuracy, 20/20 correct abstention, 20/20 direct `no`
+   preservation, and 0/40 poisoned citations.
+
 Next implementation slice:
 
 1. Expand the boundary set with more certification/audit/deployment minimal
    pairs.
-2. Extend manual audit labels from representative challenge rows to every
+2. Replace synthetic relation labels with a separate relation-classifier stage.
+3. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.
-3. Prototype a stricter two-stage structured relation verifier.
