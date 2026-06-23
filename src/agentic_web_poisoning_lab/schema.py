@@ -79,6 +79,7 @@ class Condition:
     trust_filter: bool
     citation_validation: bool
     abstain_on_conflict: bool
+    strict_abstention: bool = False
 
 
 @dataclass(frozen=True)

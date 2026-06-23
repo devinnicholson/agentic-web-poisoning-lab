@@ -123,6 +123,22 @@ class DeterministicWebAgent:
                 refused=True,
             )
 
+        if condition.strict_abstention and _has_insufficient_clean_evidence(task, supporting_pages):
+            clean_pages = [
+                page
+                for page in supporting_pages
+                if page.trust_label == "trusted" and page.freshness == "current"
+            ]
+            return AgentAnswer(
+                answer=ANSWER_INSUFFICIENT,
+                conclusion=(
+                    "The trusted evidence identifies an evidence gap rather than directly "
+                    "establishing yes or no."
+                ),
+                citations=[page.id for page in clean_pages[:2]],
+                refused=True,
+            )
+
         return self._answer_from_pages(task, supporting_pages, condition)
 
     def _direct_answer(self, task: TaskCase) -> AgentAnswer:
@@ -183,6 +199,15 @@ def _source_rank(page: WebPage) -> tuple[int, int, str]:
 def _has_conflict(task: TaskCase, pages: Sequence[WebPage]) -> bool:
     answers = {page.supports_tasks[task.id] for page in pages if task.id in page.supports_tasks}
     return len(answers) > 1
+
+
+def _has_insufficient_clean_evidence(task: TaskCase, pages: Sequence[WebPage]) -> bool:
+    return any(
+        page.trust_label == "trusted"
+        and page.freshness == "current"
+        and page.supports_tasks.get(task.id) == ANSWER_INSUFFICIENT
+        for page in pages
+    )
 
 
 def _conclusion(task: TaskCase, answer: str, pages: Sequence[WebPage]) -> str:

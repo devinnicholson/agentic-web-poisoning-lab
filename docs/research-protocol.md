@@ -146,6 +146,19 @@ The hosted challenge run uses A1-A4 rather than A0. This concentrates spend on
 the agentic browsing conditions needed to test whether source ranking, Prompt
 Shields, and full defense still separate under a harder abstention-heavy slice.
 
+Run the strict-abstention follow-up:
+
+```bash
+make hosted-strict-challenge-refresh
+```
+
+This variant adds `A5_STRICT_ABSTENTION` while leaving the A1-A4 challenge
+snapshot intact. A5 keeps the full-defense controls and adds an explicit
+evidence-sufficiency rule: use `insufficient_evidence` for missing validation,
+non-independent support, or evidence gaps; use `no` only when trusted evidence
+directly refutes the proposition. The intended measurement is abstention
+calibration, not raw prompt-injection blocking.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

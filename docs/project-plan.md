@@ -12,6 +12,8 @@ fail or recover when pages contain adversarial or misleading content.
 - Hosted Azure validation with a real model once local behavior is stable.
 - Full hosted matrix statistics with confidence intervals and paired defense
   deltas.
+- Strict-abstention challenge statistics showing whether evidence-sufficiency
+  prompting improves false non-abstain rates.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -65,9 +67,19 @@ Completed hosted research slice:
 3. `docs/hosted-full-summary.md` promotes the aggregate findings while keeping
    raw hosted rows out of Git.
 
+Completed strict-abstention slice:
+
+1. `A5_STRICT_ABSTENTION` adds an explicit evidence-sufficiency rule on top of
+   full defense.
+2. `make hosted-strict-challenge-refresh` ran the 24-task challenge matrix
+   under A1-A5.
+3. `docs/hosted-strict-challenge-summary.md` promotes the aggregate finding:
+   A5 reduced false non-abstains from A4's 10/13 to 1/13 while keeping 0/20
+   attack success and 0/24 poisoned citations.
+
 Next implementation slice:
 
 1. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix and challenge-set failure row.
-2. Implement and test an A5 strict-evidence-sufficiency condition.
-3. Decide whether to run a second model or a repeated-trial sweep for variance.
+2. Decide whether to run a second model or a repeated-trial sweep for variance.
+3. Convert the static trace into a multi-tab research dashboard.

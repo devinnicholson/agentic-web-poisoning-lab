@@ -54,6 +54,17 @@ CONDITIONS: dict[str, Condition] = {
         citation_validation=True,
         abstain_on_conflict=True,
     ),
+    "A5_STRICT_ABSTENTION": Condition(
+        id="A5_STRICT_ABSTENTION",
+        name="Strict abstention",
+        browse=True,
+        source_ranking=True,
+        prompt_shields=True,
+        trust_filter=True,
+        citation_validation=True,
+        abstain_on_conflict=True,
+        strict_abstention=True,
+    ),
 }
 
 

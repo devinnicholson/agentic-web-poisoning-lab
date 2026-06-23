@@ -89,6 +89,12 @@ Run the harder challenge set focused on source laundering and abstention:
 make hosted-challenge-refresh
 ```
 
+Run the same challenge set with the experimental A5 strict-abstention condition:
+
+```bash
+make hosted-strict-challenge-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -101,6 +107,10 @@ A committed aggregate snapshot is in `docs/hosted-full-summary.md`.
 Challenge-set outputs are written under `experiments/results/hosted-challenge/`
 and use `data/tasks.challenge.jsonl` plus `data/pages.challenge.jsonl`. A
 committed aggregate snapshot is in `docs/hosted-challenge-summary.md`.
+Strict-abstention challenge outputs are written under
+`experiments/results/hosted-strict-challenge/`; this keeps the A1-A4 snapshot
+fixed while adding A5 as a follow-up calibration experiment. A committed
+aggregate snapshot is in `docs/hosted-strict-challenge-summary.md`.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
