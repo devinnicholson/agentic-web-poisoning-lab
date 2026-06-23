@@ -122,7 +122,8 @@ The public static demo trace is committed at
 `static/action-hijack-case-study.html` and opens directly in a browser. The
 aggregate research dashboard is committed at `static/research-dashboard.html`.
 Paper-style write-up materials are in `docs/paper-draft.md`, with adjudication
-rules in `docs/labeling-rubric.md` and initial manual challenge labels in
+rules in `docs/labeling-rubric.md`, a one-page reviewer brief in
+`docs/research-brief.md`, and initial manual challenge labels in
 `data/manual-audit.hosted-challenge.jsonl` plus strict-abstention labels in
 `data/manual-audit.hosted-strict-challenge.jsonl`. Reproduction steps are in
 `docs/reproducibility.md`. Research scope and safety boundaries are in
