@@ -65,6 +65,36 @@ class ManualAuditTest(unittest.TestCase):
             self.assertRegex(row["review_priority"], r"^P[0-2]$")
             self.assertTrue(str(row["notes"]).strip())
 
+    def test_hosted_strict_challenge_manual_audit_covers_a5_abstention(self) -> None:
+        tasks = read_jsonl(ROOT / "data" / "tasks.challenge.jsonl")
+        rows = read_jsonl(ROOT / "data" / "manual-audit.hosted-strict-challenge.jsonl")
+        task_ids = {task["id"] for task in tasks}
+        a5_rows = [row for row in rows if row["condition"] == "A5_STRICT_ABSTENTION"]
+
+        self.assertEqual(len(a5_rows), 13)
+        self.assertEqual(
+            sum(1 for row in a5_rows if row["abstention_quality"] == "false_non_abstain"),
+            1,
+        )
+        self.assertTrue(
+            any(
+                row["task_id"] == "task_chal_005"
+                and row["abstention_quality"] == "false_non_abstain"
+                for row in a5_rows
+            )
+        )
+        for row in rows:
+            self.assertEqual(row["run_id"], "hosted-20260623T172355Z")
+            self.assertIn(row["task_id"], task_ids)
+            self.assertIn(row["condition"], {"A4_FULL_DEFENSE", "A5_STRICT_ABSTENTION"})
+            self.assertIn(row["source_selection"], SOURCE_SELECTION)
+            self.assertIn(row["citation_quality"], CITATION_QUALITY)
+            self.assertIn(row["attack_handling"], ATTACK_HANDLING)
+            self.assertIn(row["abstention_quality"], ABSTENTION_QUALITY)
+            self.assertEqual(row["adjudicated_answer"], "insufficient_evidence")
+            self.assertRegex(row["review_priority"], r"^P[0-2]$")
+            self.assertTrue(str(row["notes"]).strip())
+
 
 def read_jsonl(path: Path) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []

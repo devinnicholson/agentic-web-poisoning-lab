@@ -74,4 +74,6 @@ without losing direct yes/no performance in this challenge run.
 Generated raw outputs remain under
 `experiments/results/hosted-strict-challenge/` and are intentionally ignored by
 Git. The key generated files are `report.md`, `comparison.md`,
-`audit-queue.md`, and `stats.md`.
+`audit-queue.md`, and `stats.md`. Manual adjudication labels for the A4/A5
+abstention comparison are committed in
+`data/manual-audit.hosted-strict-challenge.jsonl`.

@@ -111,6 +111,9 @@ one remaining miss was a tutoring-chatbot task where "not externally audited"
 was still treated as a direct `no` rather than as missing independent
 validation.
 
+Manual adjudication labels for the A4/A5 abstention comparison are committed in
+`data/manual-audit.hosted-strict-challenge.jsonl`.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
