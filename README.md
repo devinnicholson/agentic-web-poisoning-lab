@@ -124,7 +124,8 @@ aggregate research dashboard is committed at `static/research-dashboard.html`.
 Paper-style write-up materials are in `docs/paper-draft.md`, with adjudication
 rules in `docs/labeling-rubric.md` and initial manual challenge labels in
 `data/manual-audit.hosted-challenge.jsonl` plus strict-abstention labels in
-`data/manual-audit.hosted-strict-challenge.jsonl`.
+`data/manual-audit.hosted-strict-challenge.jsonl`. Reproduction steps are in
+`docs/reproducibility.md`.
 
 ## Current Local Result
 
