@@ -64,9 +64,10 @@ validation before synthesis improves the boundary probe, but the algae-panel
 miss shows that relation labels are still vulnerable to semantically negative
 phrasing.
 
-The next high-value experiment is a repeated-trial sweep on the boundary set to
-measure variance in A5 and A6, followed by a stricter two-stage verifier that
-requires a structured relation field before the final answer.
+A five-repeat boundary sweep has now been run and summarized in
+`docs/hosted-relation-boundary-repeats-summary.md`. The next high-value
+experiment is a stricter two-stage verifier that requires a structured
+relation field before the final answer.
 
 Generated raw outputs remain under
 `experiments/results/hosted-relation-boundary/` and are intentionally ignored

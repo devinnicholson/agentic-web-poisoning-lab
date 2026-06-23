@@ -204,6 +204,16 @@ validation. The intended measurement is whether the model can separate "not
 validated yet" from "validated and rejected" without reopening poisoned
 citation failures.
 
+Run five repeated A5/A6 boundary trials:
+
+```bash
+make hosted-relation-boundary-repeats-refresh
+```
+
+This repeat workflow adds `repeat_index` to each hosted row and resumes by
+task, condition, and repeat number. Its purpose is to measure whether remaining
+false non-abstains are stable task failures or stochastic boundary flips.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

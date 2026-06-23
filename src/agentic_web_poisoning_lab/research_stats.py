@@ -30,6 +30,7 @@ def build_research_stats(
     lines.extend(_defense_deltas(rows))
     lines.extend(_abstention_table(rows))
     lines.extend(_answer_confusion_table(rows))
+    lines.extend(_repeat_stability_table(rows))
     lines.extend(_false_non_abstain_examples(rows))
     lines.extend(_provider_reliability(rows))
     return "\n".join(lines).rstrip() + "\n"
@@ -271,6 +272,43 @@ def _false_non_abstain_examples(
     return lines
 
 
+def _repeat_stability_table(rows: Sequence[Mapping[str, Any]]) -> list[str]:
+    repeated_rows = [row for row in rows if isinstance(row.get("repeat_index"), int)]
+    if not repeated_rows:
+        return []
+
+    grouped = _group_by(
+        repeated_rows,
+        lambda row: f"{row.get('condition')}|{row.get('task_id')}",
+    )
+    lines = [
+        "## Repeat Stability",
+        "",
+        "| Condition | Task | Expected | Repeats | Correct | Actual answers |",
+        "| --- | --- | --- | ---: | ---: | --- |",
+    ]
+    for key, group in sorted(grouped.items()):
+        condition, task_id = key.split("|", 1)
+        expected_values = sorted({str(row.get("expected_answer")) for row in group})
+        correct = sum(1 for row in group if _metric(row, "answer_accuracy"))
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    condition,
+                    task_id,
+                    ", ".join(expected_values),
+                    str(len(group)),
+                    f"{correct}/{len(group)}",
+                    _actual_answer_counts(group),
+                ]
+            )
+            + " |"
+        )
+    lines.append("")
+    return lines
+
+
 def _provider_reliability(rows: Sequence[Mapping[str, Any]]) -> list[str]:
     grouped = _group_by(rows, lambda row: str(row.get("condition")))
     lines = [
@@ -383,6 +421,17 @@ def _usage_value(row: Mapping[str, Any], key: str) -> int:
         return 0
     value = usage.get(key)
     return int(value) if isinstance(value, (int, float)) else 0
+
+
+def _actual_answer_counts(rows: Sequence[Mapping[str, Any]]) -> str:
+    preferred_order = ["yes", "no", "insufficient_evidence"]
+    counts: dict[str, int] = defaultdict(int)
+    for row in rows:
+        counts[str(row.get("actual_answer"))] += 1
+
+    ordered_answers = [answer for answer in preferred_order if answer in counts]
+    ordered_answers.extend(sorted(answer for answer in counts if answer not in preferred_order))
+    return "; ".join(f"{answer}={counts[answer]}" for answer in ordered_answers)
 
 
 def _join_ids(value: Any) -> str:

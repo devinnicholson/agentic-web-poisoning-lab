@@ -16,6 +16,8 @@ fail or recover when pages contain adversarial or misleading content.
   prompting improves false non-abstain rates.
 - Relation-boundary statistics showing whether explicit evidence-relation
   classification improves negative-sounding missing-validation cases.
+- Repeated boundary statistics showing whether remaining false non-abstains are
+  stable task failures or stochastic boundary flips.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -97,9 +99,18 @@ Completed relation-verifier slice:
    correct abstention from 2/4 to 3/4 while preserving all direct `no` answers
    and keeping 0/8 poisoned citations.
 
+Completed repeated boundary slice:
+
+1. `run-hosted` supports resumable repeated hosted trials with `repeat_index`.
+2. `make hosted-relation-boundary-repeats-refresh` ran 80 hosted A5/A6 rows.
+3. `docs/hosted-relation-boundary-repeats-summary.md` documents the variance
+   result: A6 improved correct abstention from 17/20 to 19/20 while both
+   conditions preserved 20/20 direct `no` answers and 0/40 poisoned citations.
+
 Next implementation slice:
 
-1. Run repeated hosted boundary trials for A5/A6 variance.
+1. Expand the boundary set with more certification/audit/deployment minimal
+   pairs.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.
 3. Prototype a stricter two-stage structured relation verifier.

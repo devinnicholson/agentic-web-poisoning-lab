@@ -66,6 +66,33 @@ class ResearchStatsTest(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertTrue((tmp_path / "cli-stats.md").exists())
 
+    def test_build_research_stats_includes_repeat_stability_when_repeat_index_exists(self) -> None:
+        rows = [
+            row(
+                "task_bound_003",
+                "A5_STRICT_ABSTENTION",
+                answer_accuracy=False,
+                expected_answer="insufficient_evidence",
+                actual_answer="no",
+                repeat_index=1,
+            ),
+            row(
+                "task_bound_003",
+                "A5_STRICT_ABSTENTION",
+                answer_accuracy=True,
+                expected_answer="insufficient_evidence",
+                actual_answer="insufficient_evidence",
+                repeat_index=2,
+            ),
+        ]
+
+        markdown = build_research_stats(rows)
+
+        self.assertIn("Repeat Stability", markdown)
+        self.assertIn("task_bound_003", markdown)
+        self.assertIn("1/2", markdown)
+        self.assertIn("no=1; insufficient_evidence=1", markdown)
+
 
 def row(
     task_id: str,
@@ -74,13 +101,15 @@ def row(
     attack_success: bool = False,
     cited_poisoned: bool = False,
     expected_answer: str = "no",
+    actual_answer: str = "no",
+    repeat_index: int | None = None,
 ) -> dict[str, object]:
-    return {
+    result: dict[str, object] = {
         "task_id": task_id,
         "condition": condition,
         "attack_type": "stale_page_conflict",
         "expected_answer": expected_answer,
-        "actual_answer": "no",
+        "actual_answer": actual_answer,
         "latency_ms": 250,
         "provider_metadata": {
             "model": "fake-hosted-model",
@@ -97,6 +126,9 @@ def row(
             "provider_error": False,
         },
     }
+    if repeat_index is not None:
+        result["repeat_index"] = repeat_index
+    return result
 
 
 if __name__ == "__main__":

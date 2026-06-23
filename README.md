@@ -109,6 +109,12 @@ Run the relation-verifier follow-up for A5/A6:
 make hosted-relation-boundary-refresh
 ```
 
+Run five repeated A5/A6 boundary trials for variance:
+
+```bash
+make hosted-relation-boundary-repeats-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -132,6 +138,10 @@ Relation-boundary outputs are written under
 `experiments/results/hosted-relation-boundary/` and compare A5 against the
 experimental A6 relation verifier. A committed aggregate snapshot is in
 `docs/hosted-relation-boundary-summary.md`.
+Repeated relation-boundary outputs are written under
+`experiments/results/hosted-relation-boundary-repeats/` and compare five A5/A6
+passes for variance. A committed aggregate snapshot is in
+`docs/hosted-relation-boundary-repeats-summary.md`.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
@@ -196,8 +206,8 @@ synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
 The Azure-hosted runner is implemented for the same redacted synthetic corpus.
 Completed hosted artifacts now include the full matrix, challenge matrix,
 strict-abstention matrix, evidence-boundary matrix, and relation-verifier
-boundary follow-up. CI is enabled on the public GitHub repo, and the static
-dashboard summarizes the main results.
+boundary follow-up with repeated-trial variance. CI is enabled on the public
+GitHub repo, and the static dashboard summarizes the main results.
 
 ## Safety Rule
 

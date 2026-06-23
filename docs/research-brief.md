@@ -59,6 +59,13 @@ Relation-boundary follow-up, 16 rows:
 | A5_STRICT_ABSTENTION | 75.0% | 0.0% | 0.0% | 2/4 |
 | A6_RELATION_VERIFIER | 87.5% | 0.0% | 0.0% | 3/4 |
 
+Repeated relation-boundary sweep, 80 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A5_STRICT_ABSTENTION | 92.5% | 0.0% | 0.0% | 17/20 |
+| A6_RELATION_VERIFIER | 97.5% | 0.0% | 0.0% | 19/20 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -73,7 +80,9 @@ Relation-boundary follow-up, 16 rows:
    remains hard even after strict abstention.
 6. A relation-verifier ablation that improves the boundary probe while exposing
    the remaining certification-language failure.
-7. Manual adjudication labels and a static dashboard for inspection.
+7. A repeated-trial sweep showing the remaining errors are stochastic and
+   concentrated in negative-sounding missing-validation language.
+8. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 

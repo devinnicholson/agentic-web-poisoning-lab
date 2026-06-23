@@ -17,9 +17,11 @@ condition. A4 and A5 both reduced attack success and poisoned citations to
 while A5 correctly abstained on 12/13. A focused boundary probe then showed
 that some missing-validation wording still sounds like direct negation, and an
 A6 relation-verifier follow-up improved correct abstention on that boundary
-set from 2/4 to 3/4. These results suggest that source trust controls can
-mitigate poisoned citations and attack following, but need explicit
-evidence-relation calibration to improve evidence-gap abstention.
+set from 2/4 to 3/4. A five-repeat boundary sweep then found that A6 improved
+missing-validation abstention from 17/20 to 19/20 while preserving 20/20 direct
+`no` answers. These results suggest that source trust controls can mitigate
+poisoned citations and attack following, but need explicit evidence-relation
+calibration to improve evidence-gap abstention.
 
 ## Research Questions
 
@@ -146,6 +148,22 @@ A6 preserved all four direct `no` answers and maintained 0/8 attack success and
 gap, where the model still treated absent third-party certification as direct
 refutation.
 
+### Repeated Boundary Trials
+
+The repeated boundary sweep ran the same A5/A6 boundary comparison five times,
+for 80 hosted rows.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A5_STRICT_ABSTENTION | 40 | 92.5% | 0.0% | 0.0% | 17/20 |
+| A6_RELATION_VERIFIER | 40 | 97.5% | 0.0% | 0.0% | 19/20 |
+
+A5 and A6 both preserved all 20 direct-negative controls. The unstable rows
+were evidence gaps: A5 missed the evacuation-audit gap once and the
+algae-panel certification gap twice; A6 missed only the algae-panel
+certification gap once. This makes certification language the clearest next
+stress target.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -163,7 +181,8 @@ The current A4 condition solves the first layer better than the second. A5 is
 an initial application-level sufficiency rule that materially improves the
 second layer on the hosted challenge set. A6 is the first relation-verifier
 iteration: it improves the focused boundary probe, but does not fully eliminate
-negative-sounding missing-validation errors.
+negative-sounding missing-validation errors. Repeated trials show the remaining
+errors are intermittent and concentrated in certification wording.
 
 ## Threats To Validity
 
@@ -180,7 +199,8 @@ negative-sounding missing-validation errors.
 
 ## Next Experiments
 
-1. Run repeated trials on the boundary set to estimate A5/A6 output variance.
+1. Expand the boundary set with more certification, audit, and deployment-trial
+   minimal pairs.
 2. Add a second hosted model if credits and access allow.
 3. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
