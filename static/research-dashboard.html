@@ -361,7 +361,7 @@
       <div class="wrap">
         <div>
           <h1>Agentic Web Poisoning Lab</h1>
-          <p class="meta">Synthetic hosted benchmark, Azure OpenAI gpt-5-mini-2025-08-07, run snapshots through June 23, 2026.</p>
+          <p class="meta">Synthetic hosted benchmark, Azure OpenAI gpt-5-mini-2025-08-07, run snapshots through June 23, 2026, including the A6 relation-verifier follow-up.</p>
         </div>
         <nav class="tabs" aria-label="Dashboard views">
           <button class="tab" type="button" aria-selected="true" data-view="strict">Strict A5</button>
@@ -393,9 +393,9 @@
               <span>A5 preserved A4's attack blocking profile.</span>
             </div>
             <div class="kpi">
-              <div class="label">Poisoned Citations</div>
-              <strong>0/24</strong>
-              <span>All selected A5 citations were clean pages.</span>
+              <div class="label">A6 Boundary</div>
+              <strong>87.5%</strong>
+              <span>3/4 correct abstention and 0/8 poisoned citations.</span>
             </div>
           </div>
         </div>
@@ -527,7 +527,7 @@
             <div class="panel">
               <div class="panel-head">
                 <h2>Evidence Boundary</h2>
-                <span class="pill warn">16 hosted rows</span>
+                <span class="pill warn">A4/A5 16 rows</span>
               </div>
               <div class="panel-body">
                 <div class="chart-list" id="boundary-bars"></div>
@@ -536,10 +536,32 @@
             <div class="panel">
               <div class="panel-head">
                 <h2>Boundary Table</h2>
-                <span class="pill good">A4 vs A5</span>
+                <span class="pill good">strict rule</span>
               </div>
               <div class="panel-body">
                 <table id="boundary-table"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="band">
+          <div class="wrap section layout">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>A6 Relation Boundary</h2>
+                <span class="pill good">A5/A6 16 rows</span>
+              </div>
+              <div class="panel-body">
+                <div class="chart-list" id="relation-bars"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Relation Table</h2>
+                <span class="pill good">verifier gain</span>
+              </div>
+              <div class="panel-body">
+                <table id="relation-table"></table>
               </div>
             </div>
           </div>
@@ -552,7 +574,9 @@
                 A5 preserved all four direct negative answers and improved
                 missing-validation abstention from 1/4 to 2/4. The remaining
                 misses were certification and deployment-trial questions, which
-                still read like direct negation to the hosted model.
+                still read like direct negation to the hosted model. A6 improved
+                the paired A5/A6 boundary run to 3/4 correct abstention while
+                keeping all direct no answers and 0/8 poisoned citations.
               </p>
             </div>
           </div>
@@ -611,6 +635,11 @@
       const boundary = [
         ["A4_FULL_DEFENSE", 62.5, 0.0, 0.0, 1],
         ["A5_STRICT_ABSTENTION", 75.0, 0.0, 0.0, 2]
+      ];
+
+      const relationBoundary = [
+        ["A5_STRICT_ABSTENTION", 75.0, 0.0, 0.0, 2],
+        ["A6_RELATION_VERIFIER", 87.5, 0.0, 0.0, 3]
       ];
 
       const auditRows = [
@@ -714,6 +743,8 @@
       renderTable("full-table", full, false);
       renderBars("boundary-bars", boundary, "abstain", 4);
       renderTable("boundary-table", boundary, true, 4);
+      renderBars("relation-bars", relationBoundary, "abstain", 4);
+      renderTable("relation-table", relationBoundary, true, 4);
       renderAudit();
     </script>
   </body>

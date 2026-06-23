@@ -6,4 +6,5 @@ page summaries, and does not require credentials or a dev server.
 
 Open `research-dashboard.html` directly in a browser for the aggregate hosted
 matrix dashboard covering the full matrix, challenge matrix, A5 strict
-abstention result, evidence-boundary run, and manual audit highlights.
+abstention result, A6 relation-boundary follow-up, evidence-boundary run, and
+manual audit highlights.

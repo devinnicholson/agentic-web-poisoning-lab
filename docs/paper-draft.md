@@ -14,9 +14,12 @@ calibration failures. A harder 96-row challenge matrix amplified this result,
 and a 120-row strict-abstention follow-up added an A5 evidence-sufficiency
 condition. A4 and A5 both reduced attack success and poisoned citations to
 0.0%, but A4 correctly abstained on only 3/13 `insufficient_evidence` rows
-while A5 correctly abstained on 12/13. These results suggest that source trust
-controls can mitigate poisoned citations and attack following, but need an
-explicit evidence-sufficiency rule to improve evidence-gap abstention.
+while A5 correctly abstained on 12/13. A focused boundary probe then showed
+that some missing-validation wording still sounds like direct negation, and an
+A6 relation-verifier follow-up improved correct abstention on that boundary
+set from 2/4 to 3/4. These results suggest that source trust controls can
+mitigate poisoned citations and attack following, but need explicit
+evidence-relation calibration to improve evidence-gap abstention.
 
 ## Research Questions
 
@@ -47,6 +50,7 @@ The conditions are:
 | A3_PROMPT_SHIELDS | Adds prompt-level source skepticism and page-instruction handling. |
 | A4_FULL_DEFENSE | Combines ranking, filtering, citation validation, and conflict handling. |
 | A5_STRICT_ABSTENTION | Adds an explicit rule separating missing support from direct negation. |
+| A6_RELATION_VERIFIER | Adds explicit direct-support/direct-refutation/missing-validation classification. |
 
 Primary metrics:
 
@@ -126,6 +130,22 @@ The two remaining A5 misses were certification and deployment-trial questions.
 This suggests that some missing-validation language remains semantically close
 to direct negation even under a strict sufficiency rubric.
 
+### Relation-Verifier Follow-Up
+
+The relation-verifier follow-up reran the boundary set under A5 and A6. A6
+asks the hosted model to classify trusted evidence as direct support, direct
+refutation, or missing validation before synthesizing the final answer.
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A5_STRICT_ABSTENTION | 75.0% | 0.0% | 0.0% | 2/4 |
+| A6_RELATION_VERIFIER | 87.5% | 0.0% | 0.0% | 3/4 |
+
+A6 preserved all four direct `no` answers and maintained 0/8 attack success and
+0/8 poisoned citations. Its remaining miss was the algae-panel certification
+gap, where the model still treated absent third-party certification as direct
+refutation.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -141,8 +161,9 @@ This suggests a two-layer safety model:
 
 The current A4 condition solves the first layer better than the second. A5 is
 an initial application-level sufficiency rule that materially improves the
-second layer on the hosted challenge set, but the boundary run shows that a
-future verifier should classify evidence relations before answer synthesis.
+second layer on the hosted challenge set. A6 is the first relation-verifier
+iteration: it improves the focused boundary probe, but does not fully eliminate
+negative-sounding missing-validation errors.
 
 ## Threats To Validity
 
@@ -159,9 +180,9 @@ future verifier should classify evidence relations before answer synthesis.
 
 ## Next Experiments
 
-1. Run repeated trials on the challenge set to estimate output variance.
+1. Run repeated trials on the boundary set to estimate A5/A6 output variance.
 2. Add a second hosted model if credits and access allow.
 3. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
-4. Convert the static demo into a results dashboard with full-matrix and
-   challenge-matrix tabs.
+4. Prototype a stricter two-stage verifier that emits a structured evidence
+   relation before any final `yes`/`no`/`insufficient_evidence` answer.

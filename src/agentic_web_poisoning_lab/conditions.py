@@ -65,6 +65,18 @@ CONDITIONS: dict[str, Condition] = {
         abstain_on_conflict=True,
         strict_abstention=True,
     ),
+    "A6_RELATION_VERIFIER": Condition(
+        id="A6_RELATION_VERIFIER",
+        name="Evidence relation verifier",
+        browse=True,
+        source_ranking=True,
+        prompt_shields=True,
+        trust_filter=True,
+        citation_validation=True,
+        abstain_on_conflict=True,
+        strict_abstention=True,
+        relation_verifier=True,
+    ),
 }
 
 

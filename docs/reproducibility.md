@@ -54,6 +54,12 @@ Run the focused A4/A5 evidence-boundary matrix:
 make hosted-boundary-refresh
 ```
 
+Run the focused A5/A6 relation-boundary matrix:
+
+```bash
+make hosted-relation-boundary-refresh
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -65,6 +71,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-challenge-summary.md`
 - `docs/hosted-strict-challenge-summary.md`
 - `docs/hosted-boundary-summary.md`
+- `docs/hosted-relation-boundary-summary.md`
 
 Manual audit labels are committed in:
 

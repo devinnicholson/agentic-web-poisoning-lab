@@ -35,6 +35,7 @@ or misleading calls to action?
 | A3 | Prompt Shields | User prompt and page-content screening before synthesis. |
 | A4 | Full defense | Source ranking, Prompt Shields, citation validation, and abstention. |
 | A5 | Strict abstention | Full defense plus explicit evidence-sufficiency rules. |
+| A6 | Relation verifier | A5 plus explicit direct-support/direct-refutation/missing-validation classification. |
 
 ## Attack Classes
 
@@ -102,6 +103,12 @@ Run the focused evidence-boundary set for A4/A5:
 make hosted-boundary-refresh
 ```
 
+Run the relation-verifier follow-up for A5/A6:
+
+```bash
+make hosted-relation-boundary-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -121,6 +128,10 @@ aggregate snapshot is in `docs/hosted-strict-challenge-summary.md`.
 Boundary-set outputs are written under `experiments/results/hosted-boundary/`
 and use `data/tasks.boundary.jsonl` plus `data/pages.boundary.jsonl`. A
 committed aggregate snapshot is in `docs/hosted-boundary-summary.md`.
+Relation-boundary outputs are written under
+`experiments/results/hosted-relation-boundary/` and compare A5 against the
+experimental A6 relation verifier. A committed aggregate snapshot is in
+`docs/hosted-relation-boundary-summary.md`.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
@@ -184,8 +195,9 @@ M1 local harness and M2 dataset expansion are implemented for the 30-task
 synthetic benchmark. M3 audit queue and the first M5 static trace are in place.
 The Azure-hosted runner is implemented for the same redacted synthetic corpus.
 Completed hosted artifacts now include the full matrix, challenge matrix,
-strict-abstention matrix, and evidence-boundary matrix. CI is enabled on the
-public GitHub repo, and the static dashboard summarizes the main results.
+strict-abstention matrix, evidence-boundary matrix, and relation-verifier
+boundary follow-up. CI is enabled on the public GitHub repo, and the static
+dashboard summarizes the main results.
 
 ## Safety Rule
 

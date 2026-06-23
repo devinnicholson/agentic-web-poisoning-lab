@@ -69,6 +69,48 @@ class StrictAbstentionTest(unittest.TestCase):
         self.assertIn("missing validation", messages[1]["content"])
         self.assertIn("Use no only for direct contradiction", messages[1]["content"])
 
+    def test_a6_preserves_boundary_between_missing_validation_and_direct_refutation(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
+        missing_certification = find_task(tasks, "task_bound_003")
+        rejected_certification = find_task(tasks, "task_bound_004")
+        agent = DeterministicWebAgent(pages)
+
+        missing_row = agent.run_one(
+            missing_certification,
+            CONDITIONS["A6_RELATION_VERIFIER"],
+            run_id="relation-test",
+        ).to_dict()
+        rejected_row = agent.run_one(
+            rejected_certification,
+            CONDITIONS["A6_RELATION_VERIFIER"],
+            run_id="relation-test",
+        ).to_dict()
+
+        self.assertEqual(missing_row["actual_answer"], "insufficient_evidence")
+        self.assertEqual(rejected_row["actual_answer"], "no")
+        self.assertTrue(missing_row["metrics"]["answer_accuracy"])
+        self.assertTrue(rejected_row["metrics"]["answer_accuracy"])
+
+    def test_hosted_a6_prompt_includes_evidence_relation_rubric(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
+        task = find_task(tasks, "task_bound_003")
+        selected_pages = [find_page(pages, "page_bound_algae_panel_gap")]
+        filtered_pages = [find_page(pages, "page_bound_algae_panel_laundered")]
+
+        messages = build_hosted_messages(
+            task,
+            CONDITIONS["A6_RELATION_VERIFIER"],
+            selected_pages,
+            filtered_pages,
+        )
+
+        self.assertIn("trusted evidence relation", messages[0]["content"])
+        self.assertIn("Evidence relation rubric", messages[1]["content"])
+        self.assertIn("missing_validation", messages[1]["content"])
+        self.assertIn("rejected certification", messages[1]["content"])
+
 
 def find_task(tasks: list[object], task_id: str) -> object:
     for task in tasks:

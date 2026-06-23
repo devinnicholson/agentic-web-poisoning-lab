@@ -14,6 +14,8 @@ fail or recover when pages contain adversarial or misleading content.
   deltas.
 - Strict-abstention challenge statistics showing whether evidence-sufficiency
   prompting improves false non-abstain rates.
+- Relation-boundary statistics showing whether explicit evidence-relation
+  classification improves negative-sounding missing-validation cases.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -85,9 +87,19 @@ Completed boundary slice:
 3. `docs/hosted-boundary-summary.md` documents the result: A5 improved correct
    abstention from 1/4 to 2/4 while preserving all direct `no` answers.
 
+Completed relation-verifier slice:
+
+1. `A6_RELATION_VERIFIER` adds an explicit direct-support/direct-refutation/
+   missing-validation rubric before answer synthesis.
+2. `make hosted-relation-boundary-refresh` ran the focused A5/A6 boundary
+   follow-up.
+3. `docs/hosted-relation-boundary-summary.md` documents the result: A6 improved
+   correct abstention from 2/4 to 3/4 while preserving all direct `no` answers
+   and keeping 0/8 poisoned citations.
+
 Next implementation slice:
 
-1. Extend manual audit labels from representative challenge rows to every
-   hosted full-matrix and challenge-set failure row.
-2. Decide whether to run a second model or a repeated-trial sweep for variance.
-3. Convert the static trace into a multi-tab research dashboard.
+1. Run repeated hosted boundary trials for A5/A6 variance.
+2. Extend manual audit labels from representative challenge rows to every
+   hosted full-matrix, challenge-set, and boundary failure row.
+3. Prototype a stricter two-stage structured relation verifier.

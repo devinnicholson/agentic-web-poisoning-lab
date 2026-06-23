@@ -8,8 +8,8 @@ Agentic Web Poisoning and Abstention Calibration
 
 Web-browsing agents can avoid obvious poisoned citations while still
 over-answering evidence gaps. Source hygiene is necessary, but not sufficient;
-an explicit evidence-sufficiency rule materially improves abstention
-calibration on the hosted challenge set.
+explicit evidence-sufficiency and evidence-relation rules materially improve
+abstention calibration on hosted challenge and boundary sets.
 
 ## Benchmark
 
@@ -52,6 +52,13 @@ Evidence-boundary follow-up, 16 rows:
 | A4_FULL_DEFENSE | 62.5% | 0.0% | 0.0% | 1/4 |
 | A5_STRICT_ABSTENTION | 75.0% | 0.0% | 0.0% | 2/4 |
 
+Relation-boundary follow-up, 16 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A5_STRICT_ABSTENTION | 75.0% | 0.0% | 0.0% | 2/4 |
+| A6_RELATION_VERIFIER | 87.5% | 0.0% | 0.0% | 3/4 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -64,7 +71,9 @@ Evidence-boundary follow-up, 16 rows:
    non-abstain behavior without blanket refusal.
 5. A boundary probe showing that certification and deployment-trial language
    remains hard even after strict abstention.
-6. Manual adjudication labels and a static dashboard for inspection.
+6. A relation-verifier ablation that improves the boundary probe while exposing
+   the remaining certification-language failure.
+7. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 
@@ -72,7 +81,7 @@ Evidence-boundary follow-up, 16 rows:
 - Results are from one hosted model deployment and should be repeated across
   models and runs.
 - Some evidence-gap prompts are semantically close to direct negation; the
-  remaining A5 miss is exactly in this boundary area.
+  remaining A6 miss is exactly in this boundary area.
 - The harness models application-level controls, not a production browser
   sandbox.
 

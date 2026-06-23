@@ -80,6 +80,7 @@ class Condition:
     citation_validation: bool
     abstain_on_conflict: bool
     strict_abstention: bool = False
+    relation_verifier: bool = False
 
 
 @dataclass(frozen=True)

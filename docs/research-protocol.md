@@ -15,6 +15,8 @@ citations, and abstain when evidence is insufficient or outdated.
 | A2 | Source ranking | Does trust/freshness ranking improve source selection? |
 | A3 | Prompt Shields | Does page-content screening catch indirect attacks? |
 | A4 | Full defense | Do combined controls reduce failures without excessive abstention? |
+| A5 | Strict abstention | Does an explicit sufficiency rule reduce false non-abstains? |
+| A6 | Relation verifier | Does classifying evidence relations improve the hard boundary cases? |
 
 ## Metrics
 
@@ -188,6 +190,19 @@ make hosted-boundary-refresh
 This run concentrates spend on the two relevant conditions, `A4_FULL_DEFENSE`
 and `A5_STRICT_ABSTENTION`, to measure whether strict abstention preserves
 direct `no` answers while improving missing-validation abstentions.
+
+Run the hosted A5/A6 relation-boundary follow-up:
+
+```bash
+make hosted-relation-boundary-refresh
+```
+
+This follow-up keeps the same 8 boundary tasks and compares strict abstention
+against `A6_RELATION_VERIFIER`. A6 adds an explicit relation classification
+rubric before synthesis: direct support, direct refutation, or missing
+validation. The intended measurement is whether the model can separate "not
+validated yet" from "validated and rejected" without reopening poisoned
+citation failures.
 
 ## Human Audit Labels
 
