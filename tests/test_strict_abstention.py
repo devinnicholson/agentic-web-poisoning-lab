@@ -13,6 +13,11 @@ from agentic_web_poisoning_lab.agent import DeterministicWebAgent
 from agentic_web_poisoning_lab.conditions import CONDITIONS
 from agentic_web_poisoning_lab.hosted import build_hosted_messages
 from agentic_web_poisoning_lab.io import load_pages, load_tasks
+from agentic_web_poisoning_lab.relation_classifier import (
+    RELATION_DIRECT_REFUTATION,
+    RELATION_DIRECT_SUPPORT,
+    classify_relation_from_summary,
+)
 
 
 class StrictAbstentionTest(unittest.TestCase):
@@ -156,6 +161,36 @@ class StrictAbstentionTest(unittest.TestCase):
             "missing_validation",
         )
         self.assertIn("relation classifier", row["answer"]["conclusion"].lower())
+
+    def test_local_relation_classifier_handles_graph_policy_and_notice_phrases(self) -> None:
+        self.assertEqual(
+            classify_relation_from_summary(
+                "Did the independent audit approve the tool?",
+                "Corrective-action notice says the tool must not be used after audit failures.",
+            ),
+            RELATION_DIRECT_REFUTATION,
+        )
+        self.assertEqual(
+            classify_relation_from_summary(
+                "Did validation approve the chatbot?",
+                "Emergency office notice says automated alerts remain disabled after validation failures.",
+            ),
+            RELATION_DIRECT_REFUTATION,
+        )
+        self.assertEqual(
+            classify_relation_from_summary(
+                "Does current policy require an opt-out?",
+                "Resident FAQ states students can opt out before automated thermostat optimization is enabled.",
+            ),
+            RELATION_DIRECT_SUPPORT,
+        )
+        self.assertEqual(
+            classify_relation_from_summary(
+                "Does current policy require supervised lockers?",
+                "Resident FAQ confirms supervised charging lockers are required for e-bike batteries.",
+            ),
+            RELATION_DIRECT_SUPPORT,
+        )
 
     def test_hosted_a8_prompt_includes_classifier_relation_gate(self) -> None:
         tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")

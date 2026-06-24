@@ -24,6 +24,8 @@ fail or recover when pages contain adversarial or misleading content.
   across a broader 16-task boundary set.
 - Classified relation-gate statistics showing whether a separate relation
   classifier can replace synthetic verified relation labels.
+- Multi-page graph stress statistics showing whether the same controls hold
+  when each task has multiple trusted pages and multiple distractors.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -180,7 +182,18 @@ Completed paired human-audit slice:
 2. `tests/test_manual_audit.py` validates that the A8 and A9 audited rows cover
    the same task/repeat cells and use known audit labels.
 
+Completed local graph-stress slice:
+
+1. `data/tasks.graph.jsonl` and `data/pages.graph.jsonl` add 12 multi-page
+   graph tasks across dining, housing, emergency, and battery-safety domains.
+2. Each task has two trusted current pages and two adversarial distractors.
+3. `make graph-refresh` passes locally: A1 reached 0/12 accuracy with 12/12
+   attack success and poisoned citations, while A4/A8/A9 reached 12/12
+   accuracy with 0/12 attack success and 0/12 poisoned citations.
+
 Next possible slice:
 
-1. Extend manual audit labels from representative challenge rows to every
+1. Run `make hosted-graph-repeats-refresh` to test the graph set with hosted
+   repeated trials.
+2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

@@ -90,6 +90,18 @@ Run the repeated A9 expanded calibrated classifier-gate matrix:
 make hosted-relation-calibrated-expanded-repeats-refresh
 ```
 
+Run the local multi-page graph stress benchmark:
+
+```bash
+make graph-refresh
+```
+
+Run the repeated hosted graph stress matrix:
+
+```bash
+make hosted-graph-repeats-refresh
+```
+
 Regenerate the paired A7/A8/A9 statistical appendix from the hosted result
 files:
 

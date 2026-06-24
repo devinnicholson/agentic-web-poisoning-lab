@@ -149,6 +149,18 @@ Run five repeated hosted A9 calibrated classifier-gate trials:
 make hosted-relation-calibrated-expanded-repeats-refresh
 ```
 
+Run the local multi-page graph stress benchmark:
+
+```bash
+make graph-refresh
+```
+
+Run three repeated hosted graph stress trials:
+
+```bash
+make hosted-graph-repeats-refresh
+```
+
 Generate the paired A7/A8/A9 statistical appendix from hosted result files:
 
 ```bash
@@ -200,6 +212,10 @@ Calibrated classifier-gate outputs are written under
 `experiments/results/hosted-relation-calibrated-expanded-repeats/` and test the
 A9 evidence-gap override against the A8 classifier failure mode. A committed
 aggregate snapshot is in `docs/hosted-relation-calibrated-expanded-summary.md`.
+Graph-stress outputs are written under `experiments/results/graph-local/` and
+`experiments/results/hosted-graph-repeats/`. They use
+`data/tasks.graph.jsonl` and `data/pages.graph.jsonl` to test multi-page
+evidence chains with low-trust, stale, and confidence-pressure distractors.
 The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
 A8, and A9 rows by task and repeat index, including exact McNemar tests for the
 A8 degradation and A9 repair.

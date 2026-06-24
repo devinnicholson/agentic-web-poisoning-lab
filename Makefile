@@ -18,6 +18,8 @@ BOUNDARY_TASKS ?= data/tasks.boundary.jsonl
 BOUNDARY_PAGES ?= data/pages.boundary.jsonl
 BOUNDARY_EXPANDED_TASKS ?= data/tasks.boundary-expanded.jsonl
 BOUNDARY_EXPANDED_PAGES ?= data/pages.boundary-expanded.jsonl
+GRAPH_TASKS ?= data/tasks.graph.jsonl
+GRAPH_PAGES ?= data/pages.graph.jsonl
 BOUNDARY_CONDITIONS ?= A4_FULL_DEFENSE,A5_STRICT_ABSTENTION
 BOUNDARY_HOSTED_TASK_IDS ?= all
 RELATION_BOUNDARY_CONDITIONS ?= A5_STRICT_ABSTENTION,A6_RELATION_VERIFIER
@@ -27,8 +29,12 @@ RELATION_GATE_CONDITIONS ?= A6_RELATION_VERIFIER,A7_STRUCTURED_RELATION_GATE
 RELATION_CLASSIFIER_CONDITIONS ?= A7_STRUCTURED_RELATION_GATE,A8_CLASSIFIED_RELATION_GATE
 RELATION_CALIBRATED_CONDITIONS ?= A9_CALIBRATED_RELATION_GATE
 RELATION_GATE_REPEATS ?= 5
+GRAPH_CONDITIONS ?= A1_AGENT_BASELINE,A4_FULL_DEFENSE,A8_CLASSIFIED_RELATION_GATE,A9_CALIBRATED_RELATION_GATE
+GRAPH_HOSTED_TASK_IDS ?= all
+GRAPH_REPEATS ?= 3
+GRAPH_HOSTED_DELAY_SECONDS ?= 2
 
-.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-boundary-local report-boundary-local audit-boundary-local boundary-refresh run-relation-boundary-local report-relation-boundary-local audit-relation-boundary-local relation-boundary-refresh run-relation-gate-local report-relation-gate-local audit-relation-gate-local relation-gate-refresh run-relation-gate-expanded-local report-relation-gate-expanded-local audit-relation-gate-expanded-local relation-gate-expanded-refresh run-relation-classifier-expanded-local report-relation-classifier-expanded-local audit-relation-classifier-expanded-local relation-classifier-expanded-refresh run-relation-calibrated-expanded-local report-relation-calibrated-expanded-local audit-relation-calibrated-expanded-local relation-calibrated-expanded-refresh paired-analysis-a7-a9 run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary hosted-boundary-refresh run-hosted-relation-boundary report-hosted-relation-boundary audit-hosted-relation-boundary compare-hosted-relation-boundary stats-hosted-relation-boundary hosted-relation-boundary-refresh run-hosted-relation-boundary-repeats report-hosted-relation-boundary-repeats audit-hosted-relation-boundary-repeats stats-hosted-relation-boundary-repeats hosted-relation-boundary-repeats-refresh run-hosted-relation-gate-repeats report-hosted-relation-gate-repeats audit-hosted-relation-gate-repeats stats-hosted-relation-gate-repeats hosted-relation-gate-repeats-refresh run-hosted-relation-gate-expanded-repeats report-hosted-relation-gate-expanded-repeats audit-hosted-relation-gate-expanded-repeats stats-hosted-relation-gate-expanded-repeats hosted-relation-gate-expanded-repeats-refresh run-hosted-relation-classifier-expanded-repeats report-hosted-relation-classifier-expanded-repeats audit-hosted-relation-classifier-expanded-repeats stats-hosted-relation-classifier-expanded-repeats hosted-relation-classifier-expanded-repeats-refresh run-hosted-relation-calibrated-expanded-repeats report-hosted-relation-calibrated-expanded-repeats audit-hosted-relation-calibrated-expanded-repeats stats-hosted-relation-calibrated-expanded-repeats hosted-relation-calibrated-expanded-repeats-refresh
+.PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-boundary-local report-boundary-local audit-boundary-local boundary-refresh run-relation-boundary-local report-relation-boundary-local audit-relation-boundary-local relation-boundary-refresh run-relation-gate-local report-relation-gate-local audit-relation-gate-local relation-gate-refresh run-relation-gate-expanded-local report-relation-gate-expanded-local audit-relation-gate-expanded-local relation-gate-expanded-refresh run-relation-classifier-expanded-local report-relation-classifier-expanded-local audit-relation-classifier-expanded-local relation-classifier-expanded-refresh run-relation-calibrated-expanded-local report-relation-calibrated-expanded-local audit-relation-calibrated-expanded-local relation-calibrated-expanded-refresh run-graph-local report-graph-local audit-graph-local stats-graph-local graph-refresh paired-analysis-a7-a9 run-hosted-graph-repeats report-hosted-graph-repeats audit-hosted-graph-repeats stats-hosted-graph-repeats hosted-graph-repeats-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary hosted-boundary-refresh run-hosted-relation-boundary report-hosted-relation-boundary audit-hosted-relation-boundary compare-hosted-relation-boundary stats-hosted-relation-boundary hosted-relation-boundary-refresh run-hosted-relation-boundary-repeats report-hosted-relation-boundary-repeats audit-hosted-relation-boundary-repeats stats-hosted-relation-boundary-repeats hosted-relation-boundary-repeats-refresh run-hosted-relation-gate-repeats report-hosted-relation-gate-repeats audit-hosted-relation-gate-repeats stats-hosted-relation-gate-repeats hosted-relation-gate-repeats-refresh run-hosted-relation-gate-expanded-repeats report-hosted-relation-gate-expanded-repeats audit-hosted-relation-gate-expanded-repeats stats-hosted-relation-gate-expanded-repeats hosted-relation-gate-expanded-repeats-refresh run-hosted-relation-classifier-expanded-repeats report-hosted-relation-classifier-expanded-repeats audit-hosted-relation-classifier-expanded-repeats stats-hosted-relation-classifier-expanded-repeats hosted-relation-classifier-expanded-repeats-refresh run-hosted-relation-calibrated-expanded-repeats report-hosted-relation-calibrated-expanded-repeats audit-hosted-relation-calibrated-expanded-repeats stats-hosted-relation-calibrated-expanded-repeats hosted-relation-calibrated-expanded-repeats-refresh
 
 help:
 	@printf '%s\n' \
@@ -46,6 +52,8 @@ help:
 		'  make relation-gate-expanded-refresh Run local expanded A6/A7 relation-gate benchmark.' \
 		'  make relation-classifier-expanded-refresh Run local expanded A7/A8 classifier-gate benchmark.' \
 		'  make relation-calibrated-expanded-refresh Run local expanded A9 calibrated classifier benchmark.' \
+		'  make graph-refresh Run local multi-page graph stress benchmark.' \
+		'  make hosted-graph-repeats-refresh Run hosted repeated graph stress trials.' \
 		'  make hosted-smoke-refresh Run Azure hosted smoke, report, and audit queue.' \
 		'  make hosted-focused-refresh Run focused Azure sweep, reports, and audit queue.' \
 		'  make hosted-full-refresh Run full Azure matrix with comparison and stats.' \
@@ -240,10 +248,65 @@ audit-relation-calibrated-expanded-local:
 
 relation-calibrated-expanded-refresh: run-relation-calibrated-expanded-local report-relation-calibrated-expanded-local audit-relation-calibrated-expanded-local
 
+run-graph-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run \
+		--tasks $(GRAPH_TASKS) \
+		--pages $(GRAPH_PAGES) \
+		--conditions $(GRAPH_CONDITIONS) \
+		--out-dir experiments/results/graph-local
+
+report-graph-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/graph-local/results.jsonl \
+		--out experiments/results/graph-local/report.md
+
+audit-graph-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/graph-local/results.jsonl \
+		--pages $(GRAPH_PAGES) \
+		--out experiments/results/graph-local/audit-queue.md
+
+stats-graph-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/graph-local/results.jsonl \
+		--out experiments/results/graph-local/stats.md
+
+graph-refresh: run-graph-local report-graph-local audit-graph-local stats-graph-local
+
 paired-analysis-a7-a9:
 	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli paired-analysis \
 		--results experiments/results/hosted-relation-classifier-expanded-repeats/results.jsonl experiments/results/hosted-relation-calibrated-expanded-repeats/results.jsonl \
 		--out docs/paired-a7-a9-analysis.md
+
+run-hosted-graph-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
+		--tasks $(GRAPH_TASKS) \
+		--pages $(GRAPH_PAGES) \
+		--conditions $(GRAPH_CONDITIONS) \
+		--task-ids $(GRAPH_HOSTED_TASK_IDS) \
+		--out-dir experiments/results/hosted-graph-repeats \
+		--delay-seconds $(GRAPH_HOSTED_DELAY_SECONDS) \
+		--run-mode hosted_graph_repeats \
+		--repeats $(GRAPH_REPEATS) \
+		$(HOSTED_RESUME)
+
+report-hosted-graph-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/hosted-graph-repeats/results.jsonl \
+		--out experiments/results/hosted-graph-repeats/report.md
+
+audit-hosted-graph-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/hosted-graph-repeats/results.jsonl \
+		--pages $(GRAPH_PAGES) \
+		--out experiments/results/hosted-graph-repeats/audit-queue.md
+
+stats-hosted-graph-repeats:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/hosted-graph-repeats/results.jsonl \
+		--out experiments/results/hosted-graph-repeats/stats.md
+
+hosted-graph-repeats-refresh: graph-refresh run-hosted-graph-repeats report-hosted-graph-repeats audit-hosted-graph-repeats stats-hosted-graph-repeats
 
 run-hosted-smoke:
 	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \

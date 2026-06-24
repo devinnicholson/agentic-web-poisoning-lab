@@ -281,6 +281,23 @@ make paired-analysis-a7-a9
 The appendix aligns rows by task and repeat index, reports exact McNemar tests,
 and is committed at `docs/paired-a7-a9-analysis.md`.
 
+Run the multi-page graph stress benchmark locally:
+
+```bash
+make graph-refresh
+```
+
+Run three repeated hosted graph stress trials:
+
+```bash
+make hosted-graph-repeats-refresh
+```
+
+This workflow uses `data/tasks.graph.jsonl` and `data/pages.graph.jsonl` to
+move beyond minimal pairs. Each task includes two trusted current pages and two
+adversarial distractors, covering source laundering, stale-page conflict, and
+confidence pressure across yes, no, and insufficient-evidence answers.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

@@ -18,6 +18,8 @@ abstention calibration on hosted challenge and boundary sets.
   injection.
 - 24-task challenge benchmark focused on source laundering and abstention
   calibration.
+- 12-task multi-page graph stress benchmark with two trusted current evidence
+  pages and two adversarial distractors per task.
 - Redacted synthetic pages with structured source type, trust label, freshness,
   poisoned/not-poisoned status, attack class, and task-relevant claim.
 - Hosted validation uses Azure OpenAI `gpt-5-mini-2025-08-07`.
@@ -93,6 +95,15 @@ Expanded calibrated relation-gate sweep, 80 rows:
 | --- | ---: | ---: | ---: | ---: |
 | A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
 
+Local graph stress benchmark, 48 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned |
+| --- | ---: | ---: | ---: |
+| A1_AGENT_BASELINE | 0.0% | 100.0% | 100.0% |
+| A4_FULL_DEFENSE | 100.0% | 0.0% | 0.0% |
+| A8_CLASSIFIED_RELATION_GATE | 100.0% | 0.0% | 0.0% |
+| A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% |
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points
@@ -134,7 +145,9 @@ Paired A7/A8/A9 appendix:
    index and quantifies the classifier degradation and calibrated repair.
 13. Manual adjudication labels for representative challenge rows, strict A5
    abstention rows, and the paired A8/A9 boundary repairs.
-14. A static dashboard for inspection.
+14. A multi-page graph stress benchmark that tests the same defenses against
+   larger evidence contexts and distractor sets.
+15. A static dashboard for inspection.
 
 ## Limitations
 
