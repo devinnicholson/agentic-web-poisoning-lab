@@ -11,6 +11,9 @@ before accepting the final answer.
 The run used Azure OpenAI `gpt-5-mini-2025-08-07` against the same 8 boundary
 tasks.
 
+An expanded 16-task follow-up is summarized in
+`docs/hosted-relation-gate-expanded-summary.md`.
+
 ## Scope
 
 | Field | Value |

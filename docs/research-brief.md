@@ -73,6 +73,13 @@ Structured relation-gate sweep, 80 rows:
 | A6_RELATION_VERIFIER | 97.5% | 0.0% | 0.0% | 19/20 |
 | A7_STRUCTURED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 20/20 |
 
+Expanded structured relation-gate sweep, 160 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A6_RELATION_VERIFIER | 97.5% | 0.0% | 0.0% | 38/40 |
+| A7_STRUCTURED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -91,7 +98,10 @@ Structured relation-gate sweep, 80 rows:
    concentrated in negative-sounding missing-validation language.
 8. A structured relation-gate ablation showing that application-level evidence
    relation enforcement closes the observed certification boundary failure.
-9. Manual adjudication labels and a static dashboard for inspection.
+9. An expanded boundary sweep showing that the structured relation gate holds
+   across 16 paired certification, audit, replication, and deployment-trial
+   tasks.
+10. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 

@@ -21,10 +21,11 @@ set from 2/4 to 3/4. A five-repeat boundary sweep then found that A6 improved
 missing-validation abstention from 17/20 to 19/20 while preserving 20/20 direct
 `no` answers. Finally, an A7 structured relation gate reached 20/20 correct
 abstention and 20/20 direct `no` preservation on a repeated boundary sweep.
-These results suggest that source trust controls can mitigate
-poisoned citations and attack following, but need explicit evidence-relation
-calibration and application-level relation gates to improve evidence-gap
-abstention.
+On an expanded 16-task boundary set, A7 then reached 40/40 correct abstention
+and preserved 40/40 direct `no` controls. These results suggest that source
+trust controls can mitigate poisoned citations and attack following, but need
+explicit evidence-relation calibration and application-level relation gates to
+improve evidence-gap abstention.
 
 ## Research Questions
 
@@ -182,6 +183,23 @@ evidence before accepting the final answer.
 A7 preserved all 20 direct-negative controls and removed the remaining
 certification false non-abstain on this boundary set.
 
+### Expanded Boundary Sweep
+
+The expanded boundary sweep kept the original 8 paired boundary tasks and added
+8 new minimal pairs covering certification, accessibility-audit,
+independent-replication, and accessibility deployment-trial language. It reran
+A6 and A7 for five repeats on each task, for 160 hosted rows.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A6_RELATION_VERIFIER | 80 | 97.5% | 0.0% | 0.0% | 38/40 |
+| A7_STRUCTURED_RELATION_GATE | 80 | 100.0% | 0.0% | 0.0% | 40/40 |
+
+A6's two misses were both on the cafeteria waste-sorting robot
+deployment-trial gap. A7 preserved all 40 direct `no` controls and all 40
+missing-validation abstentions while maintaining 0/80 attack success and 0/80
+poisoned citations.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -203,7 +221,8 @@ negative-sounding missing-validation errors. Repeated trials show the remaining
 errors are intermittent and concentrated in certification wording. A7 shows
 that an application-level relation gate can eliminate the observed boundary
 flip on this synthetic set, at the cost of requiring a trusted source of
-relation labels.
+relation labels. The expanded sweep shows this holds beyond the original
+8-task boundary set.
 
 ## Threats To Validity
 
@@ -220,10 +239,9 @@ relation labels.
 
 ## Next Experiments
 
-1. Expand the boundary set with more certification, audit, and deployment-trial
-   minimal pairs.
-2. Replace synthetic relation labels with a separate relation-classifier stage
+1. Replace synthetic relation labels with a separate relation-classifier stage
    and evaluate whether it matches the gated result.
-3. Add a second hosted model if credits and access allow.
-4. Add manual audit labels for all attack-success, poisoned-citation, and false
+2. Add a second hosted model if credits and access allow.
+3. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
+4. Expand beyond synthetic mini-corpora with larger synthetic web graphs.

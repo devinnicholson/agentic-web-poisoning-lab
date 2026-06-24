@@ -20,6 +20,8 @@ fail or recover when pages contain adversarial or misleading content.
   stable task failures or stochastic boundary flips.
 - Structured relation-gate statistics showing whether application-level
   relation enforcement closes the remaining boundary failure.
+- Expanded structured relation-gate statistics showing whether the gate holds
+  across a broader 16-task boundary set.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -118,10 +120,18 @@ Completed structured relation-gate slice:
    reached 40/40 accuracy, 20/20 correct abstention, 20/20 direct `no`
    preservation, and 0/40 poisoned citations.
 
+Completed expanded boundary slice:
+
+1. `data/tasks.boundary-expanded.jsonl` and
+   `data/pages.boundary-expanded.jsonl` add 8 more paired boundary tasks.
+2. `make hosted-relation-gate-expanded-repeats-refresh` ran 160 hosted A6/A7
+   rows.
+3. `docs/hosted-relation-gate-expanded-summary.md` documents the result: A7
+   reached 80/80 accuracy, 40/40 correct abstention, 40/40 direct `no`
+   preservation, and 0/80 poisoned citations.
+
 Next implementation slice:
 
-1. Expand the boundary set with more certification/audit/deployment minimal
-   pairs.
-2. Replace synthetic relation labels with a separate relation-classifier stage.
-3. Extend manual audit labels from representative challenge rows to every
+1. Replace synthetic relation labels with a separate relation-classifier stage.
+2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

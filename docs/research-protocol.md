@@ -226,6 +226,18 @@ the remaining certification-language false non-abstain. A7 asks the model for
 an `evidence_relation` field and then enforces verified relation labels from
 selected trusted evidence before accepting the final answer.
 
+Run five repeated A6/A7 trials on the expanded 16-task boundary set:
+
+```bash
+make hosted-relation-gate-expanded-repeats-refresh
+```
+
+This workflow uses `data/tasks.boundary-expanded.jsonl` and
+`data/pages.boundary-expanded.jsonl` to test whether the structured gate
+generalizes beyond the original certification and deployment-trial examples.
+The committed aggregate snapshot is
+`docs/hosted-relation-gate-expanded-summary.md`.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

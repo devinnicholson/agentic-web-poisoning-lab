@@ -72,6 +72,12 @@ Run the repeated A6/A7 structured relation-gate matrix:
 make hosted-relation-gate-repeats-refresh
 ```
 
+Run the repeated A6/A7 expanded boundary matrix:
+
+```bash
+make hosted-relation-gate-expanded-repeats-refresh
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -86,6 +92,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-boundary-summary.md`
 - `docs/hosted-relation-boundary-repeats-summary.md`
 - `docs/hosted-relation-gate-repeats-summary.md`
+- `docs/hosted-relation-gate-expanded-summary.md`
 
 Manual audit labels are committed in:
 
