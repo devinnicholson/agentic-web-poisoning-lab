@@ -88,3 +88,5 @@
 ## Interpretation
 
 A8 and A9 are paired by task and repeat index, so the A9 result is not just an aggregate-rate comparison. On missing-validation rows, A9 fixed 14 rows that A8 answered incorrectly and introduced 0 new misses. This isolates the measured gain to relation-label calibration rather than source filtering or task mix.
+
+The paired human audit labels for these A8 misses and A9 repairs are committed in `data/manual-audit.hosted-a8-a9-boundary.jsonl`.

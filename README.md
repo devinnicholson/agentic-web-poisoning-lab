@@ -217,8 +217,9 @@ Paper-style write-up materials are in `docs/paper-draft.md`, with adjudication
 rules in `docs/labeling-rubric.md`, a one-page reviewer brief in
 `docs/research-brief.md`, and initial manual challenge labels in
 `data/manual-audit.hosted-challenge.jsonl` plus strict-abstention labels in
-`data/manual-audit.hosted-strict-challenge.jsonl`. Reproduction steps are in
-`docs/reproducibility.md`. Research scope and safety boundaries are in
+`data/manual-audit.hosted-strict-challenge.jsonl` plus paired A8/A9 boundary
+labels in `data/manual-audit.hosted-a8-a9-boundary.jsonl`. Reproduction steps
+are in `docs/reproducibility.md`. Research scope and safety boundaries are in
 `SECURITY.md`.
 
 ## Current Local Result

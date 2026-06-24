@@ -75,6 +75,8 @@ Every expanded boundary task was stable across five repeats:
   often high-confidence.
 - The paired A7/A8/A9 statistical appendix is committed at
   `docs/paired-a7-a9-analysis.md`.
+- Paired human audit labels for the A8 misses and A9 repairs are committed at
+  `data/manual-audit.hosted-a8-a9-boundary.jsonl`.
 
 ## Interpretation
 

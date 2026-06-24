@@ -387,6 +387,11 @@ def _interpretation(indexed: Mapping[str, Mapping[tuple[str, str], Mapping[str, 
             "filtering or task mix."
         ),
         "",
+        (
+            "The paired human audit labels for these A8 misses and A9 repairs "
+            "are committed in `data/manual-audit.hosted-a8-a9-boundary.jsonl`."
+        ),
+        "",
     ]
 
 

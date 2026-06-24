@@ -132,7 +132,9 @@ Paired A7/A8/A9 appendix:
    synthetic set.
 12. A paired statistical appendix that aligns A7/A8/A9 rows by task and repeat
    index and quantifies the classifier degradation and calibrated repair.
-13. Manual adjudication labels and a static dashboard for inspection.
+13. Manual adjudication labels for representative challenge rows, strict A5
+   abstention rows, and the paired A8/A9 boundary repairs.
+14. A static dashboard for inspection.
 
 ## Limitations
 

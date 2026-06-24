@@ -120,6 +120,7 @@ Manual audit labels are committed in:
 
 - `data/manual-audit.hosted-challenge.jsonl`
 - `data/manual-audit.hosted-strict-challenge.jsonl`
+- `data/manual-audit.hosted-a8-a9-boundary.jsonl`
 
 The dashboard in `static/research-dashboard.html` uses only committed aggregate
 values. It does not load raw hosted rows or external assets.

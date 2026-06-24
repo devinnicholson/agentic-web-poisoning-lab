@@ -173,6 +173,13 @@ Completed paired statistical appendix slice:
 3. The appendix quantifies the A8/A9 missing-validation repair as 14 fixed A8
    misses, 0 new A9 misses, and exact McNemar p = 0.0001.
 
+Completed paired human-audit slice:
+
+1. `data/manual-audit.hosted-a8-a9-boundary.jsonl` adjudicates the 14 A8 false
+   non-abstains and the 14 paired A9 repairs.
+2. `tests/test_manual_audit.py` validates that the A8 and A9 audited rows cover
+   the same task/repeat cells and use known audit labels.
+
 Next possible slice:
 
 1. Extend manual audit labels from representative challenge rows to every

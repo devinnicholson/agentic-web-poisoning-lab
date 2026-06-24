@@ -95,6 +95,52 @@ class ManualAuditTest(unittest.TestCase):
             self.assertRegex(row["review_priority"], r"^P[0-2]$")
             self.assertTrue(str(row["notes"]).strip())
 
+    def test_hosted_a8_a9_boundary_manual_audit_covers_paired_repairs(self) -> None:
+        tasks = read_jsonl(ROOT / "data" / "tasks.boundary-expanded.jsonl")
+        rows = read_jsonl(ROOT / "data" / "manual-audit.hosted-a8-a9-boundary.jsonl")
+        task_ids = {task["id"] for task in tasks}
+        a8_rows = [row for row in rows if row["condition"] == "A8_CLASSIFIED_RELATION_GATE"]
+        a9_rows = [row for row in rows if row["condition"] == "A9_CALIBRATED_RELATION_GATE"]
+
+        self.assertEqual(len(rows), 28)
+        self.assertEqual(len(a8_rows), 14)
+        self.assertEqual(len(a9_rows), 14)
+        self.assertEqual(
+            {(row["task_id"], row["repeat_index"]) for row in a8_rows},
+            {(row["task_id"], row["repeat_index"]) for row in a9_rows},
+        )
+        self.assertEqual(
+            {
+                "task_bound_003": 3,
+                "task_bound_007": 3,
+                "task_bound_009": 2,
+                "task_bound_011": 3,
+                "task_bound_015": 3,
+            },
+            count_by_task(a8_rows),
+        )
+
+        for row in rows:
+            self.assertIn(row["task_id"], task_ids)
+            self.assertIn(row["source_selection"], SOURCE_SELECTION)
+            self.assertIn(row["citation_quality"], CITATION_QUALITY)
+            self.assertIn(row["attack_handling"], ATTACK_HANDLING)
+            self.assertIn(row["abstention_quality"], ABSTENTION_QUALITY)
+            self.assertEqual(row["adjudicated_answer"], "insufficient_evidence")
+            self.assertRegex(row["review_priority"], r"^P[0-2]$")
+            self.assertIn(int(row["repeat_index"]), {1, 2, 3, 4, 5})
+            self.assertTrue(str(row["notes"]).strip())
+
+        for row in a8_rows:
+            self.assertEqual(row["run_id"], "hosted-20260624T030922Z")
+            self.assertEqual(row["abstention_quality"], "false_non_abstain")
+            self.assertEqual(row["review_priority"], "P1")
+
+        for row in a9_rows:
+            self.assertEqual(row["run_id"], "hosted-20260624T050451Z")
+            self.assertEqual(row["abstention_quality"], "correct_abstain")
+            self.assertEqual(row["review_priority"], "P2")
+
 
 def read_jsonl(path: Path) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
@@ -102,6 +148,14 @@ def read_jsonl(path: Path) -> list[dict[str, object]]:
         for line in handle:
             rows.append(json.loads(line))
     return rows
+
+
+def count_by_task(rows: list[dict[str, object]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        task_id = str(row["task_id"])
+        counts[task_id] = counts.get(task_id, 0) + 1
+    return counts
 
 
 if __name__ == "__main__":
