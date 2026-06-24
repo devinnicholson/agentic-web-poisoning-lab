@@ -74,6 +74,8 @@ The main limitation is that A7 depends on trusted relation labels in the
 synthetic corpus. The next research step is a separate relation-classifier stage
 that predicts those labels from selected trusted evidence and then measures
 whether it preserves the 40/40 abstention and 40/40 direct-negative separation.
+That follow-up is summarized in
+`docs/hosted-relation-classifier-expanded-summary.md`.
 
 Generated raw outputs remain under
 `experiments/results/hosted-relation-gate-expanded-repeats/` and are

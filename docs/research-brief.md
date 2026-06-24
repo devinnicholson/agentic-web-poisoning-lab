@@ -80,6 +80,13 @@ Expanded structured relation-gate sweep, 160 rows:
 | A6_RELATION_VERIFIER | 97.5% | 0.0% | 0.0% | 38/40 |
 | A7_STRUCTURED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
 
+Expanded classified relation-gate sweep, 160 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A7_STRUCTURED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
+| A8_CLASSIFIED_RELATION_GATE | 82.5% | 0.0% | 0.0% | 26/40 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -101,7 +108,10 @@ Expanded structured relation-gate sweep, 160 rows:
 9. An expanded boundary sweep showing that the structured relation gate holds
    across 16 paired certification, audit, replication, and deployment-trial
    tasks.
-10. Manual adjudication labels and a static dashboard for inspection.
+10. A classifier-gate follow-up showing that replacing verified labels with
+   model-predicted labels preserves direct `no` controls but reintroduces
+   missing-validation false non-abstains.
+11. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 
@@ -111,9 +121,9 @@ Expanded structured relation-gate sweep, 160 rows:
 - Some evidence-gap prompts are semantically close to direct negation; the
   remaining A6 miss is exactly in this boundary area. A7 fixes it on this
   synthetic set by relying on verified relation labels, which must be replaced
-  by a reliable classifier or metadata source in a production system. A8
-  implements that classifier-gate path locally; hosted validation is the next
-  measurement.
+  by a reliable classifier or metadata source in a production system. A8 shows
+  that a hosted classifier is not yet reliable enough on missing certification,
+  audit, and deployment-trial wording.
 - The harness models application-level controls, not a production browser
   sandbox.
 

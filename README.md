@@ -181,6 +181,8 @@ Classifier-gate outputs are written under
 `experiments/results/hosted-relation-classifier-expanded-repeats/` and compare
 five A7/A8 passes on the expanded boundary set. This target tests whether a
 separate relation-classifier stage can replace A7's synthetic verified labels.
+A committed aggregate snapshot is in
+`docs/hosted-relation-classifier-expanded-summary.md`.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
@@ -248,8 +250,9 @@ strict-abstention matrix, evidence-boundary matrix, and relation-verifier
 boundary follow-up with repeated-trial variance. The A7 structured relation
 gate has also been validated on repeated boundary trials and an expanded
 16-task boundary sweep. The A8 classified relation gate is implemented with
-local smoke results and a hosted repeat target. CI is enabled on the public
-GitHub repo, and the static dashboard summarizes the main hosted results.
+local smoke results and a hosted repeat snapshot showing the classifier-label
+gap against A7. CI is enabled on the public GitHub repo, and the static
+dashboard summarizes the main hosted results.
 
 ## Safety Rule
 

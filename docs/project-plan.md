@@ -141,9 +141,18 @@ Completed relation-classifier implementation slice:
 3. `make relation-classifier-expanded-refresh` passes locally on the expanded
    A7/A8 boundary comparison.
 
+Completed hosted relation-classifier slice:
+
+1. `make hosted-relation-classifier-expanded-repeats-refresh` ran 160 hosted
+   A7/A8 rows.
+2. `docs/hosted-relation-classifier-expanded-summary.md` documents the result:
+   A8 preserved 40/40 direct `no` controls and 0/80 poisoned citations, but
+   dropped to 26/40 correct abstention on missing-validation rows.
+
 Next implementation slice:
 
-1. Run `make hosted-relation-classifier-expanded-repeats-refresh` and compare
-   A8 against the A7 verified-label ceiling.
+1. Add classifier calibration experiments: confidence-aware abstention,
+   stricter relation prompts, or a second classifier pass that defaults to
+   `missing_validation` on absent independent validation.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

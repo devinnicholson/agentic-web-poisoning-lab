@@ -255,7 +255,8 @@ This workflow adds a separate relation-classifier call over selected trusted
 evidence summaries. The final synthesis prompt receives classifier-derived
 relation labels rather than the synthetic `supports_tasks` gold labels. Its
 purpose is to test whether the A7 application gate survives when verified
-labels are replaced by model-predicted relation labels.
+labels are replaced by model-predicted relation labels. The committed aggregate
+snapshot is `docs/hosted-relation-classifier-expanded-summary.md`.
 
 ## Human Audit Labels
 

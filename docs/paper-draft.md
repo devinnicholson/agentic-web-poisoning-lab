@@ -22,10 +22,13 @@ missing-validation abstention from 17/20 to 19/20 while preserving 20/20 direct
 `no` answers. Finally, an A7 structured relation gate reached 20/20 correct
 abstention and 20/20 direct `no` preservation on a repeated boundary sweep.
 On an expanded 16-task boundary set, A7 then reached 40/40 correct abstention
-and preserved 40/40 direct `no` controls. These results suggest that source
-trust controls can mitigate poisoned citations and attack following, but need
-explicit evidence-relation calibration and application-level relation gates to
-improve evidence-gap abstention.
+and preserved 40/40 direct `no` controls. Replacing A7's verified labels with
+an A8 relation-classifier stage preserved 40/40 direct `no` controls and 0/80
+poisoned citations, but reduced missing-validation abstention to 26/40. These
+results suggest that source trust controls can mitigate poisoned citations and
+attack following, but need explicit evidence-relation calibration,
+application-level relation gates, and reliable relation classifiers to improve
+evidence-gap abstention.
 
 ## Research Questions
 
@@ -58,6 +61,7 @@ The conditions are:
 | A5_STRICT_ABSTENTION | Adds an explicit rule separating missing support from direct negation. |
 | A6_RELATION_VERIFIER | Adds explicit direct-support/direct-refutation/missing-validation classification. |
 | A7_STRUCTURED_RELATION_GATE | Enforces verified evidence-relation labels before final answer acceptance. |
+| A8_CLASSIFIED_RELATION_GATE | Replaces verified labels with a separate relation-classifier stage before gating. |
 
 Primary metrics:
 
@@ -200,6 +204,24 @@ deployment-trial gap. A7 preserved all 40 direct `no` controls and all 40
 missing-validation abstentions while maintaining 0/80 attack success and 0/80
 poisoned citations.
 
+### Classified Relation-Gate Follow-Up
+
+The A8 follow-up reran the expanded boundary set under A7 and A8. A8 uses a
+separate hosted relation-classifier call over selected trusted evidence
+summaries, supplies the classifier-predicted relation labels to the final
+synthesis prompt, and gates final answers on those predicted labels.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A7_STRUCTURED_RELATION_GATE | 80 | 100.0% | 0.0% | 0.0% | 40/40 |
+| A8_CLASSIFIED_RELATION_GATE | 80 | 82.5% | 0.0% | 0.0% | 26/40 |
+
+A8 preserved all 40 direct-negative controls and kept 0/80 poisoned citations,
+but produced 14/40 false non-abstains on missing-validation rows. Its errors
+matched classifier-label errors: missing validation was sometimes classified as
+`direct_refutation`, and for the waste-robot and bike-route recommender gaps it
+was sometimes classified as `direct_support`.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -222,7 +244,9 @@ errors are intermittent and concentrated in certification wording. A7 shows
 that an application-level relation gate can eliminate the observed boundary
 flip on this synthetic set, at the cost of requiring a trusted source of
 relation labels. The expanded sweep shows this holds beyond the original
-8-task boundary set.
+8-task boundary set. A8 shows that replacing verified labels with a hosted
+classifier is the next bottleneck: the classifier preserved direct refutations
+but inherited the negative-sounding missing-validation confusion.
 
 ## Threats To Validity
 
@@ -239,9 +263,9 @@ relation labels. The expanded sweep shows this holds beyond the original
 
 ## Next Experiments
 
-1. Run the A8 classified relation gate on the expanded boundary set and
-   evaluate whether model-predicted relation labels match the A7 verified-label
-   ceiling.
+1. Calibrate the relation classifier with confidence-aware abstention, stricter
+   relation prompts, or a second classifier pass that defaults to
+   `missing_validation` for absent independent validation.
 2. Add a second hosted model if credits and access allow.
 3. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
