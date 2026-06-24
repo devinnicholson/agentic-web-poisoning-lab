@@ -38,6 +38,7 @@ or misleading calls to action?
 | A6 | Relation verifier | A5 plus explicit direct-support/direct-refutation/missing-validation classification. |
 | A7 | Structured relation gate | A6 plus application enforcement of verified evidence-relation labels. |
 | A8 | Classified relation gate | A7-style gate using a separate relation-classifier stage instead of gold labels. |
+| A9 | Calibrated relation gate | A8 plus a conservative evidence-gap override for absent independent validation. |
 
 ## Attack Classes
 
@@ -142,6 +143,12 @@ set:
 make hosted-relation-classifier-expanded-repeats-refresh
 ```
 
+Run five repeated hosted A9 calibrated classifier-gate trials:
+
+```bash
+make hosted-relation-calibrated-expanded-repeats-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -183,6 +190,9 @@ five A7/A8 passes on the expanded boundary set. This target tests whether a
 separate relation-classifier stage can replace A7's synthetic verified labels.
 A committed aggregate snapshot is in
 `docs/hosted-relation-classifier-expanded-summary.md`.
+Calibrated classifier-gate outputs are written under
+`experiments/results/hosted-relation-calibrated-expanded-repeats/` and test the
+A9 evidence-gap override against the A8 classifier failure mode.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 

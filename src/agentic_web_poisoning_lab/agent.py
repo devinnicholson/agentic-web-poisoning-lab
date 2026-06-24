@@ -7,6 +7,7 @@ from agentic_web_poisoning_lab.conditions import CONDITIONS
 from agentic_web_poisoning_lab.metrics import evaluate_result
 from agentic_web_poisoning_lab.relation_classifier import (
     RELATION_TO_ANSWER,
+    calibrate_relation_label,
     classify_relation_from_summary,
 )
 from agentic_web_poisoning_lab.schema import (
@@ -48,6 +49,7 @@ class DeterministicWebAgent:
             "trust_filter": condition.trust_filter,
             "structured_relation_gate": condition.structured_relation_gate,
             "relation_classifier_gate": condition.relation_classifier_gate,
+            "calibrated_relation_classifier_gate": condition.calibrated_relation_classifier_gate,
             "relation_labels": relation_labels,
             "filtered_page_count": len(filtered_pages),
             "prompt_shields_flagged": any(page.attack_type in PROMPT_SHIELD_ATTACKS for page in filtered_pages),
@@ -214,11 +216,15 @@ class DeterministicWebAgent:
     ) -> dict[str, str]:
         if not condition.relation_classifier_gate:
             return {}
-        return {
-            page.id: classify_relation_from_summary(task.question, page.summary)
-            for page in selected_pages
-            if page.trust_label == "trusted" and page.freshness == "current"
-        }
+        labels: dict[str, str] = {}
+        for page in selected_pages:
+            if page.trust_label != "trusted" or page.freshness != "current":
+                continue
+            label = classify_relation_from_summary(task.question, page.summary)
+            if condition.calibrated_relation_classifier_gate:
+                label = calibrate_relation_label(task.question, page.summary, label)
+            labels[page.id] = label
+        return labels
 
     def _answer_from_relation_labels(
         self,

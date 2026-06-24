@@ -19,6 +19,7 @@ citations, and abstain when evidence is insufficient or outdated.
 | A6 | Relation verifier | Does classifying evidence relations improve the hard boundary cases? |
 | A7 | Structured relation gate | Does application enforcement of verified relations close boundary flips? |
 | A8 | Classified relation gate | Can a separate relation-classifier stage replace A7's gold relation labels? |
+| A9 | Calibrated relation gate | Can a conservative evidence-gap override repair A8 classifier errors? |
 
 ## Metrics
 
@@ -257,6 +258,17 @@ relation labels rather than the synthetic `supports_tasks` gold labels. Its
 purpose is to test whether the A7 application gate survives when verified
 labels are replaced by model-predicted relation labels. The committed aggregate
 snapshot is `docs/hosted-relation-classifier-expanded-summary.md`.
+
+Run five repeated hosted A9 calibrated classifier-gate trials:
+
+```bash
+make hosted-relation-calibrated-expanded-repeats-refresh
+```
+
+This workflow keeps A8's separate relation-classifier stage but applies a
+conservative application override: if trusted evidence only reports absent
+independent certification, audit, deployment trial, replication, or validation,
+the relation label is calibrated to `missing_validation`.
 
 ## Human Audit Labels
 

@@ -83,6 +83,7 @@ class Condition:
     relation_verifier: bool = False
     structured_relation_gate: bool = False
     relation_classifier_gate: bool = False
+    calibrated_relation_classifier_gate: bool = False
 
 
 @dataclass(frozen=True)

@@ -115,3 +115,10 @@ def classify_relation_from_summary(question: str, summary: str) -> str:
         return RELATION_DIRECT_SUPPORT
 
     return RELATION_MISSING_VALIDATION
+
+
+def calibrate_relation_label(question: str, summary: str, predicted_relation: str) -> str:
+    conservative_relation = classify_relation_from_summary(question, summary)
+    if conservative_relation == RELATION_MISSING_VALIDATION:
+        return RELATION_MISSING_VALIDATION
+    return normalize_relation_label(predicted_relation)

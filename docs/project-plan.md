@@ -151,8 +151,14 @@ Completed hosted relation-classifier slice:
 
 Next implementation slice:
 
-1. Add classifier calibration experiments: confidence-aware abstention,
-   stricter relation prompts, or a second classifier pass that defaults to
-   `missing_validation` on absent independent validation.
+1. `A9_CALIBRATED_RELATION_GATE` adds a conservative evidence-gap override on
+   top of A8's relation-classifier stage.
+2. `make relation-calibrated-expanded-refresh` passes locally on the expanded
+   boundary set.
+
+Next hosted slice:
+
+1. Run `make hosted-relation-calibrated-expanded-repeats-refresh` and compare
+   A9 against A8's 26/40 correct abstention result.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

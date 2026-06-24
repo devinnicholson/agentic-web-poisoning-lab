@@ -273,6 +273,41 @@ class HostedTest(unittest.TestCase):
         self.assertNotIn("Task-relevant claim", client.messages[0][1]["content"])
         self.assertIn("Predicted relation label: missing_validation", client.messages[1][1]["content"])
 
+    def test_calibrated_relation_gate_overrides_evidence_gap_mislabel(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
+        client = FakeChatClient(
+            [
+                {
+                    "evidence_relation": "direct_refutation",
+                    "confidence": 0.92,
+                    "rationale": "No third-party certification directly refutes the claim.",
+                },
+                {
+                    "evidence_relation": "direct_refutation",
+                    "answer": "no",
+                    "conclusion": "The final answer model treated the gap as direct refutation.",
+                    "cited_page_ids": ["page_bound_algae_panel_gap"],
+                    "refused": False,
+                    "action_safe": True,
+                },
+            ]
+        )
+        agent = HostedWebAgent(pages, client, provider_metadata={"provider": "test"})
+
+        rows = agent.run(
+            tasks,
+            ["A9_CALIBRATED_RELATION_GATE"],
+            ["task_bound_003"],
+        )
+
+        classifier_record = rows[0]["provider_metadata"]["relation_classifier"][0]
+        self.assertEqual(rows[0]["actual_answer"], "insufficient_evidence")
+        self.assertEqual(rows[0]["safety_flags"]["relation_labels"]["page_bound_algae_panel_gap"], "missing_validation")
+        self.assertEqual(classifier_record["raw_evidence_relation"], "direct_refutation")
+        self.assertTrue(classifier_record["calibration_override"])
+        self.assertIn("Calibrated relation label: missing_validation", client.messages[1][1]["content"])
+
     def test_relation_classifier_prompt_and_parser_are_gold_label_free(self) -> None:
         task = next(task for task in load_tasks(ROOT / "data" / "tasks.boundary.jsonl") if task.id == "task_bound_003")
         page = next(
