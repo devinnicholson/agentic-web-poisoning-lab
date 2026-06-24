@@ -297,6 +297,7 @@ This workflow uses `data/tasks.graph.jsonl` and `data/pages.graph.jsonl` to
 move beyond minimal pairs. Each task includes two trusted current pages and two
 adversarial distractors, covering source laundering, stale-page conflict, and
 confidence pressure across yes, no, and insufficient-evidence answers.
+The committed aggregate snapshot is `docs/hosted-graph-summary.md`.
 
 ## Human Audit Labels
 

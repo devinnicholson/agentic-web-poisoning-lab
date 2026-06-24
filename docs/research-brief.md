@@ -104,6 +104,15 @@ Local graph stress benchmark, 48 rows:
 | A8_CLASSIFIED_RELATION_GATE | 100.0% | 0.0% | 0.0% |
 | A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% |
 
+Hosted graph stress benchmark, 144 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A1_AGENT_BASELINE | 75.0% | 19.4% | 38.9% | 3/12 |
+| A4_FULL_DEFENSE | 72.2% | 0.0% | 0.0% | 2/12 |
+| A8_CLASSIFIED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 12/12 |
+| A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 12/12 |
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points
@@ -147,7 +156,10 @@ Paired A7/A8/A9 appendix:
    abstention rows, and the paired A8/A9 boundary repairs.
 14. A multi-page graph stress benchmark that tests the same defenses against
    larger evidence contexts and distractor sets.
-15. A static dashboard for inspection.
+15. A hosted graph stress run showing that relation-gated defenses preserve
+   36/36 accuracy and 12/12 evidence-gap abstention where full defense still
+   over-answers.
+16. A static dashboard for inspection.
 
 ## Limitations
 

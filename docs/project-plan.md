@@ -191,9 +191,19 @@ Completed local graph-stress slice:
    attack success and poisoned citations, while A4/A8/A9 reached 12/12
    accuracy with 0/12 attack success and 0/12 poisoned citations.
 
+Completed hosted graph-stress slice:
+
+1. `make hosted-graph-repeats-refresh` ran 144 hosted rows across A1, A4, A8,
+   and A9 with three repeats per graph task.
+2. `docs/hosted-graph-summary.md` documents the result: A8 and A9 reached
+   36/36 accuracy, 12/12 correct abstention, 12/12 direct `no` preservation,
+   12/12 direct `yes` preservation, and 0/36 poisoned citations.
+3. A4 filtered poisoned pages in 36/36 rows and had 0/36 poisoned citations,
+   but only reached 2/12 correct abstention on graph evidence gaps.
+
 Next possible slice:
 
-1. Run `make hosted-graph-repeats-refresh` to test the graph set with hosted
-   repeated trials.
+1. Add a second graph family with longer dependency chains and more realistic
+   search-result ordering.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

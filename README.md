@@ -215,7 +215,8 @@ aggregate snapshot is in `docs/hosted-relation-calibrated-expanded-summary.md`.
 Graph-stress outputs are written under `experiments/results/graph-local/` and
 `experiments/results/hosted-graph-repeats/`. They use
 `data/tasks.graph.jsonl` and `data/pages.graph.jsonl` to test multi-page
-evidence chains with low-trust, stale, and confidence-pressure distractors.
+evidence chains with low-trust, stale, and confidence-pressure distractors. A
+committed aggregate snapshot is in `docs/hosted-graph-summary.md`.
 The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
 A8, and A9 rows by task and repeat index, including exact McNemar tests for the
 A8 degradation and A9 repair.
@@ -290,8 +291,11 @@ gate has also been validated on repeated boundary trials and an expanded
 local smoke results and a hosted repeat snapshot showing the classifier-label
 gap against A7. The A9 calibrated relation gate then recovered the A7 ceiling
 on the expanded boundary set, with a paired appendix quantifying the 14 fixed
-A8 misses and 0 new A9 misses. CI is enabled on the public GitHub repo, and
-the static dashboard summarizes the main hosted results.
+A8 misses and 0 new A9 misses. The hosted graph stress run now extends the
+result to 12 multi-page evidence graphs: A8/A9 reached 36/36 accuracy and
+12/12 correct abstention while A4 blocked poisoned citations but only abstained
+on 2/12 evidence gaps. CI is enabled on the public GitHub repo, and the static
+dashboard summarizes the main hosted results.
 
 ## Safety Rule
 

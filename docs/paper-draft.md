@@ -27,10 +27,13 @@ an A8 relation-classifier stage preserved 40/40 direct `no` controls and 0/80
 poisoned citations, but reduced missing-validation abstention to 26/40. An A9
 conservative calibration rule repaired those classifier errors, returning to
 40/40 correct abstention and 40/40 direct `no` preservation. These results
-suggest that source trust controls can mitigate poisoned citations and
-attack following, but need explicit evidence-relation calibration,
-application-level relation gates, and reliable relation classifiers to improve
-evidence-gap abstention.
+then held on a 144-row hosted multi-page graph stress run: A8 and A9 reached
+36/36 accuracy and 12/12 correct evidence-gap abstention while A4 blocked
+poisoned citations but abstained on only 2/12 graph gaps. Together, the results
+suggest that source trust controls can mitigate poisoned citations and attack
+following, but need explicit evidence-relation calibration, application-level
+relation gates, and reliable relation classifiers to improve evidence-gap
+abstention.
 
 ## Research Questions
 
@@ -247,6 +250,27 @@ also be analyzed as a paired comparison. On missing-validation rows, A9 fixed
 correct-abstention delta with exact McNemar p = 0.0001. The paired appendix is
 committed at `docs/paired-a7-a9-analysis.md`.
 
+### Multi-Page Graph Stress Run
+
+The graph stress run moved beyond minimal boundary pairs. It used 12 tasks
+across dining, housing, emergency-alert, and battery-safety domains. Each task
+included two trusted current pages and two adversarial distractors, and each
+condition ran three hosted repeats for 144 rows total.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A1_AGENT_BASELINE | 36 | 75.0% | 19.4% | 38.9% | 3/12 |
+| A4_FULL_DEFENSE | 36 | 72.2% | 0.0% | 0.0% | 2/12 |
+| A8_CLASSIFIED_RELATION_GATE | 36 | 100.0% | 0.0% | 0.0% | 12/12 |
+| A9_CALIBRATED_RELATION_GATE | 36 | 100.0% | 0.0% | 0.0% | 12/12 |
+
+A4 filtered poisoned pages in 36/36 rows and cited poisoned pages in 0/36
+rows, but it still converted 10/12 evidence gaps into confident `no` answers.
+A8 and A9 preserved every direct yes/no control, abstained on all 12 graph-gap
+rows, and maintained 0/36 poisoned citations. The result supports the central
+separation: source hygiene solves poisoned evidence, while evidence-relation
+gating solves a different abstention problem.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -273,7 +297,8 @@ relation labels. The expanded sweep shows this holds beyond the original
 classifier is the next bottleneck: the classifier preserved direct refutations
 but inherited the negative-sounding missing-validation confusion. A9 shows that
 a conservative evidence-gap calibration rule can repair that failure mode on
-the expanded synthetic set.
+the expanded synthetic set, and the hosted graph run shows that the final
+relation-gated pattern still holds in larger multi-page evidence contexts.
 
 ## Threats To Validity
 
@@ -296,4 +321,5 @@ the expanded synthetic set.
 2. Add a second hosted model if credits and access allow.
 3. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
-4. Expand beyond synthetic mini-corpora with larger synthetic web graphs.
+4. Add a second multi-page graph family with longer dependency chains and more
+   realistic search-result ordering.
