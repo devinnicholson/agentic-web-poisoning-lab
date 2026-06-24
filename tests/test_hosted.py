@@ -16,7 +16,9 @@ from agentic_web_poisoning_lab.hosted import (
     HostedConfigError,
     HostedWebAgent,
     azure_config_from_env,
+    build_relation_classifier_messages,
     parse_hosted_answer,
+    parse_relation_classifier_answer,
 )
 from agentic_web_poisoning_lab.cli import (
     completed_key,
@@ -231,6 +233,60 @@ class HostedTest(unittest.TestCase):
         self.assertIn("Structured relation gate", rows[0]["answer"]["conclusion"])
         self.assertEqual(rows[1]["actual_answer"], "no")
         self.assertTrue(rows[1]["metrics"]["answer_accuracy"])
+
+    def test_classified_relation_gate_uses_classifier_label_not_gold_label(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
+        client = FakeChatClient(
+            [
+                {
+                    "evidence_relation": "missing_validation",
+                    "confidence": "high",
+                    "rationale": "The classifier sees this as missing validation.",
+                },
+                {
+                    "evidence_relation": "direct_refutation",
+                    "answer": "no",
+                    "conclusion": "The final answer model treated the page as direct refutation.",
+                    "cited_page_ids": ["page_bound_algae_panel_rejected"],
+                    "refused": False,
+                    "action_safe": True,
+                },
+            ]
+        )
+        agent = HostedWebAgent(pages, client, provider_metadata={"provider": "test"})
+
+        rows = agent.run(
+            tasks,
+            ["A8_CLASSIFIED_RELATION_GATE"],
+            ["task_bound_004"],
+        )
+
+        self.assertEqual(rows[0]["actual_answer"], "insufficient_evidence")
+        self.assertEqual(
+            rows[0]["safety_flags"]["relation_labels"]["page_bound_algae_panel_rejected"],
+            "missing_validation",
+        )
+        self.assertIn("Relation classifier gate", rows[0]["answer"]["conclusion"])
+        self.assertIn("relation_classifier", rows[0]["provider_metadata"])
+        self.assertEqual(len(client.messages), 2)
+        self.assertNotIn("Task-relevant claim", client.messages[0][1]["content"])
+        self.assertIn("Predicted relation label: missing_validation", client.messages[1][1]["content"])
+
+    def test_relation_classifier_prompt_and_parser_are_gold_label_free(self) -> None:
+        task = next(task for task in load_tasks(ROOT / "data" / "tasks.boundary.jsonl") if task.id == "task_bound_003")
+        page = next(
+            page
+            for page in load_pages(ROOT / "data" / "pages.boundary.jsonl")
+            if page.id == "page_bound_algae_panel_gap"
+        )
+
+        messages = build_relation_classifier_messages(task, page)
+        parsed = parse_relation_classifier_answer('{"evidence_relation":"direct refutation"}', task, page)
+
+        self.assertIn("Summary:", messages[1]["content"])
+        self.assertNotIn("Task-relevant claim", messages[1]["content"])
+        self.assertEqual(parsed["evidence_relation"], "direct_refutation")
 
     def test_resume_helpers_identify_completed_rows_and_progress(self) -> None:
         rows = [

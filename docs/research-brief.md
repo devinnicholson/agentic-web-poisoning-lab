@@ -111,7 +111,9 @@ Expanded structured relation-gate sweep, 160 rows:
 - Some evidence-gap prompts are semantically close to direct negation; the
   remaining A6 miss is exactly in this boundary area. A7 fixes it on this
   synthetic set by relying on verified relation labels, which must be replaced
-  by a reliable classifier or metadata source in a production system.
+  by a reliable classifier or metadata source in a production system. A8
+  implements that classifier-gate path locally; hosted validation is the next
+  measurement.
 - The harness models application-level controls, not a production browser
   sandbox.
 

@@ -78,6 +78,12 @@ Run the repeated A6/A7 expanded boundary matrix:
 make hosted-relation-gate-expanded-repeats-refresh
 ```
 
+Run the repeated A7/A8 expanded classifier-gate matrix:
+
+```bash
+make hosted-relation-classifier-expanded-repeats-refresh
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 

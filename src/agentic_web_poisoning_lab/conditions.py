@@ -90,6 +90,19 @@ CONDITIONS: dict[str, Condition] = {
         relation_verifier=True,
         structured_relation_gate=True,
     ),
+    "A8_CLASSIFIED_RELATION_GATE": Condition(
+        id="A8_CLASSIFIED_RELATION_GATE",
+        name="Classified relation gate",
+        browse=True,
+        source_ranking=True,
+        prompt_shields=True,
+        trust_filter=True,
+        citation_validation=True,
+        abstain_on_conflict=True,
+        strict_abstention=True,
+        relation_verifier=True,
+        relation_classifier_gate=True,
+    ),
 }
 
 

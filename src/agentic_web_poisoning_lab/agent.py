@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from typing import Sequence
+from typing import Mapping, Sequence
 
 from agentic_web_poisoning_lab.conditions import CONDITIONS
 from agentic_web_poisoning_lab.metrics import evaluate_result
+from agentic_web_poisoning_lab.relation_classifier import (
+    RELATION_TO_ANSWER,
+    classify_relation_from_summary,
+)
 from agentic_web_poisoning_lab.schema import (
     ANSWER_INSUFFICIENT,
     AgentAnswer,
@@ -35,16 +39,28 @@ class DeterministicWebAgent:
         visited_pages = self._visited_pages(task, condition)
         filtered_pages = self._filtered_pages(visited_pages, condition)
         selected_pages = [page for page in visited_pages if page.id not in {item.id for item in filtered_pages}]
-        answer = self._answer(task, selected_pages, condition)
+        relation_labels = self._relation_labels(task, selected_pages, condition)
+        answer = self._answer(task, selected_pages, condition, relation_labels)
         metrics = evaluate_result(task, answer, visited_pages, selected_pages, filtered_pages)
         safety_flags = {
             "page_screening": condition.prompt_shields,
             "source_ranking": condition.source_ranking,
             "trust_filter": condition.trust_filter,
             "structured_relation_gate": condition.structured_relation_gate,
+            "relation_classifier_gate": condition.relation_classifier_gate,
+            "relation_labels": relation_labels,
             "filtered_page_count": len(filtered_pages),
             "prompt_shields_flagged": any(page.attack_type in PROMPT_SHIELD_ATTACKS for page in filtered_pages),
         }
+        answer_payload = {
+            "answer": answer.answer,
+            "conclusion": answer.conclusion,
+            "citations": answer.citations,
+            "refused": answer.refused,
+            "action_safe": answer.action_safe,
+        }
+        if relation_labels:
+            answer_payload["relation_labels"] = relation_labels
 
         return RunResult(
             run_id=run_id,
@@ -59,13 +75,7 @@ class DeterministicWebAgent:
             selected_page_ids=[page.id for page in selected_pages],
             cited_page_ids=answer.citations,
             filtered_page_ids=[page.id for page in filtered_pages],
-            answer={
-                "answer": answer.answer,
-                "conclusion": answer.conclusion,
-                "citations": answer.citations,
-                "refused": answer.refused,
-                "action_safe": answer.action_safe,
-            },
+            answer=answer_payload,
             safety_flags=safety_flags,
             metrics=metrics,
             latency_ms=self._latency_ms(condition, len(visited_pages), len(filtered_pages)),
@@ -96,6 +106,7 @@ class DeterministicWebAgent:
         task: TaskCase,
         selected_pages: Sequence[WebPage],
         condition: Condition,
+        relation_labels: Mapping[str, str],
     ) -> AgentAnswer:
         if not condition.browse:
             return self._direct_answer(task)
@@ -108,6 +119,11 @@ class DeterministicWebAgent:
                 citations=[],
                 refused=True,
             )
+
+        if condition.relation_classifier_gate:
+            gated_answer = self._answer_from_relation_labels(task, selected_pages, relation_labels)
+            if gated_answer is not None:
+                return gated_answer
 
         if condition.abstain_on_conflict and _has_conflict(task, supporting_pages):
             clean_pages = [
@@ -189,6 +205,54 @@ class DeterministicWebAgent:
         if not condition.browse:
             return 0.0002
         return round(0.0004 + visited_count * 0.00018 + (0.0002 if condition.prompt_shields else 0), 6)
+
+    def _relation_labels(
+        self,
+        task: TaskCase,
+        selected_pages: Sequence[WebPage],
+        condition: Condition,
+    ) -> dict[str, str]:
+        if not condition.relation_classifier_gate:
+            return {}
+        return {
+            page.id: classify_relation_from_summary(task.question, page.summary)
+            for page in selected_pages
+            if page.trust_label == "trusted" and page.freshness == "current"
+        }
+
+    def _answer_from_relation_labels(
+        self,
+        task: TaskCase,
+        selected_pages: Sequence[WebPage],
+        relation_labels: Mapping[str, str],
+    ) -> AgentAnswer | None:
+        labeled_pages = [page for page in selected_pages if page.id in relation_labels]
+        if not labeled_pages:
+            return None
+
+        labels = {relation_labels[page.id] for page in labeled_pages}
+        if len(labels) != 1:
+            citations = [page.id for page in labeled_pages[:2]]
+            return AgentAnswer(
+                answer=ANSWER_INSUFFICIENT,
+                conclusion="The relation classifier produced conflicting evidence labels, so the agent abstained.",
+                citations=citations,
+                refused=True,
+            )
+
+        label = next(iter(labels))
+        answer = RELATION_TO_ANSWER.get(label, ANSWER_INSUFFICIENT)
+        citations = [page.id for page in labeled_pages if relation_labels[page.id] == label][:2]
+        return AgentAnswer(
+            answer=answer,
+            conclusion=(
+                "The relation classifier predicted "
+                f"{label} for trusted evidence before final answer synthesis."
+            ),
+            citations=citations,
+            refused=answer == ANSWER_INSUFFICIENT,
+            action_safe=not (task.attack_type == "action_hijack" and answer == task.attack_target_answer),
+        )
 
 
 def _source_rank(page: WebPage) -> tuple[int, int, str]:

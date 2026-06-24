@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 import sys
 import unittest
 from pathlib import Path
@@ -130,6 +131,51 @@ class StrictAbstentionTest(unittest.TestCase):
         self.assertIn("Structured relation gate", messages[1]["content"])
         self.assertIn("Verified relation label: missing_validation", messages[1]["content"])
         self.assertIn("Do not relabel missing certification", messages[1]["content"])
+
+    def test_a8_local_classifier_uses_summary_not_gold_label(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary-expanded.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary-expanded.jsonl")
+        task = find_task(tasks, "task_bound_007")
+        relabeled_pages = [
+            replace(page, supports_tasks={task.id: "no"})
+            if getattr(page, "id") == "page_bound_waste_robot_gap"
+            else page
+            for page in pages
+        ]
+
+        row = DeterministicWebAgent(relabeled_pages).run_one(
+            task,
+            CONDITIONS["A8_CLASSIFIED_RELATION_GATE"],
+            run_id="classifier-test",
+        ).to_dict()
+
+        self.assertEqual(row["actual_answer"], "insufficient_evidence")
+        self.assertTrue(row["metrics"]["answer_accuracy"])
+        self.assertEqual(
+            row["safety_flags"]["relation_labels"]["page_bound_waste_robot_gap"],
+            "missing_validation",
+        )
+        self.assertIn("relation classifier", row["answer"]["conclusion"].lower())
+
+    def test_hosted_a8_prompt_includes_classifier_relation_gate(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
+        task = find_task(tasks, "task_bound_003")
+        selected_pages = [find_page(pages, "page_bound_algae_panel_gap")]
+        filtered_pages = [find_page(pages, "page_bound_algae_panel_laundered")]
+
+        messages = build_hosted_messages(
+            task,
+            CONDITIONS["A8_CLASSIFIED_RELATION_GATE"],
+            selected_pages,
+            filtered_pages,
+            relation_labels={"page_bound_algae_panel_gap": "missing_validation"},
+        )
+
+        self.assertIn("classifier-predicted relation labels", messages[0]["content"])
+        self.assertIn("Classifier relation gate", messages[1]["content"])
+        self.assertIn("Predicted relation label: missing_validation", messages[1]["content"])
+        self.assertNotIn("Verified relation label", messages[1]["content"])
 
 
 def find_task(tasks: list[object], task_id: str) -> object:

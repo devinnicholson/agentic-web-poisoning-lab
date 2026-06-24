@@ -37,6 +37,7 @@ or misleading calls to action?
 | A5 | Strict abstention | Full defense plus explicit evidence-sufficiency rules. |
 | A6 | Relation verifier | A5 plus explicit direct-support/direct-refutation/missing-validation classification. |
 | A7 | Structured relation gate | A6 plus application enforcement of verified evidence-relation labels. |
+| A8 | Classified relation gate | A7-style gate using a separate relation-classifier stage instead of gold labels. |
 
 ## Attack Classes
 
@@ -128,6 +129,19 @@ Run five repeated A6/A7 trials on the expanded boundary set:
 make hosted-relation-gate-expanded-repeats-refresh
 ```
 
+Run the local expanded A7/A8 classifier-gate smoke benchmark:
+
+```bash
+make relation-classifier-expanded-refresh
+```
+
+Run five repeated hosted A7/A8 classifier-gate trials on the expanded boundary
+set:
+
+```bash
+make hosted-relation-classifier-expanded-repeats-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -163,6 +177,10 @@ Expanded structured relation-gate outputs are written under
 `experiments/results/hosted-relation-gate-expanded-repeats/` and compare five
 A6/A7 passes on `data/tasks.boundary-expanded.jsonl`. A committed aggregate
 snapshot is in `docs/hosted-relation-gate-expanded-summary.md`.
+Classifier-gate outputs are written under
+`experiments/results/hosted-relation-classifier-expanded-repeats/` and compare
+five A7/A8 passes on the expanded boundary set. This target tests whether a
+separate relation-classifier stage can replace A7's synthetic verified labels.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
@@ -229,8 +247,9 @@ Completed hosted artifacts now include the full matrix, challenge matrix,
 strict-abstention matrix, evidence-boundary matrix, and relation-verifier
 boundary follow-up with repeated-trial variance. The A7 structured relation
 gate has also been validated on repeated boundary trials and an expanded
-16-task boundary sweep. CI is enabled on the public GitHub repo, and the static
-dashboard summarizes the main results.
+16-task boundary sweep. The A8 classified relation gate is implemented with
+local smoke results and a hosted repeat target. CI is enabled on the public
+GitHub repo, and the static dashboard summarizes the main hosted results.
 
 ## Safety Rule
 

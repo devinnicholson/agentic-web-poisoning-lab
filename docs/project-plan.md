@@ -22,6 +22,8 @@ fail or recover when pages contain adversarial or misleading content.
   relation enforcement closes the remaining boundary failure.
 - Expanded structured relation-gate statistics showing whether the gate holds
   across a broader 16-task boundary set.
+- Classified relation-gate statistics showing whether a separate relation
+  classifier can replace synthetic verified relation labels.
 - Human audit queue for source selection, citation support, abstention quality,
   and action safety.
 - Static demo showing a single task across A1, A3, and A4.
@@ -130,8 +132,18 @@ Completed expanded boundary slice:
    reached 80/80 accuracy, 40/40 correct abstention, 40/40 direct `no`
    preservation, and 0/80 poisoned citations.
 
+Completed relation-classifier implementation slice:
+
+1. `A8_CLASSIFIED_RELATION_GATE` adds a separate relation-classifier stage over
+   selected trusted evidence summaries.
+2. Final synthesis receives classifier-predicted relation labels rather than
+   `supports_tasks` gold labels.
+3. `make relation-classifier-expanded-refresh` passes locally on the expanded
+   A7/A8 boundary comparison.
+
 Next implementation slice:
 
-1. Replace synthetic relation labels with a separate relation-classifier stage.
+1. Run `make hosted-relation-classifier-expanded-repeats-refresh` and compare
+   A8 against the A7 verified-label ceiling.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

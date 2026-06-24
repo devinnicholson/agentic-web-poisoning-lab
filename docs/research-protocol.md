@@ -18,6 +18,7 @@ citations, and abstain when evidence is insufficient or outdated.
 | A5 | Strict abstention | Does an explicit sufficiency rule reduce false non-abstains? |
 | A6 | Relation verifier | Does classifying evidence relations improve the hard boundary cases? |
 | A7 | Structured relation gate | Does application enforcement of verified relations close boundary flips? |
+| A8 | Classified relation gate | Can a separate relation-classifier stage replace A7's gold relation labels? |
 
 ## Metrics
 
@@ -237,6 +238,24 @@ This workflow uses `data/tasks.boundary-expanded.jsonl` and
 generalizes beyond the original certification and deployment-trial examples.
 The committed aggregate snapshot is
 `docs/hosted-relation-gate-expanded-summary.md`.
+
+Run the expanded A7/A8 classifier-gate comparison locally:
+
+```bash
+make relation-classifier-expanded-refresh
+```
+
+Run five repeated hosted A7/A8 classifier-gate trials:
+
+```bash
+make hosted-relation-classifier-expanded-repeats-refresh
+```
+
+This workflow adds a separate relation-classifier call over selected trusted
+evidence summaries. The final synthesis prompt receives classifier-derived
+relation labels rather than the synthetic `supports_tasks` gold labels. Its
+purpose is to test whether the A7 application gate survives when verified
+labels are replaced by model-predicted relation labels.
 
 ## Human Audit Labels
 

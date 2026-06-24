@@ -82,6 +82,7 @@ class Condition:
     strict_abstention: bool = False
     relation_verifier: bool = False
     structured_relation_gate: bool = False
+    relation_classifier_gate: bool = False
 
 
 @dataclass(frozen=True)

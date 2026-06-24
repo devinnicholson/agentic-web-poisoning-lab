@@ -239,8 +239,9 @@ relation labels. The expanded sweep shows this holds beyond the original
 
 ## Next Experiments
 
-1. Replace synthetic relation labels with a separate relation-classifier stage
-   and evaluate whether it matches the gated result.
+1. Run the A8 classified relation gate on the expanded boundary set and
+   evaluate whether model-predicted relation labels match the A7 verified-label
+   ceiling.
 2. Add a second hosted model if credits and access allow.
 3. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
