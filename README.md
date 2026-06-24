@@ -192,7 +192,8 @@ A committed aggregate snapshot is in
 `docs/hosted-relation-classifier-expanded-summary.md`.
 Calibrated classifier-gate outputs are written under
 `experiments/results/hosted-relation-calibrated-expanded-repeats/` and test the
-A9 evidence-gap override against the A8 classifier failure mode.
+A9 evidence-gap override against the A8 classifier failure mode. A committed
+aggregate snapshot is in `docs/hosted-relation-calibrated-expanded-summary.md`.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
@@ -261,8 +262,9 @@ boundary follow-up with repeated-trial variance. The A7 structured relation
 gate has also been validated on repeated boundary trials and an expanded
 16-task boundary sweep. The A8 classified relation gate is implemented with
 local smoke results and a hosted repeat snapshot showing the classifier-label
-gap against A7. CI is enabled on the public GitHub repo, and the static
-dashboard summarizes the main hosted results.
+gap against A7. The A9 calibrated relation gate then recovered the A7 ceiling
+on the expanded boundary set. CI is enabled on the public GitHub repo, and the
+static dashboard summarizes the main hosted results.
 
 ## Safety Rule
 

@@ -156,9 +156,15 @@ Next implementation slice:
 2. `make relation-calibrated-expanded-refresh` passes locally on the expanded
    boundary set.
 
-Next hosted slice:
+Completed hosted calibrated relation-gate slice:
 
-1. Run `make hosted-relation-calibrated-expanded-repeats-refresh` and compare
-   A9 against A8's 26/40 correct abstention result.
-2. Extend manual audit labels from representative challenge rows to every
+1. `make hosted-relation-calibrated-expanded-repeats-refresh` ran 80 hosted A9
+   rows.
+2. `docs/hosted-relation-calibrated-expanded-summary.md` documents the result:
+   A9 reached 80/80 accuracy, 40/40 correct abstention, 40/40 direct `no`
+   preservation, and 0/80 poisoned citations.
+
+Next possible slice:
+
+1. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

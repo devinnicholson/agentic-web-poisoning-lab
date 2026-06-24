@@ -268,7 +268,8 @@ make hosted-relation-calibrated-expanded-repeats-refresh
 This workflow keeps A8's separate relation-classifier stage but applies a
 conservative application override: if trusted evidence only reports absent
 independent certification, audit, deployment trial, replication, or validation,
-the relation label is calibrated to `missing_validation`.
+the relation label is calibrated to `missing_validation`. The committed
+aggregate snapshot is `docs/hosted-relation-calibrated-expanded-summary.md`.
 
 ## Human Audit Labels
 

@@ -106,6 +106,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-gate-repeats-summary.md`
 - `docs/hosted-relation-gate-expanded-summary.md`
 - `docs/hosted-relation-classifier-expanded-summary.md`
+- `docs/hosted-relation-calibrated-expanded-summary.md`
 
 Manual audit labels are committed in:
 

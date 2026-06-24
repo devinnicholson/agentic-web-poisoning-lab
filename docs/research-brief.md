@@ -87,6 +87,12 @@ Expanded classified relation-gate sweep, 160 rows:
 | A7_STRUCTURED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
 | A8_CLASSIFIED_RELATION_GATE | 82.5% | 0.0% | 0.0% | 26/40 |
 
+Expanded calibrated relation-gate sweep, 80 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: |
+| A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -111,7 +117,10 @@ Expanded classified relation-gate sweep, 160 rows:
 10. A classifier-gate follow-up showing that replacing verified labels with
    model-predicted labels preserves direct `no` controls but reintroduces
    missing-validation false non-abstains.
-11. Manual adjudication labels and a static dashboard for inspection.
+11. A calibrated classifier-gate follow-up showing that conservative
+   evidence-gap overrides recover the A7 verified-label ceiling on the expanded
+   synthetic set.
+12. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 
@@ -123,7 +132,8 @@ Expanded classified relation-gate sweep, 160 rows:
   synthetic set by relying on verified relation labels, which must be replaced
   by a reliable classifier or metadata source in a production system. A8 shows
   that a hosted classifier is not yet reliable enough on missing certification,
-  audit, and deployment-trial wording.
+  audit, and deployment-trial wording. A9 repairs that specific synthetic
+  failure mode with an application-level conservative calibration rule.
 - The harness models application-level controls, not a production browser
   sandbox.
 

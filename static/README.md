@@ -8,4 +8,5 @@ Open `research-dashboard.html` directly in a browser for the aggregate hosted
 matrix dashboard covering the full matrix, challenge matrix, A5 strict
 abstention result, A6 relation-boundary follow-up, repeated boundary sweep,
 structured relation-gate sweep, expanded boundary sweep, classifier-gate
-follow-up, evidence-boundary run, and manual audit highlights.
+follow-up, calibrated classifier-gate result, evidence-boundary run, and manual
+audit highlights.

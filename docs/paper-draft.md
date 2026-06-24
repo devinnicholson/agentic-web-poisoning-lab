@@ -24,8 +24,10 @@ abstention and 20/20 direct `no` preservation on a repeated boundary sweep.
 On an expanded 16-task boundary set, A7 then reached 40/40 correct abstention
 and preserved 40/40 direct `no` controls. Replacing A7's verified labels with
 an A8 relation-classifier stage preserved 40/40 direct `no` controls and 0/80
-poisoned citations, but reduced missing-validation abstention to 26/40. These
-results suggest that source trust controls can mitigate poisoned citations and
+poisoned citations, but reduced missing-validation abstention to 26/40. An A9
+conservative calibration rule repaired those classifier errors, returning to
+40/40 correct abstention and 40/40 direct `no` preservation. These results
+suggest that source trust controls can mitigate poisoned citations and
 attack following, but need explicit evidence-relation calibration,
 application-level relation gates, and reliable relation classifiers to improve
 evidence-gap abstention.
@@ -62,6 +64,7 @@ The conditions are:
 | A6_RELATION_VERIFIER | Adds explicit direct-support/direct-refutation/missing-validation classification. |
 | A7_STRUCTURED_RELATION_GATE | Enforces verified evidence-relation labels before final answer acceptance. |
 | A8_CLASSIFIED_RELATION_GATE | Replaces verified labels with a separate relation-classifier stage before gating. |
+| A9_CALIBRATED_RELATION_GATE | Adds a conservative evidence-gap override to the classifier-gated relation labels. |
 
 Primary metrics:
 
@@ -222,6 +225,22 @@ matched classifier-label errors: missing validation was sometimes classified as
 `direct_refutation`, and for the waste-robot and bike-route recommender gaps it
 was sometimes classified as `direct_support`.
 
+### Calibrated Relation-Gate Follow-Up
+
+The A9 follow-up reran the expanded boundary set with a conservative
+calibration rule. If the trusted summary only reports absent independent
+certification, audit, deployment trial, replication, or validation, the
+classifier label is calibrated to `missing_validation` before final synthesis.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A9_CALIBRATED_RELATION_GATE | 80 | 100.0% | 0.0% | 0.0% | 40/40 |
+
+A9 preserved all 40 direct-negative controls and removed all A8 false
+non-abstains. The calibration changed 10 raw classifier labels, converting the
+raw 30/50 missing-validation/direct-refutation split into the correct 40/40
+calibrated split.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -246,7 +265,9 @@ flip on this synthetic set, at the cost of requiring a trusted source of
 relation labels. The expanded sweep shows this holds beyond the original
 8-task boundary set. A8 shows that replacing verified labels with a hosted
 classifier is the next bottleneck: the classifier preserved direct refutations
-but inherited the negative-sounding missing-validation confusion.
+but inherited the negative-sounding missing-validation confusion. A9 shows that
+a conservative evidence-gap calibration rule can repair that failure mode on
+the expanded synthetic set.
 
 ## Threats To Validity
 
