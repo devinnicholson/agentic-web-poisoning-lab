@@ -93,6 +93,16 @@ Expanded calibrated relation-gate sweep, 80 rows:
 | --- | ---: | ---: | ---: | ---: |
 | A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 40/40 |
 
+Paired A7/A8/A9 appendix:
+
+- A8 reduced paired missing-validation abstention by 35.0 percentage points
+  relative to A7: 14 A7-only correct rows, 0 A8-only correct rows, exact
+  McNemar p = 0.0001.
+- A9 recovered those misses relative to A8: 0 A8-only correct rows, 14 A9-only
+  correct rows, exact McNemar p = 0.0001.
+- A9 introduced 0 new direct-negative errors and 0 new poisoned citations in
+  the paired comparison.
+
 ## Contribution
 
 1. A public synthetic benchmark that separates final-answer correctness from
@@ -120,7 +130,9 @@ Expanded calibrated relation-gate sweep, 80 rows:
 11. A calibrated classifier-gate follow-up showing that conservative
    evidence-gap overrides recover the A7 verified-label ceiling on the expanded
    synthetic set.
-12. Manual adjudication labels and a static dashboard for inspection.
+12. A paired statistical appendix that aligns A7/A8/A9 rows by task and repeat
+   index and quantifies the classifier degradation and calibrated repair.
+13. Manual adjudication labels and a static dashboard for inspection.
 
 ## Limitations
 

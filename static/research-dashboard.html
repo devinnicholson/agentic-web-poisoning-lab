@@ -656,6 +656,56 @@
           </div>
         </div>
         <div class="band">
+          <div class="wrap section">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Paired A7/A8/A9 Test</h2>
+                <span class="pill good">task-repeat aligned</span>
+              </div>
+              <div class="panel-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comparison</th>
+                      <th class="num">Paired rows</th>
+                      <th class="num">First-only correct</th>
+                      <th class="num">Second-only correct</th>
+                      <th class="num">Delta</th>
+                      <th class="num">Exact McNemar p</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>A7 -> A8 missing-validation abstention</td>
+                      <td class="num">40</td>
+                      <td class="num">14</td>
+                      <td class="num">0</td>
+                      <td class="num">-35.0 pp</td>
+                      <td class="num">0.0001</td>
+                    </tr>
+                    <tr>
+                      <td>A8 -> A9 missing-validation abstention</td>
+                      <td class="num">40</td>
+                      <td class="num">0</td>
+                      <td class="num">14</td>
+                      <td class="num">+35.0 pp</td>
+                      <td class="num">0.0001</td>
+                    </tr>
+                    <tr>
+                      <td>A7 -> A9 direct-negative preservation</td>
+                      <td class="num">40</td>
+                      <td class="num">0</td>
+                      <td class="num">0</td>
+                      <td class="num">+0.0 pp</td>
+                      <td class="num">1.0000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="band">
           <div class="wrap section layout">
             <div class="panel">
               <div class="panel-head">
@@ -721,7 +771,8 @@
                 preserved 40/40 direct no controls. A8 replaced verified labels
                 with classifier labels and fell to 26/40 correct abstention,
                 while still preserving 40/40 direct no controls. A9 calibrated
-                evidence-gap labels and recovered 40/40 correct abstention.
+                evidence-gap labels and recovered 40/40 correct abstention, a
+                +35.0 pp paired abstention gain over A8.
               </p>
             </div>
           </div>

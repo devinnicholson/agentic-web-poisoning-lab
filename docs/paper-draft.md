@@ -241,6 +241,12 @@ non-abstains. The calibration changed 10 raw classifier labels, converting the
 raw 30/50 missing-validation/direct-refutation split into the correct 40/40
 calibrated split.
 
+Because the A8 and A9 rows are aligned by task and repeat index, the repair can
+also be analyzed as a paired comparison. On missing-validation rows, A9 fixed
+14 A8 misses and introduced 0 new misses, a +35.0 percentage-point paired
+correct-abstention delta with exact McNemar p = 0.0001. The paired appendix is
+committed at `docs/paired-a7-a9-analysis.md`.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and

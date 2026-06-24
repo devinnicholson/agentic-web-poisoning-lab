@@ -73,6 +73,8 @@ Every expanded boundary task was stable across five repeats:
   useful only if the application treats evidence-gap wording conservatively.
   Confidence alone was not sufficient in A8 because wrong classifier labels were
   often high-confidence.
+- The paired A7/A8/A9 statistical appendix is committed at
+  `docs/paired-a7-a9-analysis.md`.
 
 ## Interpretation
 

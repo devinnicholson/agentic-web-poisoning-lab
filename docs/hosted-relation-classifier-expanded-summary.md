@@ -89,6 +89,10 @@ stricter relation prompts, disagreement checks, or a second classifier pass
 that defaults to `missing_validation` when evidence only reports absent
 independent validation.
 
+The calibrated follow-up and paired statistical comparison are committed at
+`docs/hosted-relation-calibrated-expanded-summary.md` and
+`docs/paired-a7-a9-analysis.md`.
+
 Generated raw outputs remain under
 `experiments/results/hosted-relation-classifier-expanded-repeats/` and are
 intentionally ignored by Git. The key generated files are `report.md`,

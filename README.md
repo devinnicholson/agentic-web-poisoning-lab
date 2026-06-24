@@ -149,6 +149,12 @@ Run five repeated hosted A9 calibrated classifier-gate trials:
 make hosted-relation-calibrated-expanded-repeats-refresh
 ```
 
+Generate the paired A7/A8/A9 statistical appendix from hosted result files:
+
+```bash
+make paired-analysis-a7-a9
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -194,6 +200,9 @@ Calibrated classifier-gate outputs are written under
 `experiments/results/hosted-relation-calibrated-expanded-repeats/` and test the
 A9 evidence-gap override against the A8 classifier failure mode. A committed
 aggregate snapshot is in `docs/hosted-relation-calibrated-expanded-summary.md`.
+The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
+A8, and A9 rows by task and repeat index, including exact McNemar tests for the
+A8 degradation and A9 repair.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
@@ -263,8 +272,9 @@ gate has also been validated on repeated boundary trials and an expanded
 16-task boundary sweep. The A8 classified relation gate is implemented with
 local smoke results and a hosted repeat snapshot showing the classifier-label
 gap against A7. The A9 calibrated relation gate then recovered the A7 ceiling
-on the expanded boundary set. CI is enabled on the public GitHub repo, and the
-static dashboard summarizes the main hosted results.
+on the expanded boundary set, with a paired appendix quantifying the 14 fixed
+A8 misses and 0 new A9 misses. CI is enabled on the public GitHub repo, and
+the static dashboard summarizes the main hosted results.
 
 ## Safety Rule
 

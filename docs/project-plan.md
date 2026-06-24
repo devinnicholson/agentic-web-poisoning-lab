@@ -149,7 +149,7 @@ Completed hosted relation-classifier slice:
    A8 preserved 40/40 direct `no` controls and 0/80 poisoned citations, but
    dropped to 26/40 correct abstention on missing-validation rows.
 
-Next implementation slice:
+Completed calibrated relation-gate implementation slice:
 
 1. `A9_CALIBRATED_RELATION_GATE` adds a conservative evidence-gap override on
    top of A8's relation-classifier stage.
@@ -163,6 +163,15 @@ Completed hosted calibrated relation-gate slice:
 2. `docs/hosted-relation-calibrated-expanded-summary.md` documents the result:
    A9 reached 80/80 accuracy, 40/40 correct abstention, 40/40 direct `no`
    preservation, and 0/80 poisoned citations.
+
+Completed paired statistical appendix slice:
+
+1. `agentic-web-poisoning-lab paired-analysis` merges multiple hosted result
+   files and aligns rows by task and repeat index.
+2. `make paired-analysis-a7-a9` regenerates
+   `docs/paired-a7-a9-analysis.md`.
+3. The appendix quantifies the A8/A9 missing-validation repair as 14 fixed A8
+   misses, 0 new A9 misses, and exact McNemar p = 0.0001.
 
 Next possible slice:
 

@@ -90,6 +90,13 @@ Run the repeated A9 expanded calibrated classifier-gate matrix:
 make hosted-relation-calibrated-expanded-repeats-refresh
 ```
 
+Regenerate the paired A7/A8/A9 statistical appendix from the hosted result
+files:
+
+```bash
+make paired-analysis-a7-a9
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -107,6 +114,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-gate-expanded-summary.md`
 - `docs/hosted-relation-classifier-expanded-summary.md`
 - `docs/hosted-relation-calibrated-expanded-summary.md`
+- `docs/paired-a7-a9-analysis.md`
 
 Manual audit labels are committed in:
 

@@ -271,6 +271,16 @@ independent certification, audit, deployment trial, replication, or validation,
 the relation label is calibrated to `missing_validation`. The committed
 aggregate snapshot is `docs/hosted-relation-calibrated-expanded-summary.md`.
 
+After the A7/A8 and A9 hosted outputs exist locally, regenerate the paired
+statistical appendix:
+
+```bash
+make paired-analysis-a7-a9
+```
+
+The appendix aligns rows by task and repeat index, reports exact McNemar tests,
+and is committed at `docs/paired-a7-a9-analysis.md`.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:
