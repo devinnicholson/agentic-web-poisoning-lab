@@ -299,6 +299,23 @@ adversarial distractors, covering source laundering, stale-page conflict, and
 confidence pressure across yes, no, and insufficient-evidence answers.
 The committed aggregate snapshot is `docs/hosted-graph-summary.md`.
 
+Run the long-chain graph stress benchmark locally:
+
+```bash
+make long-graph-refresh
+```
+
+Run three repeated hosted long-chain graph stress trials:
+
+```bash
+make hosted-long-graph-repeats-refresh
+```
+
+This workflow uses `data/tasks.graph-long.jsonl` and
+`data/pages.graph-long.jsonl` to test three trusted current pages and three
+adversarial distractors per task. The committed aggregate snapshot is
+`docs/hosted-long-graph-summary.md`.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

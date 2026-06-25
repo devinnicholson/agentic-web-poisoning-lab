@@ -113,6 +113,15 @@ Hosted graph stress benchmark, 144 rows:
 | A8_CLASSIFIED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 12/12 |
 | A9_CALIBRATED_RELATION_GATE | 100.0% | 0.0% | 0.0% | 12/12 |
 
+Hosted long-graph stress benchmark, 144 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A1_AGENT_BASELINE | 66.7% | 5.6% | 8.3% | 0/12 | 24/24 |
+| A4_FULL_DEFENSE | 66.7% | 0.0% | 0.0% | 0/12 | 24/24 |
+| A8_CLASSIFIED_RELATION_GATE | 75.0% | 0.0% | 0.0% | 12/12 | 15/24 |
+| A9_CALIBRATED_RELATION_GATE | 77.8% | 0.0% | 0.0% | 12/12 | 16/24 |
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points
@@ -159,7 +168,10 @@ Paired A7/A8/A9 appendix:
 15. A hosted graph stress run showing that relation-gated defenses preserve
    36/36 accuracy and 12/12 evidence-gap abstention where full defense still
    over-answers.
-16. A static dashboard for inspection.
+16. A harder hosted long-graph run showing the next bottleneck: relation gates
+   can over-abstain on direct policy and privacy-board controls under longer
+   evidence contexts.
+17. A static dashboard for inspection.
 
 ## Limitations
 

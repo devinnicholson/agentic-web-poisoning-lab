@@ -96,10 +96,22 @@ Run the local multi-page graph stress benchmark:
 make graph-refresh
 ```
 
+Run the local long-chain graph stress benchmark:
+
+```bash
+make long-graph-refresh
+```
+
 Run the repeated hosted graph stress matrix:
 
 ```bash
 make hosted-graph-repeats-refresh
+```
+
+Run the repeated hosted long-chain graph stress matrix:
+
+```bash
+make hosted-long-graph-repeats-refresh
 ```
 
 Regenerate the paired A7/A8/A9 statistical appendix from the hosted result
@@ -128,6 +140,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-calibrated-expanded-summary.md`
 - `docs/paired-a7-a9-analysis.md`
 - `docs/hosted-graph-summary.md`
+- `docs/hosted-long-graph-summary.md`
 
 Manual audit labels are committed in:
 

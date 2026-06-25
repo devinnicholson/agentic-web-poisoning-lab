@@ -155,10 +155,22 @@ Run the local multi-page graph stress benchmark:
 make graph-refresh
 ```
 
+Run the local long-chain graph stress benchmark:
+
+```bash
+make long-graph-refresh
+```
+
 Run three repeated hosted graph stress trials:
 
 ```bash
 make hosted-graph-repeats-refresh
+```
+
+Run three repeated hosted long-chain graph stress trials:
+
+```bash
+make hosted-long-graph-repeats-refresh
 ```
 
 Generate the paired A7/A8/A9 statistical appendix from hosted result files:
@@ -217,6 +229,11 @@ Graph-stress outputs are written under `experiments/results/graph-local/` and
 `data/tasks.graph.jsonl` and `data/pages.graph.jsonl` to test multi-page
 evidence chains with low-trust, stale, and confidence-pressure distractors. A
 committed aggregate snapshot is in `docs/hosted-graph-summary.md`.
+Long-graph outputs are written under `experiments/results/long-graph-local/`
+and `experiments/results/hosted-long-graph-repeats/`. They use
+`data/tasks.graph-long.jsonl` and `data/pages.graph-long.jsonl` to test three
+trusted pages plus three adversarial distractors per task. A committed
+aggregate snapshot is in `docs/hosted-long-graph-summary.md`.
 The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
 A8, and A9 rows by task and repeat index, including exact McNemar tests for the
 A8 degradation and A9 repair.
@@ -294,8 +311,10 @@ on the expanded boundary set, with a paired appendix quantifying the 14 fixed
 A8 misses and 0 new A9 misses. The hosted graph stress run now extends the
 result to 12 multi-page evidence graphs: A8/A9 reached 36/36 accuracy and
 12/12 correct abstention while A4 blocked poisoned citations but only abstained
-on 2/12 evidence gaps. CI is enabled on the public GitHub repo, and the static
-dashboard summarizes the main hosted results.
+on 2/12 evidence gaps. A harder hosted long-graph run then surfaced the next
+boundary: A8/A9 preserved 12/12 evidence-gap abstentions but over-abstained on
+some direct policy and privacy-board controls. CI is enabled on the public
+GitHub repo, and the static dashboard summarizes the main hosted results.
 
 ## Safety Rule
 

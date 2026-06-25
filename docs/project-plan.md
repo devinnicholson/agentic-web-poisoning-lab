@@ -201,9 +201,22 @@ Completed hosted graph-stress slice:
 3. A4 filtered poisoned pages in 36/36 rows and had 0/36 poisoned citations,
    but only reached 2/12 correct abstention on graph evidence gaps.
 
+Completed hosted long-graph slice:
+
+1. `data/tasks.graph-long.jsonl` and `data/pages.graph-long.jsonl` add 12
+   harder graph tasks with three trusted current pages and three adversarial
+   distractors per task.
+2. `make hosted-long-graph-repeats-refresh` ran 144 hosted rows across A1, A4,
+   A8, and A9 with three repeats per long-graph task.
+3. `docs/hosted-long-graph-summary.md` documents the result: A8/A9 repaired
+   evidence-gap abstention to 12/12, but introduced over-abstention on direct
+   policy and privacy-board controls. A9 reached 28/36 accuracy versus A4's
+   24/36, with 0/36 poisoned citations.
+
 Next possible slice:
 
-1. Add a second graph family with longer dependency chains and more realistic
-   search-result ordering.
+1. Add an A10 preservation-calibrated relation gate that keeps A9's
+   evidence-gap calibration while explicitly preserving direct support and
+   direct refutation when trusted current pages agree.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.
