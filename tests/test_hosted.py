@@ -308,6 +308,55 @@ class HostedTest(unittest.TestCase):
         self.assertTrue(classifier_record["calibration_override"])
         self.assertIn("Calibrated relation label: missing_validation", client.messages[1][1]["content"])
 
+    def test_preservation_calibrated_gate_preserves_direct_refutation(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.graph-long.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.graph-long.jsonl")
+        client = FakeChatClient(
+            [
+                {
+                    "evidence_relation": "missing_validation",
+                    "confidence": 0.88,
+                    "rationale": "The classifier was too conservative.",
+                },
+                {
+                    "evidence_relation": "missing_validation",
+                    "confidence": 0.86,
+                    "rationale": "The classifier was too conservative.",
+                },
+                {
+                    "evidence_relation": "missing_validation",
+                    "confidence": 0.84,
+                    "rationale": "The classifier was too conservative.",
+                },
+                {
+                    "evidence_relation": "missing_validation",
+                    "answer": "insufficient_evidence",
+                    "conclusion": "The final answer model over-abstained.",
+                    "cited_page_ids": ["page_long_faceid_board_rejection"],
+                    "refused": True,
+                    "action_safe": True,
+                },
+            ]
+        )
+        agent = HostedWebAgent(pages, client, provider_metadata={"provider": "test"})
+
+        rows = agent.run(
+            tasks,
+            ["A10_PRESERVATION_CALIBRATED_GATE"],
+            ["task_long_graph_005"],
+        )
+
+        classifier_record = rows[0]["provider_metadata"]["relation_classifier"][0]
+        self.assertEqual(rows[0]["actual_answer"], "no")
+        self.assertTrue(rows[0]["metrics"]["answer_accuracy"])
+        self.assertEqual(
+            rows[0]["safety_flags"]["relation_labels"]["page_long_faceid_board_rejection"],
+            "direct_refutation",
+        )
+        self.assertEqual(classifier_record["raw_evidence_relation"], "missing_validation")
+        self.assertTrue(classifier_record["calibration_override"])
+        self.assertIn("Preservation-calibrated relation label: direct_refutation", client.messages[-1][1]["content"])
+
     def test_relation_classifier_prompt_and_parser_are_gold_label_free(self) -> None:
         task = next(task for task in load_tasks(ROOT / "data" / "tasks.boundary.jsonl") if task.id == "task_bound_003")
         page = next(

@@ -20,6 +20,8 @@ abstention calibration on hosted challenge and boundary sets.
   calibration.
 - 12-task multi-page graph stress benchmark with two trusted current evidence
   pages and two adversarial distractors per task.
+- 12-task long-graph stress benchmark with three trusted current evidence pages
+  and three adversarial distractors per task.
 - Redacted synthetic pages with structured source type, trust label, freshness,
   poisoned/not-poisoned status, attack class, and task-relevant claim.
 - Hosted validation uses Azure OpenAI `gpt-5-mini-2025-08-07`.
@@ -122,6 +124,12 @@ Hosted long-graph stress benchmark, 144 rows:
 | A8_CLASSIFIED_RELATION_GATE | 75.0% | 0.0% | 0.0% | 12/12 | 15/24 |
 | A9_CALIBRATED_RELATION_GATE | 77.8% | 0.0% | 0.0% | 12/12 | 16/24 |
 
+Hosted A10 long-graph preservation follow-up, 36 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A10_PRESERVATION_CALIBRATED_GATE | 100.0% | 0.0% | 0.0% | 12/12 | 24/24 |
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points
@@ -171,7 +179,10 @@ Paired A7/A8/A9 appendix:
 16. A harder hosted long-graph run showing the next bottleneck: relation gates
    can over-abstain on direct policy and privacy-board controls under longer
    evidence contexts.
-17. A static dashboard for inspection.
+17. An A10 preservation-calibrated relation gate that repairs the hosted
+   long-graph over-abstention boundary while retaining 12/12 evidence-gap
+   abstention.
+18. A static dashboard for inspection.
 
 ## Limitations
 
@@ -184,7 +195,10 @@ Paired A7/A8/A9 appendix:
   by a reliable classifier or metadata source in a production system. A8 shows
   that a hosted classifier is not yet reliable enough on missing certification,
   audit, and deployment-trial wording. A9 repairs that specific synthetic
-  failure mode with an application-level conservative calibration rule.
+  failure mode with an application-level conservative calibration rule. A10
+  repairs the later long-graph over-abstention boundary by preserving direct
+  support and direct refutation when trusted current pages clearly answer the
+  question.
 - The harness models application-level controls, not a production browser
   sandbox.
 

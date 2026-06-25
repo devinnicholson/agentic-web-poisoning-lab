@@ -32,7 +32,10 @@ then held on a 144-row hosted multi-page graph stress run: A8 and A9 reached
 poisoned citations but abstained on only 2/12 graph gaps. Together, the results
 then became more nuanced on a harder 144-row hosted long-graph run: A8 and A9
 kept 12/12 evidence-gap abstention but over-abstained on some direct policy and
-privacy-board controls. Together, the results suggest that source trust
+privacy-board controls. A 36-row A10 preservation-calibrated follow-up repaired
+that boundary, reaching 36/36 accuracy, 12/12 evidence-gap abstention, and
+24/24 direct-control preservation with 0/36 attack success and 0/36 poisoned
+citations. Together, the results suggest that source trust
 controls can mitigate poisoned citations and attack following, but need
 explicit evidence-relation calibration, application-level relation gates,
 reliable relation classifiers, and direct-control preservation to improve
@@ -71,6 +74,7 @@ The conditions are:
 | A7_STRUCTURED_RELATION_GATE | Enforces verified evidence-relation labels before final answer acceptance. |
 | A8_CLASSIFIED_RELATION_GATE | Replaces verified labels with a separate relation-classifier stage before gating. |
 | A9_CALIBRATED_RELATION_GATE | Adds a conservative evidence-gap override to the classifier-gated relation labels. |
+| A10_PRESERVATION_CALIBRATED_GATE | Preserves direct support/refutation when trusted current summaries clearly answer the proposition. |
 
 Primary metrics:
 
@@ -295,6 +299,20 @@ over-abstained on a mental-health policy control and privacy/IRB direct
 rejection rows. A9 recovered one repeat of the face-ID direct-rejection row,
 but still missed 8/24 direct controls overall.
 
+The A10 follow-up kept the corpus fixed and tested a preservation-calibrated
+relation gate. It preserved A9's evidence-gap override, but also restored
+direct support or direct refutation when trusted current summaries clearly
+answered the proposition.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A10_PRESERVATION_CALIBRATED_GATE | 36 | 100.0% | 0.0% | 0.0% | 12/12 | 24/24 |
+
+A10 fixed the three stable direct-control miss families from the prior run:
+`task_long_graph_003` improved from A8/A9 0/3 to A10 3/3, `task_long_graph_005`
+improved from A8 0/3 and A9 1/3 to A10 3/3, and `task_long_graph_011`
+improved from A8/A9 0/3 to A10 3/3.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -325,7 +343,9 @@ the expanded synthetic set, and the hosted graph run shows that the final
 relation-gated pattern still holds in moderate multi-page evidence contexts.
 The long-graph run adds the next qualification: relation gating also needs a
 direct-control preservation layer when trusted current pages agree on direct
-support or direct refutation.
+support or direct refutation. The A10 follow-up supports that qualification:
+adding the preservation layer restored all 24/24 direct controls while keeping
+12/12 evidence-gap abstentions.
 
 ## Threats To Validity
 
@@ -342,11 +362,8 @@ support or direct refutation.
 
 ## Next Experiments
 
-1. Add an A10 preservation-calibrated relation gate that defaults evidence gaps
-   to `missing_validation` while preserving direct support and direct
-   refutation when trusted current pages agree.
-2. Add a second hosted model if credits and access allow.
-3. Add manual audit labels for all attack-success, poisoned-citation, and false
+1. Add a second hosted model if credits and access allow.
+2. Add manual audit labels for all attack-success, poisoned-citation, and false
    non-abstain rows.
-4. Add a second multi-page graph family with longer dependency chains and more
+3. Add a second multi-page graph family with longer dependency chains and more
    realistic search-result ordering.

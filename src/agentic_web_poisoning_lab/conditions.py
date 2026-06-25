@@ -117,6 +117,21 @@ CONDITIONS: dict[str, Condition] = {
         relation_classifier_gate=True,
         calibrated_relation_classifier_gate=True,
     ),
+    "A10_PRESERVATION_CALIBRATED_GATE": Condition(
+        id="A10_PRESERVATION_CALIBRATED_GATE",
+        name="Preservation-calibrated relation gate",
+        browse=True,
+        source_ranking=True,
+        prompt_shields=True,
+        trust_filter=True,
+        citation_validation=True,
+        abstain_on_conflict=True,
+        strict_abstention=True,
+        relation_verifier=True,
+        relation_classifier_gate=True,
+        calibrated_relation_classifier_gate=True,
+        preservation_calibrated_relation_gate=True,
+    ),
 }
 
 

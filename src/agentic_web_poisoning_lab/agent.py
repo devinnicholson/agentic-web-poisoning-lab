@@ -9,6 +9,7 @@ from agentic_web_poisoning_lab.relation_classifier import (
     RELATION_TO_ANSWER,
     calibrate_relation_label,
     classify_relation_from_summary,
+    preserve_direct_relation_label,
 )
 from agentic_web_poisoning_lab.schema import (
     ANSWER_INSUFFICIENT,
@@ -50,6 +51,7 @@ class DeterministicWebAgent:
             "structured_relation_gate": condition.structured_relation_gate,
             "relation_classifier_gate": condition.relation_classifier_gate,
             "calibrated_relation_classifier_gate": condition.calibrated_relation_classifier_gate,
+            "preservation_calibrated_relation_gate": condition.preservation_calibrated_relation_gate,
             "relation_labels": relation_labels,
             "filtered_page_count": len(filtered_pages),
             "prompt_shields_flagged": any(page.attack_type in PROMPT_SHIELD_ATTACKS for page in filtered_pages),
@@ -221,7 +223,9 @@ class DeterministicWebAgent:
             if page.trust_label != "trusted" or page.freshness != "current":
                 continue
             label = classify_relation_from_summary(task.question, page.summary)
-            if condition.calibrated_relation_classifier_gate:
+            if condition.preservation_calibrated_relation_gate:
+                label = preserve_direct_relation_label(task.question, page.summary, label)
+            elif condition.calibrated_relation_classifier_gate:
                 label = calibrate_relation_label(task.question, page.summary, label)
             labels[page.id] = label
         return labels

@@ -17,6 +17,7 @@ from agentic_web_poisoning_lab.relation_classifier import (
     RELATION_DIRECT_REFUTATION,
     RELATION_DIRECT_SUPPORT,
     classify_relation_from_summary,
+    preserve_direct_relation_label,
 )
 
 
@@ -192,6 +193,24 @@ class StrictAbstentionTest(unittest.TestCase):
             RELATION_DIRECT_SUPPORT,
         )
 
+    def test_preservation_calibration_keeps_clear_direct_relations(self) -> None:
+        self.assertEqual(
+            preserve_direct_relation_label(
+                "Did the board approve mandatory face-ID entry?",
+                "Independent privacy board rejected mandatory face-ID entry after failed controls.",
+                "missing_validation",
+            ),
+            RELATION_DIRECT_REFUTATION,
+        )
+        self.assertEqual(
+            preserve_direct_relation_label(
+                "Does policy require licensed counselor review?",
+                "Current counseling policy requires licensed counselor review before action.",
+                "missing_validation",
+            ),
+            RELATION_DIRECT_SUPPORT,
+        )
+
     def test_hosted_a8_prompt_includes_classifier_relation_gate(self) -> None:
         tasks = load_tasks(ROOT / "data" / "tasks.boundary.jsonl")
         pages = load_pages(ROOT / "data" / "pages.boundary.jsonl")
@@ -231,6 +250,26 @@ class StrictAbstentionTest(unittest.TestCase):
         self.assertIn("Calibrated classifier relation gate", messages[1]["content"])
         self.assertIn("Calibrated relation label: missing_validation", messages[1]["content"])
         self.assertIn("conservative evidence-gap override", messages[1]["content"])
+
+    def test_hosted_a10_prompt_includes_preservation_calibrated_relation_gate(self) -> None:
+        tasks = load_tasks(ROOT / "data" / "tasks.graph-long.jsonl")
+        pages = load_pages(ROOT / "data" / "pages.graph-long.jsonl")
+        task = find_task(tasks, "task_long_graph_005")
+        selected_pages = [find_page(pages, "page_long_faceid_board_rejection")]
+        filtered_pages = [find_page(pages, "page_long_faceid_vendor_whitepaper")]
+
+        messages = build_hosted_messages(
+            task,
+            CONDITIONS["A10_PRESERVATION_CALIBRATED_GATE"],
+            selected_pages,
+            filtered_pages,
+            relation_labels={"page_long_faceid_board_rejection": "direct_refutation"},
+        )
+
+        self.assertIn("preservation-calibrated classifier relation labels", messages[0]["content"])
+        self.assertIn("Preservation-calibrated classifier relation gate", messages[1]["content"])
+        self.assertIn("Preservation-calibrated relation label: direct_refutation", messages[1]["content"])
+        self.assertIn("direct-control preservation override", messages[1]["content"])
 
 
 def find_task(tasks: list[object], task_id: str) -> object:

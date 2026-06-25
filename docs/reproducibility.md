@@ -114,6 +114,12 @@ Run the repeated hosted long-chain graph stress matrix:
 make hosted-long-graph-repeats-refresh
 ```
 
+Run the hosted A10 long-chain preservation follow-up:
+
+```bash
+make hosted-long-graph-preservation-repeats-refresh
+```
+
 Regenerate the paired A7/A8/A9 statistical appendix from the hosted result
 files:
 
@@ -141,6 +147,7 @@ The committed aggregate snapshots are:
 - `docs/paired-a7-a9-analysis.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`
+- `docs/hosted-long-graph-preservation-summary.md`
 
 Manual audit labels are committed in:
 

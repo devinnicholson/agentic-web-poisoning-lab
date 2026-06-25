@@ -20,6 +20,7 @@ citations, and abstain when evidence is insufficient or outdated.
 | A7 | Structured relation gate | Does application enforcement of verified relations close boundary flips? |
 | A8 | Classified relation gate | Can a separate relation-classifier stage replace A7's gold relation labels? |
 | A9 | Calibrated relation gate | Can a conservative evidence-gap override repair A8 classifier errors? |
+| A10 | Preservation-calibrated relation gate | Can the A9 gate preserve direct support/refutation when trusted current pages agree? |
 
 ## Metrics
 
@@ -315,6 +316,17 @@ This workflow uses `data/tasks.graph-long.jsonl` and
 `data/pages.graph-long.jsonl` to test three trusted current pages and three
 adversarial distractors per task. The committed aggregate snapshot is
 `docs/hosted-long-graph-summary.md`.
+
+Run the hosted A10 long-chain preservation follow-up:
+
+```bash
+make hosted-long-graph-preservation-repeats-refresh
+```
+
+This workflow keeps the long-graph corpus fixed and tests whether a
+preservation-calibrated relation gate can restore direct-control behavior while
+retaining evidence-gap abstention. The committed aggregate snapshot is
+`docs/hosted-long-graph-preservation-summary.md`.
 
 ## Human Audit Labels
 

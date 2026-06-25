@@ -130,3 +130,12 @@ def calibrate_relation_label(question: str, summary: str, predicted_relation: st
     if conservative_relation == RELATION_MISSING_VALIDATION:
         return RELATION_MISSING_VALIDATION
     return normalize_relation_label(predicted_relation)
+
+
+def preserve_direct_relation_label(question: str, summary: str, predicted_relation: str) -> str:
+    conservative_relation = classify_relation_from_summary(question, summary)
+    if conservative_relation in {RELATION_DIRECT_SUPPORT, RELATION_DIRECT_REFUTATION}:
+        return conservative_relation
+    if conservative_relation == RELATION_MISSING_VALIDATION:
+        return RELATION_MISSING_VALIDATION
+    return normalize_relation_label(predicted_relation)

@@ -74,8 +74,9 @@ This does not weaken the source-poisoning result. A4, A8, and A9 all kept
 0/36 attack success and 0/36 poisoned citations while filtering poisoned pages
 in 36/36 rows. The new result refines the abstention claim: evidence-relation
 gates need a preservation calibration layer, not only an evidence-gap
-calibration layer. A future A10-style condition should explicitly preserve
-direct support and direct refutation when trusted current pages agree.
+calibration layer. The A10 preservation-calibrated follow-up in
+`docs/hosted-long-graph-preservation-summary.md` tests that repair directly and
+restores 24/24 direct controls while keeping 12/12 evidence-gap abstention.
 
 Generated raw outputs remain under
 `experiments/results/hosted-long-graph-repeats/` and are intentionally ignored

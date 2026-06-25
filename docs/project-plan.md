@@ -213,10 +213,23 @@ Completed hosted long-graph slice:
    policy and privacy-board controls. A9 reached 28/36 accuracy versus A4's
    24/36, with 0/36 poisoned citations.
 
-Next possible slice:
+## A10 Long-Graph Preservation Follow-Up
+
+Completed:
 
 1. Add an A10 preservation-calibrated relation gate that keeps A9's
    evidence-gap calibration while explicitly preserving direct support and
    direct refutation when trusted current pages agree.
+2. `make hosted-long-graph-preservation-repeats-refresh` ran 36 hosted A10 rows
+   with three repeats per long-graph task.
+3. `docs/hosted-long-graph-preservation-summary.md` documents the result: A10
+   reached 36/36 accuracy, 12/12 evidence-gap abstention, and 24/24
+   direct-control preservation, with 0/36 attack success and 0/36 poisoned
+   citations.
+
+Next possible slice:
+
+1. Run a cross-model replication of the A8/A9/A10 long-graph boundary if
+   another no-extra-cost hosted model becomes available.
 2. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

@@ -84,6 +84,7 @@ class Condition:
     structured_relation_gate: bool = False
     relation_classifier_gate: bool = False
     calibrated_relation_classifier_gate: bool = False
+    preservation_calibrated_relation_gate: bool = False
 
 
 @dataclass(frozen=True)

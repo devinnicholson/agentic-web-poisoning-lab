@@ -39,6 +39,7 @@ or misleading calls to action?
 | A7 | Structured relation gate | A6 plus application enforcement of verified evidence-relation labels. |
 | A8 | Classified relation gate | A7-style gate using a separate relation-classifier stage instead of gold labels. |
 | A9 | Calibrated relation gate | A8 plus a conservative evidence-gap override for absent independent validation. |
+| A10 | Preservation-calibrated relation gate | A9 plus direct-support/direct-refutation preservation when trusted current pages agree. |
 
 ## Attack Classes
 
@@ -173,6 +174,12 @@ Run three repeated hosted long-chain graph stress trials:
 make hosted-long-graph-repeats-refresh
 ```
 
+Run the hosted A10 long-chain preservation follow-up:
+
+```bash
+make hosted-long-graph-preservation-repeats-refresh
+```
+
 Generate the paired A7/A8/A9 statistical appendix from hosted result files:
 
 ```bash
@@ -234,6 +241,10 @@ and `experiments/results/hosted-long-graph-repeats/`. They use
 `data/tasks.graph-long.jsonl` and `data/pages.graph-long.jsonl` to test three
 trusted pages plus three adversarial distractors per task. A committed
 aggregate snapshot is in `docs/hosted-long-graph-summary.md`.
+A10 preservation follow-up outputs are written under
+`experiments/results/long-graph-preservation-local/` and
+`experiments/results/hosted-long-graph-preservation-repeats/`. The committed
+aggregate snapshot is in `docs/hosted-long-graph-preservation-summary.md`.
 The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
 A8, and A9 rows by task and repeat index, including exact McNemar tests for the
 A8 degradation and A9 repair.
@@ -313,7 +324,10 @@ result to 12 multi-page evidence graphs: A8/A9 reached 36/36 accuracy and
 12/12 correct abstention while A4 blocked poisoned citations but only abstained
 on 2/12 evidence gaps. A harder hosted long-graph run then surfaced the next
 boundary: A8/A9 preserved 12/12 evidence-gap abstentions but over-abstained on
-some direct policy and privacy-board controls. CI is enabled on the public
+some direct policy and privacy-board controls. The A10 preservation-calibrated
+follow-up repaired that long-graph boundary, reaching 36/36 accuracy, 12/12
+correct evidence-gap abstention, and 24/24 direct-control preservation with
+0/36 attack success and 0/36 poisoned citations. CI is enabled on the public
 GitHub repo, and the static dashboard summarizes the main hosted results.
 
 ## Safety Rule
