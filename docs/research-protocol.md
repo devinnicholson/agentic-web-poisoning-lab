@@ -338,6 +338,16 @@ This target defaults to `LONG_GRAPH_CROSS_MODEL_DEPLOYMENT=gpt-4-1-mini` and
 writes to
 `experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`.
 
+Run the A8/A9 long-graph baseline on that same second deployment:
+
+```bash
+make hosted-long-graph-relation-gates-cross-model-repeats-refresh
+```
+
+This target writes to
+`experiments/results/hosted-long-graph-gpt41mini-relation-gates-repeats/` and
+tests whether the direct-control over-abstention boundary appears before A10.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

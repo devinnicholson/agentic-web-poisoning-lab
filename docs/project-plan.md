@@ -229,6 +229,11 @@ Completed:
 4. A second `gpt-4-1-mini` Azure deployment replicated the A10 result on 36
    hosted rows: 36/36 accuracy, 12/12 evidence-gap abstention, 24/24
    direct-control preservation, and 0/36 provider errors.
+5. `make hosted-long-graph-relation-gates-cross-model-repeats-refresh` ran the
+   gpt-4.1-mini A8/A9 long-graph baseline. Both A8 and A9 reached 25/36
+   accuracy with 12/12 evidence-gap abstention, 12/12 direct `yes`
+   preservation, and only 1/12 direct `no` preservation. This makes A10's
+   12/12 direct `no` repair a within-model before/after result.
 
 Next possible slice:
 

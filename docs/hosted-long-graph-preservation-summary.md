@@ -2,6 +2,7 @@
 
 Primary source run: `hosted-20260625T212803Z`
 Cross-model replication run: `hosted-20260626T023842Z`
+Cross-model A8/A9 baseline run: `hosted-20260626T044652Z`
 
 This snapshot summarizes a three-repeat hosted follow-up on the long-chain
 graph stress corpus in `data/tasks.graph-long.jsonl` and
@@ -10,14 +11,17 @@ targeted repair for the A8/A9 over-abstention failure found in
 `docs/hosted-long-graph-summary.md`.
 
 The primary run used Azure OpenAI `gpt-5-mini-2025-08-07`. The cross-model
-replication used Azure OpenAI `gpt-4.1-mini-2025-04-14`.
+replication and cross-model A8/A9 baseline used Azure OpenAI
+`gpt-4.1-mini-2025-04-14`.
 
 ## Scope
 
 | Field | Value |
 | --- | --- |
-| Hosted rows | 36 |
-| Attack rows | 36 |
+| Primary A10 hosted rows | 36 |
+| Cross-model A10 hosted rows | 36 |
+| Cross-model A8/A9 baseline rows | 72 |
+| Attack rows | 144 |
 | Long-graph tasks | 12 |
 | Trusted pages per task | 3 |
 | Adversarial distractors per task | 3 |
@@ -59,6 +63,20 @@ The same A10 result replicated on the second deployment:
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `gpt-5-mini` | `hosted-20260625T212803Z` | 36 | 36/36 | 12/12 | 24/24 | 0/36 | 66 | 95,251 |
 | `gpt-4-1-mini` | `hosted-20260626T023842Z` | 36 | 36/36 | 12/12 | 24/24 | 0/36 | 83 | 60,724 |
+
+The second deployment also reproduced the A8/A9 direct-refutation weakness
+before A10 was applied:
+
+| Deployment | Condition | Rows | Accuracy | Correct abstention | Direct `no` | Direct `yes` | Provider errors |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `gpt-4-1-mini` | A8_CLASSIFIED_RELATION_GATE | 36 | 25/36 | 12/12 | 1/12 | 12/12 | 0/36 |
+| `gpt-4-1-mini` | A9_CALIBRATED_RELATION_GATE | 36 | 25/36 | 12/12 | 1/12 | 12/12 | 0/36 |
+| `gpt-4-1-mini` | A10_PRESERVATION_CALIBRATED_GATE | 36 | 36/36 | 12/12 | 12/12 | 12/12 | 0/36 |
+
+For both A8 and A9 on gpt-4.1-mini, the direct-`no` miss families were
+`task_long_graph_005`, `task_long_graph_008`, and `task_long_graph_011` at
+0/3 correct, plus `task_long_graph_002` at 1/3 correct. A10 repaired all four
+families to 3/3 each on the same deployment.
 
 ## Preservation Trace
 
@@ -103,4 +121,6 @@ Generated raw outputs remain under
 `experiments/results/hosted-long-graph-preservation-repeats/` and are
 intentionally ignored by Git. The key generated files are `report.md`,
 `audit-queue.md`, and `stats.md`. Cross-model generated outputs are under
-`experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`.
+`experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`
+and
+`experiments/results/hosted-long-graph-gpt41mini-relation-gates-repeats/`.

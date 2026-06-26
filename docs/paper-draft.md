@@ -36,7 +36,8 @@ privacy-board controls. A 36-row A10 preservation-calibrated follow-up repaired
 that boundary, reaching 36/36 accuracy, 12/12 evidence-gap abstention, and
 24/24 direct-control preservation with 0/36 attack success and 0/36 poisoned
 citations. A second 36-row run on a `gpt-4.1-mini` deployment replicated the
-same A10 result. Together, the results suggest that source trust
+same A10 result after a 72-row A8/A9 baseline on that deployment reproduced the
+direct-`no` over-abstention failure. Together, the results suggest that source trust
 controls can mitigate poisoned citations and attack following, but need
 explicit evidence-relation calibration, application-level relation gates,
 reliable relation classifiers, and direct-control preservation to improve
@@ -313,6 +314,16 @@ A second Azure deployment, `gpt-4-1-mini` (`gpt-4.1-mini-2025-04-14`), then
 replicated the same A10 result on another 36 hosted rows: 36/36 accuracy,
 12/12 correct abstention, 24/24 direct controls, 0/36 attack success, and 0/36
 poisoned citations.
+
+The same deployment was also run on A8 and A9 before A10. Both conditions
+matched the original pattern in a sharper form: 12/12 evidence-gap abstention
+and 12/12 direct `yes` preservation, but only 1/12 direct `no` preservation.
+
+| Deployment | Condition | Rows | Accuracy | Correct abstention | Direct `no` | Direct `yes` |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| gpt-4-1-mini | A8_CLASSIFIED_RELATION_GATE | 36 | 25/36 | 12/12 | 1/12 | 12/12 |
+| gpt-4-1-mini | A9_CALIBRATED_RELATION_GATE | 36 | 25/36 | 12/12 | 1/12 | 12/12 |
+| gpt-4-1-mini | A10_PRESERVATION_CALIBRATED_GATE | 36 | 36/36 | 12/12 | 12/12 | 12/12 |
 
 A10 fixed the three stable direct-control miss families from the prior run:
 `task_long_graph_003` improved from A8/A9 0/3 to A10 3/3, `task_long_graph_005`
