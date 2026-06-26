@@ -944,7 +944,7 @@
             <div class="panel">
               <div class="panel-head">
                 <h2>Hosted Long-Graph Stress</h2>
-                <span class="pill warn">144 + 36 follow-up rows</span>
+                <span class="pill warn">144 + 72 follow-up rows</span>
               </div>
               <div class="panel-body">
                 <table>
@@ -992,7 +992,15 @@
                       <td class="num"><span class="pill warn">16/24</span></td>
                     </tr>
                     <tr>
-                      <td>A10_PRESERVATION_CALIBRATED_GATE</td>
+                      <td>A10_PRESERVATION_CALIBRATED_GATE<br><span class="meta">gpt-5-mini</span></td>
+                      <td class="num">100.0%</td>
+                      <td class="num">0.0%</td>
+                      <td class="num">0.0%</td>
+                      <td class="num">12/12</td>
+                      <td class="num"><span class="pill good">24/24</span></td>
+                    </tr>
+                    <tr>
+                      <td>A10_PRESERVATION_CALIBRATED_GATE<br><span class="meta">gpt-4.1-mini</span></td>
                       <td class="num">100.0%</td>
                       <td class="num">0.0%</td>
                       <td class="num">0.0%</td>
@@ -1091,7 +1099,8 @@
                 dropping direct-control preservation to 15/24 for A8 and 16/24
                 for A9. The A10 preservation-calibrated follow-up repaired that
                 boundary: 36/36 accuracy, 12/12 correct abstention, and 24/24
-                direct controls with 0/36 attack success.
+                direct controls with 0/36 attack success on gpt-5-mini, then
+                replicated the same result on gpt-4.1-mini.
               </p>
             </div>
           </div>

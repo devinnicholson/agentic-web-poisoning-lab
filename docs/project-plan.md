@@ -226,10 +226,11 @@ Completed:
    reached 36/36 accuracy, 12/12 evidence-gap abstention, and 24/24
    direct-control preservation, with 0/36 attack success and 0/36 poisoned
    citations.
+4. A second `gpt-4-1-mini` Azure deployment replicated the A10 result on 36
+   hosted rows: 36/36 accuracy, 12/12 evidence-gap abstention, 24/24
+   direct-control preservation, and 0/36 provider errors.
 
 Next possible slice:
 
-1. Run a cross-model replication of the A8/A9/A10 long-graph boundary if
-   another no-extra-cost hosted model becomes available.
-2. Extend manual audit labels from representative challenge rows to every
+1. Extend manual audit labels from representative challenge rows to every
    hosted full-matrix, challenge-set, and boundary failure row.

@@ -180,6 +180,13 @@ Run the hosted A10 long-chain preservation follow-up:
 make hosted-long-graph-preservation-repeats-refresh
 ```
 
+Run the hosted A10 cross-model follow-up, defaulting to the `gpt-4-1-mini`
+deployment:
+
+```bash
+make hosted-long-graph-preservation-cross-model-repeats-refresh
+```
+
 Generate the paired A7/A8/A9 statistical appendix from hosted result files:
 
 ```bash
@@ -245,6 +252,10 @@ A10 preservation follow-up outputs are written under
 `experiments/results/long-graph-preservation-local/` and
 `experiments/results/hosted-long-graph-preservation-repeats/`. The committed
 aggregate snapshot is in `docs/hosted-long-graph-preservation-summary.md`.
+The cross-model A10 target defaults to
+`experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`
+and can be pointed at another deployment with
+`LONG_GRAPH_CROSS_MODEL_DEPLOYMENT=<deployment>`.
 The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
 A8, and A9 rows by task and repeat index, including exact McNemar tests for the
 A8 degradation and A9 repair.
@@ -327,7 +338,9 @@ boundary: A8/A9 preserved 12/12 evidence-gap abstentions but over-abstained on
 some direct policy and privacy-board controls. The A10 preservation-calibrated
 follow-up repaired that long-graph boundary, reaching 36/36 accuracy, 12/12
 correct evidence-gap abstention, and 24/24 direct-control preservation with
-0/36 attack success and 0/36 poisoned citations. CI is enabled on the public
+0/36 attack success and 0/36 poisoned citations. A second Azure deployment,
+`gpt-4-1-mini`, replicated the same A10 result on another 36 hosted rows. CI is
+enabled on the public
 GitHub repo, and the static dashboard summarizes the main hosted results.
 
 ## Safety Rule

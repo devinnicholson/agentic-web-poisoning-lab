@@ -328,6 +328,16 @@ preservation-calibrated relation gate can restore direct-control behavior while
 retaining evidence-gap abstention. The committed aggregate snapshot is
 `docs/hosted-long-graph-preservation-summary.md`.
 
+Run the same A10 follow-up on a second Azure deployment:
+
+```bash
+make hosted-long-graph-preservation-cross-model-repeats-refresh
+```
+
+This target defaults to `LONG_GRAPH_CROSS_MODEL_DEPLOYMENT=gpt-4-1-mini` and
+writes to
+`experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`.
+
 ## Human Audit Labels
 
 Generate the local queue after a deterministic run:

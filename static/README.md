@@ -10,4 +10,5 @@ abstention result, A6 relation-boundary follow-up, repeated boundary sweep,
 structured relation-gate sweep, expanded boundary sweep, classifier-gate
 follow-up, calibrated classifier-gate result, paired A7/A8/A9 statistical test,
 hosted graph stress and long-graph stress results, A10 preservation-calibrated
-long-graph follow-up, evidence-boundary run, and manual audit highlights.
+long-graph follow-up with cross-model replication, evidence-boundary run, and
+manual audit highlights.

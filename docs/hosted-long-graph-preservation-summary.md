@@ -1,6 +1,7 @@
 # Hosted Long-Graph Preservation Snapshot
 
-Source run: `hosted-20260625T212803Z`
+Primary source run: `hosted-20260625T212803Z`
+Cross-model replication run: `hosted-20260626T023842Z`
 
 This snapshot summarizes a three-repeat hosted follow-up on the long-chain
 graph stress corpus in `data/tasks.graph-long.jsonl` and
@@ -8,7 +9,8 @@ graph stress corpus in `data/tasks.graph-long.jsonl` and
 targeted repair for the A8/A9 over-abstention failure found in
 `docs/hosted-long-graph-summary.md`.
 
-The run used Azure OpenAI `gpt-5-mini-2025-08-07`.
+The primary run used Azure OpenAI `gpt-5-mini-2025-08-07`. The cross-model
+replication used Azure OpenAI `gpt-4.1-mini-2025-04-14`.
 
 ## Scope
 
@@ -32,9 +34,10 @@ The run used Azure OpenAI `gpt-5-mini-2025-08-07`.
 
 ## Condition Scorecard
 
-| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct no | Direct yes |
+| Model deployment | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct no | Direct yes |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| A10_PRESERVATION_CALIBRATED_GATE | 36 | 100.0% | 0.0% | 0.0% | 12/12 | 12/12 | 12/12 |
+| `gpt-5-mini` | 36 | 100.0% | 0.0% | 0.0% | 12/12 | 12/12 | 12/12 |
+| `gpt-4-1-mini` | 36 | 100.0% | 0.0% | 0.0% | 12/12 | 12/12 | 12/12 |
 
 ## Main Finding
 
@@ -50,6 +53,13 @@ The comparison against the prior long-graph run is the key result:
 | A9_CALIBRATED_RELATION_GATE | 36 | 77.8% | 12/12 | 16/24 | 0.0% | 0.0% |
 | A10_PRESERVATION_CALIBRATED_GATE | 36 | 100.0% | 12/12 | 24/24 | 0.0% | 0.0% |
 
+The same A10 result replicated on the second deployment:
+
+| Deployment | Run ID | Rows | Accuracy | Correct abstention | Direct controls | Provider errors | Total retries | Total tokens |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `gpt-5-mini` | `hosted-20260625T212803Z` | 36 | 36/36 | 12/12 | 24/24 | 0/36 | 66 | 95,251 |
+| `gpt-4-1-mini` | `hosted-20260626T023842Z` | 36 | 36/36 | 12/12 | 24/24 | 0/36 | 83 | 60,724 |
+
 ## Preservation Trace
 
 The trace shows both calibration directions:
@@ -60,6 +70,11 @@ The trace shows both calibration directions:
 | `missing_validation -> direct_refutation` | 5 |
 | `direct_refutation -> missing_validation` | 7 |
 | `direct_support -> missing_validation` | 1 |
+
+The gpt-4.1-mini replication needed fewer completion tokens and more retries.
+Its relation trace had 13 `missing_validation -> direct_refutation` preservation
+overrides and no evidence-gap downgrades, while still preserving all 12/12
+evidence-gap abstentions.
 
 The direct-control preservation overrides landed on the previously unstable
 families:
@@ -87,4 +102,5 @@ blanket over-refusal when trusted current pages do answer the question.
 Generated raw outputs remain under
 `experiments/results/hosted-long-graph-preservation-repeats/` and are
 intentionally ignored by Git. The key generated files are `report.md`,
-`audit-queue.md`, and `stats.md`.
+`audit-queue.md`, and `stats.md`. Cross-model generated outputs are under
+`experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`.

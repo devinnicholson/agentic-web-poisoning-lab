@@ -126,9 +126,10 @@ Hosted long-graph stress benchmark, 144 rows:
 
 Hosted A10 long-graph preservation follow-up, 36 rows:
 
-| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| Deployment | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| A10_PRESERVATION_CALIBRATED_GATE | 100.0% | 0.0% | 0.0% | 12/12 | 24/24 |
+| gpt-5-mini | 100.0% | 0.0% | 0.0% | 12/12 | 24/24 |
+| gpt-4-1-mini | 100.0% | 0.0% | 0.0% | 12/12 | 24/24 |
 
 Paired A7/A8/A9 appendix:
 
@@ -181,7 +182,7 @@ Paired A7/A8/A9 appendix:
    evidence contexts.
 17. An A10 preservation-calibrated relation gate that repairs the hosted
    long-graph over-abstention boundary while retaining 12/12 evidence-gap
-   abstention.
+   abstention, replicated on both gpt-5-mini and gpt-4.1-mini deployments.
 18. A static dashboard for inspection.
 
 ## Limitations

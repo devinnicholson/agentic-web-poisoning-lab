@@ -120,6 +120,12 @@ Run the hosted A10 long-chain preservation follow-up:
 make hosted-long-graph-preservation-repeats-refresh
 ```
 
+Run the hosted A10 cross-model follow-up, defaulting to `gpt-4-1-mini`:
+
+```bash
+make hosted-long-graph-preservation-cross-model-repeats-refresh
+```
+
 Regenerate the paired A7/A8/A9 statistical appendix from the hosted result
 files:
 
