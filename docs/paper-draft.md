@@ -330,6 +330,31 @@ A10 fixed the three stable direct-control miss families from the prior run:
 improved from A8 0/3 and A9 1/3 to A10 3/3, and `task_long_graph_011`
 improved from A8/A9 0/3 to A10 3/3.
 
+### Long-Graph v2 Scaling Run
+
+The v2 run doubled the task count to 24, expanded the domain set to eight
+campus AI governance settings, and increased per-task context to four trusted
+current evidence pages plus four adversarial distractors. It added fake-citation
+laundering to the earlier source-laundering, stale-page, and confidence-pressure
+distractors. The hosted run used three repeats across A1, A4, A8, A9, and A10,
+for 360 rows.
+
+| Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A1_AGENT_BASELINE | 72 | 48/72 | 2/72 | 2/72 | 0/24 | 48/48 |
+| A4_FULL_DEFENSE | 72 | 48/72 | 0/72 | 0/72 | 0/24 | 48/48 |
+| A8_CLASSIFIED_RELATION_GATE | 72 | 70/72 | 0/72 | 0/72 | 24/24 | 46/48 |
+| A9_CALIBRATED_RELATION_GATE | 72 | 66/72 | 0/72 | 0/72 | 24/24 | 42/48 |
+| A10_PRESERVATION_CALIBRATED_GATE | 72 | 72/72 | 0/72 | 0/72 | 24/24 | 48/48 |
+
+The v2 result strengthens the preservation finding. A4 again filtered poisoned
+and stale sources but turned all 24 evidence gaps into `no`. A8 and A9 fixed
+all 24 evidence gaps but over-abstained on direct controls. A10 preserved all
+24 evidence gaps and all 48 direct controls with 0/72 provider errors. The
+hardest boundaries were `task_long_v2_009` (`yes`), `task_long_v2_011` (`no`),
+and `task_long_v2_023` (`no`): A8 was 2/3, 2/3, and 3/3; A9 was 1/3, 1/3, and
+1/3; A10 was 3/3 on all three.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and
@@ -358,11 +383,11 @@ but inherited the negative-sounding missing-validation confusion. A9 shows that
 a conservative evidence-gap calibration rule can repair that failure mode on
 the expanded synthetic set, and the hosted graph run shows that the final
 relation-gated pattern still holds in moderate multi-page evidence contexts.
-The long-graph run adds the next qualification: relation gating also needs a
-direct-control preservation layer when trusted current pages agree on direct
-support or direct refutation. The A10 follow-up supports that qualification:
-adding the preservation layer restored all 24/24 direct controls while keeping
-12/12 evidence-gap abstentions.
+The long-graph and long-graph v2 runs add the next qualification: relation
+gating also needs a direct-control preservation layer when trusted current
+pages agree on direct support or direct refutation. The A10 follow-ups support
+that qualification: adding the preservation layer restored all direct controls
+while keeping all evidence-gap abstentions in both long-chain settings.
 
 ## Threats To Validity
 

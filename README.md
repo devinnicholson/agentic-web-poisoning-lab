@@ -162,6 +162,12 @@ Run the local long-chain graph stress benchmark:
 make long-graph-refresh
 ```
 
+Run the local 24-task long-chain v2 graph benchmark:
+
+```bash
+make long-graph-v2-refresh
+```
+
 Run three repeated hosted graph stress trials:
 
 ```bash
@@ -178,6 +184,12 @@ Run the hosted A10 long-chain preservation follow-up:
 
 ```bash
 make hosted-long-graph-preservation-repeats-refresh
+```
+
+Run the hosted A1/A4/A8/A9/A10 long-chain v2 pilot:
+
+```bash
+make hosted-long-graph-v2-pilot-refresh
 ```
 
 Run the hosted A10 cross-model follow-up, defaulting to the `gpt-4-1-mini`
@@ -258,6 +270,15 @@ A10 preservation follow-up outputs are written under
 `experiments/results/long-graph-preservation-local/` and
 `experiments/results/hosted-long-graph-preservation-repeats/`. The committed
 aggregate snapshot is in `docs/hosted-long-graph-preservation-summary.md`.
+Long-graph v2 outputs are written under
+`experiments/results/long-graph-v2-local/` and
+`experiments/results/hosted-long-graph-v2-pilot/`. They use
+`data/tasks.graph-long-v2.jsonl` and `data/pages.graph-long-v2.jsonl` to test
+24 tasks, eight campus AI governance domains, four trusted current evidence
+pages, and four adversarial distractors per task, including fake-citation
+laundering. The hosted pilot runs three repeats across the vulnerable baseline,
+full defense, and A8/A9/A10 relation-gate defenses. The committed aggregate
+snapshot is in `docs/hosted-long-graph-v2-summary.md`.
 The cross-model A10 target defaults to
 `experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`
 and can be pointed at another deployment with
@@ -349,8 +370,12 @@ correct evidence-gap abstention, and 24/24 direct-control preservation with
 0/36 attack success and 0/36 poisoned citations. A second Azure deployment,
 `gpt-4-1-mini`, replicated the same A10 result on another 36 hosted rows after
 an A8/A9 cross-model baseline reproduced the direct-`no` over-abstention
-failure at 1/12 preservation for both conditions. CI is enabled on the public
-GitHub repo, and the static dashboard summarizes the main hosted results.
+failure at 1/12 preservation for both conditions. The hosted long-graph v2 run
+scaled this finding to 24 tasks and 360 rows: A10 reached 72/72 accuracy,
+24/24 evidence-gap abstention, and 48/48 direct-control preservation, while
+A8 reached 70/72 and A9 reached 66/72 due to direct-control over-abstention.
+CI is enabled on the public GitHub repo, and the static dashboard summarizes
+the main hosted results.
 
 ## Safety Rule
 

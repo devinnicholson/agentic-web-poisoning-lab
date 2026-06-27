@@ -133,6 +133,16 @@ Hosted A10 long-graph preservation follow-up, 36 rows:
 | gpt-4-1-mini | A9 | 69.4% | 0.0% | 0.0% | 12/12 | 13/24 |
 | gpt-4-1-mini | A10 | 100.0% | 0.0% | 0.0% | 12/12 | 24/24 |
 
+Hosted long-graph v2 benchmark, 360 rows:
+
+| Condition | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A1_AGENT_BASELINE | 66.7% | 2.8% | 2.8% | 0/24 | 48/48 |
+| A4_FULL_DEFENSE | 66.7% | 0.0% | 0.0% | 0/24 | 48/48 |
+| A8_CLASSIFIED_RELATION_GATE | 97.2% | 0.0% | 0.0% | 24/24 | 46/48 |
+| A9_CALIBRATED_RELATION_GATE | 91.7% | 0.0% | 0.0% | 24/24 | 42/48 |
+| A10_PRESERVATION_CALIBRATED_GATE | 100.0% | 0.0% | 0.0% | 24/24 | 48/48 |
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points

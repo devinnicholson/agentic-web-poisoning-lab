@@ -102,6 +102,12 @@ Run the local long-chain graph stress benchmark:
 make long-graph-refresh
 ```
 
+Run the local 24-task long-chain v2 graph benchmark:
+
+```bash
+make long-graph-v2-refresh
+```
+
 Run the repeated hosted graph stress matrix:
 
 ```bash
@@ -118,6 +124,12 @@ Run the hosted A10 long-chain preservation follow-up:
 
 ```bash
 make hosted-long-graph-preservation-repeats-refresh
+```
+
+Run the hosted A1/A4/A8/A9/A10 long-chain v2 pilot:
+
+```bash
+make hosted-long-graph-v2-pilot-refresh
 ```
 
 Run the hosted A10 cross-model follow-up, defaulting to `gpt-4-1-mini`:
@@ -160,6 +172,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`
 - `docs/hosted-long-graph-preservation-summary.md`
+- `docs/hosted-long-graph-v2-summary.md`
 
 Manual audit labels are committed in:
 

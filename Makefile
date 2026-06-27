@@ -22,6 +22,8 @@ GRAPH_TASKS ?= data/tasks.graph.jsonl
 GRAPH_PAGES ?= data/pages.graph.jsonl
 LONG_GRAPH_TASKS ?= data/tasks.graph-long.jsonl
 LONG_GRAPH_PAGES ?= data/pages.graph-long.jsonl
+LONG_GRAPH_V2_TASKS ?= data/tasks.graph-long-v2.jsonl
+LONG_GRAPH_V2_PAGES ?= data/pages.graph-long-v2.jsonl
 BOUNDARY_CONDITIONS ?= A4_FULL_DEFENSE,A5_STRICT_ABSTENTION
 BOUNDARY_HOSTED_TASK_IDS ?= all
 RELATION_BOUNDARY_CONDITIONS ?= A5_STRICT_ABSTENTION,A6_RELATION_VERIFIER
@@ -40,6 +42,11 @@ LONG_GRAPH_HOSTED_TASK_IDS ?= all
 LONG_GRAPH_REPEATS ?= 3
 LONG_GRAPH_HOSTED_DELAY_SECONDS ?= 2
 LONG_GRAPH_PRESERVATION_CONDITIONS ?= A10_PRESERVATION_CALIBRATED_GATE
+LONG_GRAPH_V2_CONDITIONS ?= A1_AGENT_BASELINE,A4_FULL_DEFENSE,A8_CLASSIFIED_RELATION_GATE,A9_CALIBRATED_RELATION_GATE,A10_PRESERVATION_CALIBRATED_GATE
+LONG_GRAPH_V2_HOSTED_CONDITIONS ?= $(LONG_GRAPH_V2_CONDITIONS)
+LONG_GRAPH_V2_HOSTED_TASK_IDS ?= all
+LONG_GRAPH_V2_REPEATS ?= 3
+LONG_GRAPH_V2_HOSTED_DELAY_SECONDS ?= 2
 LONG_GRAPH_CROSS_MODEL_DEPLOYMENT ?= gpt-4-1-mini
 LONG_GRAPH_RELATION_GATES_CROSS_MODEL_CONDITIONS ?= A8_CLASSIFIED_RELATION_GATE,A9_CALIBRATED_RELATION_GATE
 LONG_GRAPH_RELATION_GATES_CROSS_MODEL_OUT_DIR ?= experiments/results/hosted-long-graph-gpt41mini-relation-gates-repeats
@@ -48,6 +55,7 @@ LONG_GRAPH_CROSS_MODEL_OUT_DIR ?= experiments/results/hosted-long-graph-preserva
 LONG_GRAPH_CROSS_MODEL_RUN_MODE ?= hosted_long_graph_preservation_gpt41mini_network_repeats
 
 .PHONY: help test run-local report-local audit-local research-refresh run-challenge-local report-challenge-local audit-challenge-local challenge-refresh run-strict-challenge-local report-strict-challenge-local audit-strict-challenge-local strict-challenge-refresh run-boundary-local report-boundary-local audit-boundary-local boundary-refresh run-relation-boundary-local report-relation-boundary-local audit-relation-boundary-local relation-boundary-refresh run-relation-gate-local report-relation-gate-local audit-relation-gate-local relation-gate-refresh run-relation-gate-expanded-local report-relation-gate-expanded-local audit-relation-gate-expanded-local relation-gate-expanded-refresh run-relation-classifier-expanded-local report-relation-classifier-expanded-local audit-relation-classifier-expanded-local relation-classifier-expanded-refresh run-relation-calibrated-expanded-local report-relation-calibrated-expanded-local audit-relation-calibrated-expanded-local relation-calibrated-expanded-refresh run-graph-local report-graph-local audit-graph-local stats-graph-local graph-refresh run-long-graph-local report-long-graph-local audit-long-graph-local stats-long-graph-local long-graph-refresh run-long-graph-preservation-local report-long-graph-preservation-local audit-long-graph-preservation-local stats-long-graph-preservation-local long-graph-preservation-refresh paired-analysis-a7-a9 run-hosted-graph-repeats report-hosted-graph-repeats audit-hosted-graph-repeats stats-hosted-graph-repeats hosted-graph-repeats-refresh run-hosted-long-graph-repeats report-hosted-long-graph-repeats audit-hosted-long-graph-repeats stats-hosted-long-graph-repeats hosted-long-graph-repeats-refresh run-hosted-long-graph-preservation-repeats report-hosted-long-graph-preservation-repeats audit-hosted-long-graph-preservation-repeats stats-hosted-long-graph-preservation-repeats hosted-long-graph-preservation-repeats-refresh run-hosted-long-graph-relation-gates-cross-model-repeats report-hosted-long-graph-relation-gates-cross-model-repeats audit-hosted-long-graph-relation-gates-cross-model-repeats stats-hosted-long-graph-relation-gates-cross-model-repeats hosted-long-graph-relation-gates-cross-model-repeats-refresh run-hosted-long-graph-preservation-cross-model-repeats report-hosted-long-graph-preservation-cross-model-repeats audit-hosted-long-graph-preservation-cross-model-repeats stats-hosted-long-graph-preservation-cross-model-repeats hosted-long-graph-preservation-cross-model-repeats-refresh run-hosted-smoke report-hosted-smoke audit-hosted-smoke hosted-smoke-refresh run-hosted-focused report-hosted-focused audit-hosted-focused compare-hosted-focused hosted-focused-refresh run-hosted-full report-hosted-full audit-hosted-full compare-hosted-full stats-hosted-full hosted-full-refresh run-hosted-challenge report-hosted-challenge audit-hosted-challenge compare-hosted-challenge stats-hosted-challenge hosted-challenge-refresh run-hosted-strict-challenge report-hosted-strict-challenge audit-hosted-strict-challenge compare-hosted-strict-challenge stats-hosted-strict-challenge hosted-strict-challenge-refresh run-hosted-boundary report-hosted-boundary audit-hosted-boundary compare-hosted-boundary stats-hosted-boundary hosted-boundary-refresh run-hosted-relation-boundary report-hosted-relation-boundary audit-hosted-relation-boundary compare-hosted-relation-boundary stats-hosted-relation-boundary hosted-relation-boundary-refresh run-hosted-relation-boundary-repeats report-hosted-relation-boundary-repeats audit-hosted-relation-boundary-repeats stats-hosted-relation-boundary-repeats hosted-relation-boundary-repeats-refresh run-hosted-relation-gate-repeats report-hosted-relation-gate-repeats audit-hosted-relation-gate-repeats stats-hosted-relation-gate-repeats hosted-relation-gate-repeats-refresh run-hosted-relation-gate-expanded-repeats report-hosted-relation-gate-expanded-repeats audit-hosted-relation-gate-expanded-repeats stats-hosted-relation-gate-expanded-repeats hosted-relation-gate-expanded-repeats-refresh run-hosted-relation-classifier-expanded-repeats report-hosted-relation-classifier-expanded-repeats audit-hosted-relation-classifier-expanded-repeats stats-hosted-relation-classifier-expanded-repeats hosted-relation-classifier-expanded-repeats-refresh run-hosted-relation-calibrated-expanded-repeats report-hosted-relation-calibrated-expanded-repeats audit-hosted-relation-calibrated-expanded-repeats stats-hosted-relation-calibrated-expanded-repeats hosted-relation-calibrated-expanded-repeats-refresh
+.PHONY: run-long-graph-v2-local report-long-graph-v2-local audit-long-graph-v2-local stats-long-graph-v2-local long-graph-v2-refresh run-hosted-long-graph-v2-pilot report-hosted-long-graph-v2-pilot audit-hosted-long-graph-v2-pilot stats-hosted-long-graph-v2-pilot hosted-long-graph-v2-pilot-refresh
 
 help:
 	@printf '%s\n' \
@@ -68,9 +76,11 @@ help:
 		'  make graph-refresh Run local multi-page graph stress benchmark.' \
 		'  make long-graph-refresh Run local long-chain graph stress benchmark.' \
 		'  make long-graph-preservation-refresh Run local A10 long-chain graph follow-up.' \
+		'  make long-graph-v2-refresh Run local 24-task long-chain v2 graph benchmark.' \
 		'  make hosted-graph-repeats-refresh Run hosted repeated graph stress trials.' \
 		'  make hosted-long-graph-repeats-refresh Run hosted repeated long-chain graph trials.' \
 		'  make hosted-long-graph-preservation-repeats-refresh Run hosted A10 long-chain graph follow-up.' \
+		'  make hosted-long-graph-v2-pilot-refresh Run hosted A1/A4/A8/A9/A10 long-chain v2 pilot.' \
 		'  make hosted-long-graph-relation-gates-cross-model-repeats-refresh Run hosted A8/A9 cross-model long-chain baseline.' \
 		'  make hosted-long-graph-preservation-cross-model-repeats-refresh Run hosted A10 cross-model long-chain follow-up.' \
 		'  make hosted-smoke-refresh Run Azure hosted smoke, report, and audit queue.' \
@@ -342,6 +352,31 @@ stats-long-graph-preservation-local:
 
 long-graph-preservation-refresh: run-long-graph-preservation-local report-long-graph-preservation-local audit-long-graph-preservation-local stats-long-graph-preservation-local
 
+run-long-graph-v2-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run \
+		--tasks $(LONG_GRAPH_V2_TASKS) \
+		--pages $(LONG_GRAPH_V2_PAGES) \
+		--conditions $(LONG_GRAPH_V2_CONDITIONS) \
+		--out-dir experiments/results/long-graph-v2-local
+
+report-long-graph-v2-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/long-graph-v2-local/results.jsonl \
+		--out experiments/results/long-graph-v2-local/report.md
+
+audit-long-graph-v2-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/long-graph-v2-local/results.jsonl \
+		--pages $(LONG_GRAPH_V2_PAGES) \
+		--out experiments/results/long-graph-v2-local/audit-queue.md
+
+stats-long-graph-v2-local:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/long-graph-v2-local/results.jsonl \
+		--out experiments/results/long-graph-v2-local/stats.md
+
+long-graph-v2-refresh: run-long-graph-v2-local report-long-graph-v2-local audit-long-graph-v2-local stats-long-graph-v2-local
+
 paired-analysis-a7-a9:
 	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli paired-analysis \
 		--results experiments/results/hosted-relation-classifier-expanded-repeats/results.jsonl experiments/results/hosted-relation-calibrated-expanded-repeats/results.jsonl \
@@ -436,6 +471,36 @@ stats-hosted-long-graph-preservation-repeats:
 		--out experiments/results/hosted-long-graph-preservation-repeats/stats.md
 
 hosted-long-graph-preservation-repeats-refresh: long-graph-preservation-refresh run-hosted-long-graph-preservation-repeats report-hosted-long-graph-preservation-repeats audit-hosted-long-graph-preservation-repeats stats-hosted-long-graph-preservation-repeats
+
+run-hosted-long-graph-v2-pilot:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \
+		--tasks $(LONG_GRAPH_V2_TASKS) \
+		--pages $(LONG_GRAPH_V2_PAGES) \
+		--conditions $(LONG_GRAPH_V2_HOSTED_CONDITIONS) \
+		--task-ids $(LONG_GRAPH_V2_HOSTED_TASK_IDS) \
+		--out-dir experiments/results/hosted-long-graph-v2-pilot \
+		--delay-seconds $(LONG_GRAPH_V2_HOSTED_DELAY_SECONDS) \
+		--run-mode hosted_long_graph_v2_pilot \
+		--repeats $(LONG_GRAPH_V2_REPEATS) \
+		$(HOSTED_RESUME)
+
+report-hosted-long-graph-v2-pilot:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli report \
+		--results experiments/results/hosted-long-graph-v2-pilot/results.jsonl \
+		--out experiments/results/hosted-long-graph-v2-pilot/report.md
+
+audit-hosted-long-graph-v2-pilot:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli audit \
+		--results experiments/results/hosted-long-graph-v2-pilot/results.jsonl \
+		--pages $(LONG_GRAPH_V2_PAGES) \
+		--out experiments/results/hosted-long-graph-v2-pilot/audit-queue.md
+
+stats-hosted-long-graph-v2-pilot:
+	$(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli stats \
+		--results experiments/results/hosted-long-graph-v2-pilot/results.jsonl \
+		--out experiments/results/hosted-long-graph-v2-pilot/stats.md
+
+hosted-long-graph-v2-pilot-refresh: long-graph-v2-refresh run-hosted-long-graph-v2-pilot report-hosted-long-graph-v2-pilot audit-hosted-long-graph-v2-pilot stats-hosted-long-graph-v2-pilot
 
 run-hosted-long-graph-relation-gates-cross-model-repeats:
 	AZURE_OPENAI_DEPLOYMENT=$(LONG_GRAPH_CROSS_MODEL_DEPLOYMENT) $(LOCAL_ENV) $(PYTHON) -m agentic_web_poisoning_lab.cli run-hosted \

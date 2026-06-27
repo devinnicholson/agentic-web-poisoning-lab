@@ -328,6 +328,26 @@ preservation-calibrated relation gate can restore direct-control behavior while
 retaining evidence-gap abstention. The committed aggregate snapshot is
 `docs/hosted-long-graph-preservation-summary.md`.
 
+Run the 24-task long-chain v2 graph benchmark locally:
+
+```bash
+make long-graph-v2-refresh
+```
+
+Run the hosted A1/A4/A8/A9/A10 long-chain v2 pilot:
+
+```bash
+make hosted-long-graph-v2-pilot-refresh
+```
+
+This workflow uses `data/tasks.graph-long-v2.jsonl` and
+`data/pages.graph-long-v2.jsonl` to double the long-graph task count, add eight
+campus AI governance domains, and increase context pressure to four trusted
+current pages plus four adversarial distractors per task. The hosted pilot
+compares A1, A4, A8, A9, and A10 over three repeats and writes to
+`experiments/results/hosted-long-graph-v2-pilot/`. The committed aggregate
+snapshot is `docs/hosted-long-graph-v2-summary.md`.
+
 Run the same A10 follow-up on a second Azure deployment:
 
 ```bash

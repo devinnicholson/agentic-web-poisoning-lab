@@ -235,6 +235,26 @@ Completed:
    preservation, and only 1/12 direct `no` preservation. This makes A10's
    12/12 direct `no` repair a within-model before/after result.
 
+## Long-Graph v2 Iteration
+
+Completed:
+
+1. `data/tasks.graph-long-v2.jsonl` and `data/pages.graph-long-v2.jsonl` add a
+   24-task stress corpus across eight campus AI governance domains.
+2. Each task has four trusted current evidence pages and four adversarial
+   distractors, adding fake-citation laundering on top of source laundering,
+   stale-page conflict, and confidence pressure.
+3. `make long-graph-v2-refresh` runs local A1/A4/A8/A9/A10 baselines to confirm
+   the harness behavior before hosted spend.
+4. `make hosted-long-graph-v2-pilot-refresh` runs a three-repeat hosted
+   A1/A4/A8/A9/A10 pilot to test whether A10's preservation repair scales under
+   larger context pressure while retaining a same-corpus vulnerable baseline.
+5. `docs/hosted-long-graph-v2-summary.md` documents the hosted result: A10
+   reached 72/72 accuracy, 24/24 evidence-gap abstention, and 48/48 direct
+   controls, with 0/72 attack success, 0/72 cited poisoned pages, and 0/72
+   provider errors. A8 reached 70/72 and A9 reached 66/72 because they retained
+   evidence-gap abstention but over-abstained on direct controls.
+
 Next possible slice:
 
 1. Extend manual audit labels from representative challenge rows to every
