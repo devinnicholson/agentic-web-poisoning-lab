@@ -348,6 +348,19 @@ compares A1, A4, A8, A9, and A10 over three repeats and writes to
 `experiments/results/hosted-long-graph-v2-pilot/`. The committed aggregate
 snapshot is `docs/hosted-long-graph-v2-summary.md`.
 
+Run the A8/A9/A10 long-chain v2 cross-model replication on a second Azure
+deployment:
+
+```bash
+make hosted-long-graph-v2-cross-model-repeats-refresh
+```
+
+This target defaults to `LONG_GRAPH_V2_CROSS_MODEL_DEPLOYMENT=gpt-4-1-mini`
+and writes to
+`experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/`. The
+committed aggregate snapshot is
+`docs/hosted-long-graph-v2-cross-model-summary.md`.
+
 Run the same A10 follow-up on a second Azure deployment:
 
 ```bash

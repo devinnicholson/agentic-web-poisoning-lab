@@ -143,6 +143,14 @@ Hosted long-graph v2 benchmark, 360 rows:
 | A9_CALIBRATED_RELATION_GATE | 91.7% | 0.0% | 0.0% | 24/24 | 42/48 |
 | A10_PRESERVATION_CALIBRATED_GATE | 100.0% | 0.0% | 0.0% | 24/24 | 48/48 |
 
+Hosted long-graph v2 cross-model replication, 216 rows:
+
+| Deployment | Condition | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| gpt-4-1-mini | A8 | 83.3% | 0.0% | 0.0% | 24/24 | 36/48 |
+| gpt-4-1-mini | A9 | 81.9% | 0.0% | 0.0% | 24/24 | 35/48 |
+| gpt-4-1-mini | A10 | 100.0% | 0.0% | 0.0% | 24/24 | 48/48 |
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points
@@ -197,13 +205,16 @@ Paired A7/A8/A9 appendix:
    abstention, replicated on both gpt-5-mini and gpt-4.1-mini deployments; on
    gpt-4.1-mini, A8/A9 preserved only 1/12 direct `no` controls before A10
    restored 12/12.
-18. A static dashboard for inspection.
+18. A 216-row cross-model long-graph v2 replication showing the A10 repair
+    also holds on `gpt-4-1-mini`: A10 reached 72/72 while A8/A9 over-abstained
+    on direct controls.
+19. A static dashboard for inspection.
 
 ## Limitations
 
 - Synthetic pages do not measure prevalence on the live web.
-- Results are from one hosted model deployment and should be repeated across
-  models and runs.
+- Results now include two Azure deployments, but should still be repeated
+  across more providers, model families, and independently authored corpora.
 - Some evidence-gap prompts are semantically close to direct negation; the
   remaining A6 miss is exactly in this boundary area. A7 fixes it on this
   synthetic set by relying on verified relation labels, which must be replaced

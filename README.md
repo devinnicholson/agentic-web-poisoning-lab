@@ -192,6 +192,13 @@ Run the hosted A1/A4/A8/A9/A10 long-chain v2 pilot:
 make hosted-long-graph-v2-pilot-refresh
 ```
 
+Run the hosted A8/A9/A10 long-chain v2 cross-model replication, defaulting to
+the `gpt-4-1-mini` deployment:
+
+```bash
+make hosted-long-graph-v2-cross-model-repeats-refresh
+```
+
 Run the hosted A10 cross-model follow-up, defaulting to the `gpt-4-1-mini`
 deployment:
 
@@ -279,6 +286,11 @@ pages, and four adversarial distractors per task, including fake-citation
 laundering. The hosted pilot runs three repeats across the vulnerable baseline,
 full defense, and A8/A9/A10 relation-gate defenses. The committed aggregate
 snapshot is in `docs/hosted-long-graph-v2-summary.md`.
+The v2 cross-model replication target writes to
+`experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/` and reruns
+A8/A9/A10 on the same corpus to test whether A10's preservation repair
+replicates beyond the primary `gpt-5-mini` deployment. A committed aggregate
+snapshot is in `docs/hosted-long-graph-v2-cross-model-summary.md`.
 The cross-model A10 target defaults to
 `experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`
 and can be pointed at another deployment with
@@ -374,6 +386,9 @@ failure at 1/12 preservation for both conditions. The hosted long-graph v2 run
 scaled this finding to 24 tasks and 360 rows: A10 reached 72/72 accuracy,
 24/24 evidence-gap abstention, and 48/48 direct-control preservation, while
 A8 reached 70/72 and A9 reached 66/72 due to direct-control over-abstention.
+A second v2 run on `gpt-4-1-mini` added 216 hosted rows and replicated the
+same A10 result: A10 reached 72/72 while A8 reached 60/72 and A9 reached 59/72,
+again with 0 poisoned citations and 0 provider errors.
 CI is enabled on the public GitHub repo, and the static dashboard summarizes
 the main hosted results.
 

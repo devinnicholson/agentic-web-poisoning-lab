@@ -132,6 +132,13 @@ Run the hosted A1/A4/A8/A9/A10 long-chain v2 pilot:
 make hosted-long-graph-v2-pilot-refresh
 ```
 
+Run the hosted A8/A9/A10 long-chain v2 cross-model replication, defaulting to
+`gpt-4-1-mini`:
+
+```bash
+make hosted-long-graph-v2-cross-model-repeats-refresh
+```
+
 Run the hosted A10 cross-model follow-up, defaulting to `gpt-4-1-mini`:
 
 ```bash
@@ -173,6 +180,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-long-graph-summary.md`
 - `docs/hosted-long-graph-preservation-summary.md`
 - `docs/hosted-long-graph-v2-summary.md`
+- `docs/hosted-long-graph-v2-cross-model-summary.md`
 
 Manual audit labels are committed in:
 

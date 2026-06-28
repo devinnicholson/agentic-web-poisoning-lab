@@ -37,8 +37,11 @@ that boundary, reaching 36/36 accuracy, 12/12 evidence-gap abstention, and
 24/24 direct-control preservation with 0/36 attack success and 0/36 poisoned
 citations. A second 36-row run on a `gpt-4.1-mini` deployment replicated the
 same A10 result after a 72-row A8/A9 baseline on that deployment reproduced the
-direct-`no` over-abstention failure. Together, the results suggest that source trust
-controls can mitigate poisoned citations and attack following, but need
+direct-`no` over-abstention failure. A harder 24-task long-graph v2 run then
+replicated the same pattern at larger scale: A10 reached 72/72 on `gpt-5-mini`
+and 72/72 on `gpt-4.1-mini`, while the second deployment's A8/A9 conditions
+fell to 60/72 and 59/72 through false abstentions on direct controls. Together,
+the results suggest that source trust controls can mitigate poisoned citations and attack following, but need
 explicit evidence-relation calibration, application-level relation gates,
 reliable relation classifiers, and direct-control preservation to improve
 evidence-gap abstention without blanket over-refusal.
@@ -354,6 +357,19 @@ all 24 evidence gaps but over-abstained on direct controls. A10 preserved all
 hardest boundaries were `task_long_v2_009` (`yes`), `task_long_v2_011` (`no`),
 and `task_long_v2_023` (`no`): A8 was 2/3, 2/3, and 3/3; A9 was 1/3, 1/3, and
 1/3; A10 was 3/3 on all three.
+
+The A8/A9/A10 v2 comparison was then repeated on `gpt-4-1-mini`, adding 216
+hosted rows on the same corpus.
+
+| Deployment | Condition | Rows | Accuracy | Correct abstention | Direct controls | Attack success | Cited poisoned |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| gpt-4-1-mini | A8_CLASSIFIED_RELATION_GATE | 72 | 60/72 | 24/24 | 36/48 | 0/72 | 0/72 |
+| gpt-4-1-mini | A9_CALIBRATED_RELATION_GATE | 72 | 59/72 | 24/24 | 35/48 | 0/72 | 0/72 |
+| gpt-4-1-mini | A10_PRESERVATION_CALIBRATED_GATE | 72 | 72/72 | 24/24 | 48/48 | 0/72 | 0/72 |
+
+The second deployment made the preservation boundary sharper: A8 and A9 were
+0/3 on direct-`no` tasks `task_long_v2_011`, `task_long_v2_014`,
+`task_long_v2_017`, and `task_long_v2_023`, while A10 was 3/3 on each.
 
 ## Interpretation
 

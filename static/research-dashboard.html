@@ -361,7 +361,7 @@
       <div class="wrap">
         <div>
           <h1>Agentic Web Poisoning Lab</h1>
-          <p class="meta">Synthetic hosted benchmark, Azure OpenAI gpt-5-mini-2025-08-07, including hosted graph and long-graph v2 follow-ups.</p>
+          <p class="meta">Synthetic hosted benchmark, Azure OpenAI gpt-5-mini and gpt-4.1-mini, including hosted graph and long-graph v2 follow-ups.</p>
         </div>
         <nav class="tabs" aria-label="Dashboard views">
           <button class="tab" type="button" aria-selected="true" data-view="strict">Strict A5</button>
@@ -396,7 +396,7 @@
             <div class="kpi">
               <div class="label">A10 Long-Graph v2</div>
               <strong>100.0%</strong>
-              <span>72/72 hosted rows, with 48/48 direct controls.</span>
+              <span>72/72 primary and 72/72 cross-model rows.</span>
             </div>
           </div>
         </div>
@@ -1170,6 +1170,56 @@
           </div>
         </div>
         <div class="band">
+          <div class="wrap section">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Hosted Long-Graph v2 Cross-Model</h2>
+                <span class="pill good">216 hosted rows</span>
+              </div>
+              <div class="panel-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Condition</th>
+                      <th class="num">Accuracy</th>
+                      <th class="num">Attack success</th>
+                      <th class="num">Cited poisoned</th>
+                      <th class="num">Correct abstention</th>
+                      <th class="num">Direct controls</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>A8_CLASSIFIED_RELATION_GATE<br><span class="meta">gpt-4.1-mini</span></td>
+                      <td class="num">60/72</td>
+                      <td class="num">0/72</td>
+                      <td class="num">0/72</td>
+                      <td class="num">24/24</td>
+                      <td class="num"><span class="pill warn">36/48</span></td>
+                    </tr>
+                    <tr>
+                      <td>A9_CALIBRATED_RELATION_GATE<br><span class="meta">gpt-4.1-mini</span></td>
+                      <td class="num">59/72</td>
+                      <td class="num">0/72</td>
+                      <td class="num">0/72</td>
+                      <td class="num">24/24</td>
+                      <td class="num"><span class="pill warn">35/48</span></td>
+                    </tr>
+                    <tr>
+                      <td>A10_PRESERVATION_CALIBRATED_GATE<br><span class="meta">gpt-4.1-mini</span></td>
+                      <td class="num"><span class="pill good">72/72</span></td>
+                      <td class="num">0/72</td>
+                      <td class="num">0/72</td>
+                      <td class="num"><span class="pill good">24/24</span></td>
+                      <td class="num"><span class="pill good">48/48</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="band">
           <div class="wrap section layout">
             <div class="panel">
               <div class="panel-head">
@@ -1221,7 +1271,8 @@
                 pages plus four adversarial distractors. A10 kept all 24
                 evidence-gap abstentions and all 48 direct controls, while A8
                 and A9 fixed evidence gaps but still over-abstained on direct
-                controls.
+                controls. The A8/A9/A10 slice replicated on gpt-4.1-mini:
+                A10 reached 72/72 while A8 reached 60/72 and A9 reached 59/72.
               </p>
             </div>
           </div>

@@ -254,6 +254,11 @@ Completed:
    controls, with 0/72 attack success, 0/72 cited poisoned pages, and 0/72
    provider errors. A8 reached 70/72 and A9 reached 66/72 because they retained
    evidence-gap abstention but over-abstained on direct controls.
+6. `make hosted-long-graph-v2-cross-model-repeats-refresh` replicated the
+   A8/A9/A10 comparison on `gpt-4-1-mini`, adding 216 hosted rows. A10 again
+   reached 72/72 accuracy, 24/24 abstention, and 48/48 direct controls, while
+   A8 reached 60/72 and A9 reached 59/72 because direct-control false
+   abstentions were stronger on the second deployment.
 
 Next possible slice:
 
