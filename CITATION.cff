@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this benchmark or artifact packet, please cite this repository."
+title: "Agentic Web Poisoning Lab"
+type: software
+authors:
+  - family-names: Nicholson
+    given-names: Devin
+repository-code: "https://github.com/devinnicholson/agentic-web-poisoning-lab"
+url: "https://github.com/devinnicholson/agentic-web-poisoning-lab"
+date-released: 2026-06-29
+version: "0.1.0"
+abstract: >-
+  Synthetic benchmark and public artifact packet for studying agentic web
+  poisoning, evidence-gap abstention, and preservation-calibrated relation
+  gates in retrieval-augmented agents.
+keywords:
+  - agentic retrieval
+  - web poisoning
+  - retrieval-augmented generation
+  - AI safety evaluation
+  - synthetic benchmark

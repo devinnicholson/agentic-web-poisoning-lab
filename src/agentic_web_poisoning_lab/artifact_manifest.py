@@ -16,6 +16,7 @@ class ManifestEntry:
 
 
 DEFAULT_MANIFEST_ENTRIES = (
+    ManifestEntry("Citation metadata", Path("CITATION.cff"), "yaml"),
     ManifestEntry("Long-graph v2 tasks", Path("data/tasks.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry("Long-graph v2 pages", Path("data/pages.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry(

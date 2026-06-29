@@ -18,6 +18,7 @@ make artifact-manifest-refresh
 
 | Artifact | Path | Kind | Records/lines | Bytes | SHA-256 |
 | --- | --- | --- | ---: | ---: | --- |
+| Citation metadata | `CITATION.cff` | yaml | 21 lines | 739 | `26a772991fb896c0098efaa1db5993df8d7618389ba4c57cd8d4579bb4b0d729` |
 | Long-graph v2 tasks | `data/tasks.graph-long-v2.jsonl` | jsonl | 24 records | 13229 | `cb39b495f6aee1e3960d6870238a7f679f3ff6de487c2a858d7df8960c5b864a` |
 | Long-graph v2 pages | `data/pages.graph-long-v2.jsonl` | jsonl | 128 records | 60366 | `afb3a01edc456578f52f44ae76cf831559a298f12ec147d3298154e0230fa965` |
 | Long-graph v2 public artifact README | `artifacts/long-graph-v2/README.md` | markdown | 60 lines | 2687 | `c13bcdbfa12ecb6b862fc31821cd66a1eb4a6293f114c25e7ae7efcc71e03808` |
