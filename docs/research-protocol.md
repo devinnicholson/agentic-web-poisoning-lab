@@ -304,6 +304,17 @@ The casebook is committed at
 rows with trusted/current page evidence, relation-label changes, and A10 safety
 metrics.
 
+Regenerate the companion page-label transition appendix:
+
+```bash
+make transition-analysis-long-graph-v2-preservation
+```
+
+The transition appendix is committed at
+`docs/long-graph-v2-preservation-transition-analysis.md` and quantifies whether
+label changes are concentrated on repaired direct-control rows or spread across
+already-correct rows.
+
 Run the multi-page graph stress benchmark locally:
 
 ```bash

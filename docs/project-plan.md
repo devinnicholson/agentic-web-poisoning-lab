@@ -267,6 +267,11 @@ Completed:
    `docs/long-graph-v2-preservation-casebook.md`, a qualitative casebook with
    14 representative repaired rows, trusted/current evidence pages,
    relation-label changes, and A10 safety metrics.
+9. `make transition-analysis-long-graph-v2-preservation` generates
+   `docs/long-graph-v2-preservation-transition-analysis.md`, a mechanism
+   appendix showing 35 page-label transition observations concentrated on the
+   33 repaired direct-control rows, with 0 non-repaired direct-control rows
+   changing labels and 0 A10 regressions.
 
 Next possible slice:
 

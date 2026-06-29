@@ -172,6 +172,13 @@ same hosted rows and page corpus:
 make casebook-long-graph-v2-preservation
 ```
 
+Regenerate the long-graph v2 page-label transition appendix from the same
+hosted rows and page corpus:
+
+```bash
+make transition-analysis-long-graph-v2-preservation
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -192,6 +199,7 @@ The committed aggregate snapshots are:
 - `docs/paired-a7-a9-analysis.md`
 - `docs/paired-long-graph-v2-preservation-analysis.md`
 - `docs/long-graph-v2-preservation-casebook.md`
+- `docs/long-graph-v2-preservation-transition-analysis.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`
 - `docs/hosted-long-graph-preservation-summary.md`

@@ -224,7 +224,10 @@ Paired A7/A8/A9 appendix:
 20. A qualitative long-graph v2 preservation casebook with 14 representative
     repaired rows, trusted/current evidence pages, relation-label changes, and
     A10 safety metrics.
-21. A static dashboard for inspection.
+21. A long-graph v2 page-label transition appendix showing that 35 label-change
+    observations are concentrated on the 33 repaired direct-control rows, with
+    0 non-repaired direct-control rows changing labels and 0 A10 regressions.
+22. A static dashboard for inspection.
 
 ## Limitations
 
@@ -249,7 +252,9 @@ Paired A7/A8/A9 appendix:
 Open `static/research-dashboard.html` for aggregate results. Open
 `static/action-hijack-case-study.html` for the trace-style demo. Open
 `docs/long-graph-v2-preservation-casebook.md` for row-level A10 preservation
-repair examples.
+repair examples. Open
+`docs/long-graph-v2-preservation-transition-analysis.md` for aggregate
+mechanism evidence.
 
 ## Reproduction
 

@@ -69,6 +69,10 @@ The companion qualitative casebook
 `docs/long-graph-v2-preservation-casebook.md` lists 14 representative repaired
 rows with trusted/current page evidence, relation-label changes, and A10 safety
 metrics.
+The companion transition appendix
+`docs/long-graph-v2-preservation-transition-analysis.md` shows 35 page-label
+transition observations concentrated on the 33 repaired direct-control rows,
+with 0 non-repaired direct-control rows changing labels and 0 A10 regressions.
 
 ## Provider Reliability
 

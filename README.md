@@ -232,6 +232,13 @@ same hosted rows and page corpus:
 make casebook-long-graph-v2-preservation
 ```
 
+Generate the long-graph v2 page-label transition appendix from the same hosted
+rows and page corpus:
+
+```bash
+make transition-analysis-long-graph-v2-preservation
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -322,6 +329,11 @@ direct-control misses.
 The companion casebook in `docs/long-graph-v2-preservation-casebook.md`
 surfaces 14 representative repaired rows with trusted/current page evidence,
 relation-label changes, and safety metrics.
+The transition appendix in
+`docs/long-graph-v2-preservation-transition-analysis.md` quantifies the repair
+mechanism: 35 page-label transition observations all occur on repaired
+direct-control rows, with 0 non-repaired direct-control rows changing labels
+and 0 A10 regressions.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 

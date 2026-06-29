@@ -70,6 +70,7 @@ class StaticArtifactsTest(unittest.TestCase):
         self.assertIn("24/24", html)
         self.assertIn("Long-Graph Finding", html)
         self.assertIn("casebook adds 14 row-level repairs", html)
+        self.assertIn("35 label changes concentrated on repaired rows", html)
         self.assertIn("task_long_graph_003", html)
         self.assertIn("Repeat Stability", html)
         self.assertIn("task_chal_005", html)

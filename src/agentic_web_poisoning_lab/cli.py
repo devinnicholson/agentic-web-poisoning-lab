@@ -20,6 +20,9 @@ from agentic_web_poisoning_lab.io import append_jsonl, load_pages, load_tasks, r
 from agentic_web_poisoning_lab.metrics import summarize
 from agentic_web_poisoning_lab.paired_analysis import write_paired_analysis, write_preservation_analysis
 from agentic_web_poisoning_lab.preservation_casebook import write_preservation_casebook
+from agentic_web_poisoning_lab.preservation_transitions import (
+    write_preservation_transition_analysis,
+)
 from agentic_web_poisoning_lab.research_stats import write_research_stats
 from agentic_web_poisoning_lab.reporting import write_markdown_report
 
@@ -171,6 +174,28 @@ def main(argv: list[str] | None = None) -> int:
         help="Maximum representative repaired rows to include.",
     )
 
+    transition_parser = subparsers.add_parser(
+        "preservation-transitions",
+        help="Generate a page-label transition analysis for A8/A9/A10 preservation repairs.",
+    )
+    transition_parser.add_argument(
+        "--results",
+        type=Path,
+        nargs="+",
+        required=True,
+        help="One or more result JSONL files to merge before pairing rows by deployment.",
+    )
+    transition_parser.add_argument(
+        "--pages",
+        type=Path,
+        default=Path("data/pages.graph-long-v2.jsonl"),
+    )
+    transition_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/long-graph-v2-preservation-transition-analysis.md"),
+    )
+
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
     audit_parser.add_argument(
         "--results",
@@ -202,6 +227,8 @@ def main(argv: list[str] | None = None) -> int:
         return preservation_analysis_command(args)
     if args.command == "preservation-casebook":
         return preservation_casebook_command(args)
+    if args.command == "preservation-transitions":
+        return preservation_transitions_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -318,6 +345,16 @@ def preservation_casebook_command(args: argparse.Namespace) -> int:
         max_cases=args.max_cases,
     )
     print(f"Wrote preservation casebook to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def preservation_transitions_command(args: argparse.Namespace) -> int:
+    markdown = write_preservation_transition_analysis(
+        args.results,
+        args.pages,
+        args.out,
+    )
+    print(f"Wrote preservation transitions to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

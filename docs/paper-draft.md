@@ -382,6 +382,11 @@ The companion qualitative casebook,
 `docs/long-graph-v2-preservation-casebook.md`, lists 14 representative repaired
 rows with trusted/current evidence pages, relation-label changes, and A10 safety
 metrics.
+The companion transition appendix,
+`docs/long-graph-v2-preservation-transition-analysis.md`, shows that all 35
+page-label transition observations occur on the 33 repaired direct-control rows:
+0 non-repaired direct-control rows changed labels, and A10 introduced 0
+direct-control regressions.
 
 ## Interpretation
 
