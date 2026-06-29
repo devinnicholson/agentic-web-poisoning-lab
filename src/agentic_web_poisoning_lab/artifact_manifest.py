@@ -69,6 +69,7 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry("Research dashboard", Path("static/research-dashboard.html"), "html"),
+    ManifestEntry("Reviewer guide", Path("docs/reviewer-guide.md"), "markdown"),
 )
 
 
@@ -158,6 +159,10 @@ def build_artifact_manifest(
             (
                 "| Public dashboard summarizes the committed aggregate results | "
                 "`static/research-dashboard.html` |"
+            ),
+            (
+                "| Reviewer path and safety scope are documented | "
+                "`docs/reviewer-guide.md` |"
             ),
             "",
         ]

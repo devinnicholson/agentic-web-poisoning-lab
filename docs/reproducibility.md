@@ -219,6 +219,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-long-graph-preservation-summary.md`
 - `docs/hosted-long-graph-v2-summary.md`
 - `docs/hosted-long-graph-v2-cross-model-summary.md`
+- `docs/reviewer-guide.md`
 
 Manual audit labels are committed in:
 

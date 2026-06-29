@@ -231,7 +231,9 @@ Paired A7/A8/A9 appendix:
     0 non-repaired direct-control rows changing labels and 0 A10 regressions.
 23. A deterministic artifact manifest with row counts, line counts, byte sizes,
     and SHA-256 hashes for the key v2 research files.
-24. A static dashboard for inspection.
+24. A reviewer guide with 5-minute, 15-minute, and 45-minute review paths plus
+    falsification checks and safety scope.
+25. A static dashboard for inspection.
 
 ## Limitations
 
@@ -260,7 +262,7 @@ Open `static/research-dashboard.html` for aggregate results. Open
 repair examples. Open
 `docs/long-graph-v2-preservation-transition-analysis.md` for aggregate
 mechanism evidence. Open `docs/research-artifact-manifest.md` to verify file
-counts and checksums.
+counts and checksums. Open `docs/reviewer-guide.md` for a staged review path.
 
 ## Reproduction
 

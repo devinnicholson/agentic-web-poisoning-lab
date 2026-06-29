@@ -251,6 +251,9 @@ Generate the deterministic artifact checksum manifest:
 make artifact-manifest-refresh
 ```
 
+For a fast review path through the public artifacts, see
+`docs/reviewer-guide.md`.
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
