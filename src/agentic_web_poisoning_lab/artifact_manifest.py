@@ -54,6 +54,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry(
+        "Demo script",
+        Path("docs/demo-script.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Paired preservation appendix",
         Path("docs/paired-long-graph-v2-preservation-analysis.md"),
         "markdown",
@@ -186,7 +191,8 @@ def build_artifact_manifest(
             ),
             (
                 "| Reviewer path and safety scope are documented | "
-                "`docs/reviewer-guide.md` |"
+                "`docs/reviewer-guide.md`, "
+                "`docs/demo-script.md` |"
             ),
             "",
         ]
