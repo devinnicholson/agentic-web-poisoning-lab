@@ -25,6 +25,10 @@ from agentic_web_poisoning_lab.preservation_casebook import write_preservation_c
 from agentic_web_poisoning_lab.preservation_transitions import (
     write_preservation_transition_analysis,
 )
+from agentic_web_poisoning_lab.public_snapshot import (
+    snapshot_is_public_safe,
+    write_public_snapshot,
+)
 from agentic_web_poisoning_lab.research_stats import write_research_stats
 from agentic_web_poisoning_lab.reporting import write_markdown_report
 
@@ -228,6 +232,29 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("docs/long-graph-v2-corpus-card.md"),
     )
 
+    public_snapshot_parser = subparsers.add_parser(
+        "public-snapshot",
+        help="Write a sanitized public snapshot from hosted result rows.",
+    )
+    public_snapshot_parser.add_argument(
+        "--results",
+        type=Path,
+        required=True,
+        help="Private or local result JSONL file to sanitize.",
+    )
+    public_snapshot_parser.add_argument(
+        "--out-results",
+        type=Path,
+        required=True,
+        help="Public JSONL snapshot path.",
+    )
+    public_snapshot_parser.add_argument(
+        "--out-summary",
+        type=Path,
+        required=True,
+        help="Public summary JSON path regenerated from the sanitized rows.",
+    )
+
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
     audit_parser.add_argument(
         "--results",
@@ -265,6 +292,8 @@ def main(argv: list[str] | None = None) -> int:
         return artifact_manifest_command(args)
     if args.command == "corpus-card":
         return corpus_card_command(args)
+    if args.command == "public-snapshot":
+        return public_snapshot_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -403,6 +432,17 @@ def artifact_manifest_command(args: argparse.Namespace) -> int:
 def corpus_card_command(args: argparse.Namespace) -> int:
     markdown = write_corpus_card(args.tasks, args.pages, args.out)
     print(f"Wrote corpus card to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def public_snapshot_command(args: argparse.Namespace) -> int:
+    rows, summary = write_public_snapshot(args.results, args.out_results, args.out_summary)
+    if not snapshot_is_public_safe(rows):
+        raise SystemExit("public snapshot contains unredacted provider identifiers")
+
+    print(f"Wrote {len(rows)} public rows to {args.out_results}")
+    print(f"Wrote public summary to {args.out_summary}")
+    print_summary(summary)
     return 0
 
 

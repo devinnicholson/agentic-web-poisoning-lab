@@ -20,22 +20,22 @@ DEFAULT_MANIFEST_ENTRIES = (
     ManifestEntry("Long-graph v2 pages", Path("data/pages.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry(
         "Primary hosted long-graph v2 rows",
-        Path("experiments/results/hosted-long-graph-v2-pilot/results.jsonl"),
+        Path("artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl"),
         "jsonl",
     ),
     ManifestEntry(
         "Cross-model hosted long-graph v2 rows",
-        Path("experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/results.jsonl"),
+        Path("artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl"),
         "jsonl",
     ),
     ManifestEntry(
         "Primary hosted long-graph v2 summary",
-        Path("experiments/results/hosted-long-graph-v2-pilot/summary.json"),
+        Path("artifacts/long-graph-v2/hosted-gpt5-mini-summary.json"),
         "json",
     ),
     ManifestEntry(
         "Cross-model hosted long-graph v2 summary",
-        Path("experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/summary.json"),
+        Path("artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-summary.json"),
         "json",
     ),
     ManifestEntry(
@@ -99,6 +99,7 @@ def build_artifact_manifest(
         "",
         "```bash",
         "make long-graph-v2-corpus-card-refresh",
+        "make public-snapshot-long-graph-v2",
         "make paired-analysis-long-graph-v2-preservation",
         "make casebook-long-graph-v2-preservation",
         "make transition-analysis-long-graph-v2-preservation",
@@ -153,8 +154,8 @@ def build_artifact_manifest(
             (
                 "| Page-label changes are concentrated on repaired rows | "
                 "`docs/long-graph-v2-preservation-transition-analysis.md`, "
-                "`experiments/results/hosted-long-graph-v2-pilot/results.jsonl`, "
-                "`experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/results.jsonl` |"
+                "`artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`, "
+                "`artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` |"
             ),
             (
                 "| Public dashboard summarizes the committed aggregate results | "

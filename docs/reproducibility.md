@@ -1,7 +1,9 @@
 # Reproducibility Notes
 
-This repo keeps raw generated result files out of Git, but every committed
-snapshot can be regenerated from the public synthetic corpus and harness code.
+This repo keeps private raw generated result files out of Git, but every
+committed snapshot can be regenerated from the public synthetic corpus and
+harness code. The long-graph v2 research packet also commits sanitized public
+row snapshots under `artifacts/long-graph-v2/`.
 
 ## Local Benchmarks
 
@@ -137,6 +139,13 @@ Run the hosted A8/A9/A10 long-chain v2 cross-model replication, defaulting to
 
 ```bash
 make hosted-long-graph-v2-cross-model-repeats-refresh
+```
+
+Publish sanitized row-level snapshots and rebuild the committed v2 artifact
+packet:
+
+```bash
+make long-graph-v2-public-artifacts-refresh
 ```
 
 Run the hosted A10 cross-model follow-up, defaulting to `gpt-4-1-mini`:

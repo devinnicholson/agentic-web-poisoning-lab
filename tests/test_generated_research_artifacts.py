@@ -16,11 +16,12 @@ from agentic_web_poisoning_lab.preservation_casebook import build_preservation_c
 from agentic_web_poisoning_lab.preservation_transitions import (
     build_preservation_transition_analysis,
 )
+from agentic_web_poisoning_lab.public_snapshot import snapshot_is_public_safe
 
 
 LONG_GRAPH_V2_RESULTS = [
-    Path("experiments/results/hosted-long-graph-v2-pilot/results.jsonl"),
-    Path("experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/results.jsonl"),
+    Path("artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl"),
+    Path("artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl"),
 ]
 LONG_GRAPH_V2_TASKS = Path("data/tasks.graph-long-v2.jsonl")
 LONG_GRAPH_V2_PAGES = Path("data/pages.graph-long-v2.jsonl")
@@ -37,6 +38,9 @@ class GeneratedResearchArtifactsTest(unittest.TestCase):
         actual = (ROOT / "docs/long-graph-v2-corpus-card.md").read_text(encoding="utf-8")
 
         self.assertEqual(actual, expected)
+
+    def test_committed_public_snapshots_are_redacted(self) -> None:
+        self.assertTrue(snapshot_is_public_safe(_long_graph_v2_rows()))
 
     def test_committed_paired_preservation_appendix_is_current(self) -> None:
         rows = _long_graph_v2_rows()

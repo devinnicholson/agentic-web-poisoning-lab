@@ -397,7 +397,9 @@ campus AI governance domains, and increase context pressure to four trusted
 current pages plus four adversarial distractors per task. The hosted pilot
 compares A1, A4, A8, A9, and A10 over three repeats and writes to
 `experiments/results/hosted-long-graph-v2-pilot/`. The committed aggregate
-snapshot is `docs/hosted-long-graph-v2-summary.md`.
+snapshot is `docs/hosted-long-graph-v2-summary.md`, and the committed
+sanitized row snapshot is
+`artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`.
 
 Run the A8/A9/A10 long-chain v2 cross-model replication on a second Azure
 deployment:
@@ -410,7 +412,15 @@ This target defaults to `LONG_GRAPH_V2_CROSS_MODEL_DEPLOYMENT=gpt-4-1-mini`
 and writes to
 `experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/`. The
 committed aggregate snapshot is
-`docs/hosted-long-graph-v2-cross-model-summary.md`.
+`docs/hosted-long-graph-v2-cross-model-summary.md`, and the committed
+sanitized row snapshot is
+`artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl`.
+
+After both hosted runs, rebuild the public artifact packet:
+
+```bash
+make long-graph-v2-public-artifacts-refresh
+```
 
 Run the same A10 follow-up on a second Azure deployment:
 

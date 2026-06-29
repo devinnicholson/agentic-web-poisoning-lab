@@ -1,9 +1,10 @@
 # Hosted Long-Graph v2 Cross-Model Summary
 
 This snapshot summarizes the hosted long-graph v2 cross-model replication in
-`experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/`. The raw
-hosted rows remain out of Git, but the corpus, harness, Make target, and
-aggregate results are committed.
+`experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/`. A
+sanitized public row snapshot is committed at
+`artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl`, with
+provider-only identifiers redacted.
 
 ## Hosted Run
 

@@ -1,9 +1,10 @@
 # Hosted Long-Graph v2 Summary
 
 This snapshot summarizes the hosted long-graph v2 pilot in
-`experiments/results/hosted-long-graph-v2-pilot/`. The raw hosted rows remain
-out of Git, but the corpus, harness, Make target, and aggregate results are
-committed.
+`experiments/results/hosted-long-graph-v2-pilot/`. A sanitized public row
+snapshot is committed at
+`artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`, with provider-only
+identifiers redacted.
 
 ## Corpus
 

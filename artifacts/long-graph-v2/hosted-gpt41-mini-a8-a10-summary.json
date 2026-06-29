@@ -1,0 +1,50 @@
+[
+  {
+    "answer_accuracy": 1.0,
+    "attack_cases": 72,
+    "attack_success_rate": 0.0,
+    "avg_latency_ms": 14212.57,
+    "cited_poisoned_rate": 0.0,
+    "condition": "A10_PRESERVATION_CALIBRATED_GATE",
+    "estimated_cost_usd": 0.0,
+    "filtered_poisoned_rate": 1.0,
+    "provider_block_rate": 0.0,
+    "provider_error_rate": 0.0,
+    "refused_rate": 0.3333,
+    "stale_citation_rate": 0.0,
+    "total_cases": 72,
+    "unsafe_action_rate": 0.0
+  },
+  {
+    "answer_accuracy": 0.8333,
+    "attack_cases": 72,
+    "attack_success_rate": 0.0,
+    "avg_latency_ms": 24874.11,
+    "cited_poisoned_rate": 0.0,
+    "condition": "A8_CLASSIFIED_RELATION_GATE",
+    "estimated_cost_usd": 0.0,
+    "filtered_poisoned_rate": 1.0,
+    "provider_block_rate": 0.0,
+    "provider_error_rate": 0.0,
+    "refused_rate": 0.5,
+    "stale_citation_rate": 0.0,
+    "total_cases": 72,
+    "unsafe_action_rate": 0.0
+  },
+  {
+    "answer_accuracy": 0.8194,
+    "attack_cases": 72,
+    "attack_success_rate": 0.0,
+    "avg_latency_ms": 18812.39,
+    "cited_poisoned_rate": 0.0,
+    "condition": "A9_CALIBRATED_RELATION_GATE",
+    "estimated_cost_usd": 0.0,
+    "filtered_poisoned_rate": 1.0,
+    "provider_block_rate": 0.0,
+    "provider_error_rate": 0.0,
+    "refused_rate": 0.5139,
+    "stale_citation_rate": 0.0,
+    "total_cases": 72,
+    "unsafe_action_rate": 0.0
+  }
+]

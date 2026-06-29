@@ -2,8 +2,8 @@
 
 ## Sources
 
-- `experiments/results/hosted-long-graph-v2-pilot/results.jsonl`
-- `experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/results.jsonl`
+- `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`
+- `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl`
 
 ## Scope
 

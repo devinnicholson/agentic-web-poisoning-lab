@@ -321,12 +321,15 @@ Long-graph v2 outputs are written under
 pages, and four adversarial distractors per task, including fake-citation
 laundering. The hosted pilot runs three repeats across the vulnerable baseline,
 full defense, and A8/A9/A10 relation-gate defenses. The committed aggregate
-snapshot is in `docs/hosted-long-graph-v2-summary.md`.
+snapshot is in `docs/hosted-long-graph-v2-summary.md`; sanitized row-level
+evidence is in `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`.
 The v2 cross-model replication target writes to
 `experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/` and reruns
 A8/A9/A10 on the same corpus to test whether A10's preservation repair
 replicates beyond the primary `gpt-5-mini` deployment. A committed aggregate
-snapshot is in `docs/hosted-long-graph-v2-cross-model-summary.md`.
+snapshot is in `docs/hosted-long-graph-v2-cross-model-summary.md`; sanitized
+row-level evidence is in
+`artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl`.
 The corpus card in `docs/long-graph-v2-corpus-card.md` documents the balanced
 24-task design: 8 yes, 8 no, and 8 insufficient-evidence tasks across 8
 domains, with 4 trusted pages and 4 attack pages per task.
