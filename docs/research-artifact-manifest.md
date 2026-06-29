@@ -30,13 +30,14 @@ make artifact-manifest-refresh
 | Extended abstract | `docs/extended-abstract.md` | markdown | 73 lines | 4206 | `8cfb43f084f94fbe1db1e9ba029fc48167d64c1bef9834b2d978840b06153a41` |
 | Demo script | `docs/demo-script.md` | markdown | 110 lines | 4274 | `080cdbc653fcc4334ec51f4901e2d800be669d2367a0cadb96dc9aca2b2cd49f` |
 | Threat model and safety scope | `docs/threat-model.md` | markdown | 100 lines | 3849 | `5ddbea092e915d1b2fcc882de4c96d5ac7de93a60cb8e3037dfd2cc80a7bb746` |
+| Submission checklist | `docs/submission-checklist.md` | markdown | 91 lines | 2729 | `a9f2961e99befd24f1e5cbb6f3bcc46314c46caed2ad1147fddb6acfebae036f` |
 | Paired preservation appendix | `docs/paired-long-graph-v2-preservation-analysis.md` | markdown | 95 lines | 10314 | `c5508974ec2b7c66e518c5bfd9464796d54e83a0da1904faac90fc80c1754df9` |
 | Preservation repair casebook | `docs/long-graph-v2-preservation-casebook.md` | markdown | 358 lines | 39041 | `c324b3c9f0e415d23f5a1c03b2d2e409e60fca3caedfe1f4812992e093a554f8` |
 | Preservation transition appendix | `docs/long-graph-v2-preservation-transition-analysis.md` | markdown | 62 lines | 4267 | `50c2856d6f6102ae9196387deba775b7d1f4e9fa509bb60111c2d1f3cb598746` |
 | Public artifact validation report | `docs/long-graph-v2-public-artifact-validation.md` | markdown | 44 lines | 1932 | `819f350f584ac8cbd3092721463977ba77a8b4aae4e238617d8d7cc110e59344` |
 | Primary hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-summary.md` | markdown | 122 lines | 5327 | `e6476a083a54b23e8b642b0fd17137c23e769611814a76f43e5087387298aede` |
 | Cross-model hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-cross-model-summary.md` | markdown | 87 lines | 3699 | `155a28d607f6df7f62185f0f3b2f70f9af50ff80d1410782e3a6c2cef385abee` |
-| Research dashboard | `static/research-dashboard.html` | html | 1620 lines | 59689 | `4f90c39db18eb7a2ad7a5561cfc44f75eeff360a71468b17e9d230114d9a01b8` |
+| Research dashboard | `static/research-dashboard.html` | html | 1624 lines | 59913 | `e983e55e5a68bba5c5476d4b9f634789bbdfa582fe50f39bee6b1176f8823029` |
 | Reviewer guide | `docs/reviewer-guide.md` | markdown | 86 lines | 3639 | `a2f249d9a5d969b61e8ffff58a32dc29818e14870759b2b76f0535f0a6f169a1` |
 
 ## Claim Map
@@ -49,4 +50,4 @@ make artifact-manifest-refresh
 | Page-label changes are concentrated on repaired rows | `docs/long-graph-v2-preservation-transition-analysis.md`, `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`, `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` |
 | Public dashboard summarizes the committed aggregate results | `static/research-dashboard.html` |
 | Public snapshot integrity is machine-checkable | `artifacts/long-graph-v2/README.md`, `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
-| Reviewer path and safety scope are documented | `docs/reviewer-guide.md`, `docs/demo-script.md`, `docs/threat-model.md` |
+| Reviewer path and safety scope are documented | `docs/reviewer-guide.md`, `docs/demo-script.md`, `docs/threat-model.md`, `docs/submission-checklist.md` |

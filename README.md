@@ -338,6 +338,8 @@ headline effects, public artifacts, and limitations.
 with exact claims and caveats.
 `docs/threat-model.md` defines the synthetic adversary, safety scope, release
 boundary, and out-of-scope misuse.
+`docs/submission-checklist.md` tracks class/workshop readiness across claims,
+data, method, reproducibility, demo, and safety.
 Citation metadata is available in `CITATION.cff`.
 The corpus card in `docs/long-graph-v2-corpus-card.md` documents the balanced
 24-task design: 8 yes, 8 no, and 8 insufficient-evidence tasks across 8
