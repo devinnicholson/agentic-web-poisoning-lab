@@ -28,7 +28,7 @@ make artifact-manifest-refresh
 | Preservation transition appendix | `docs/long-graph-v2-preservation-transition-analysis.md` | markdown | 62 lines | 4290 | `c91725035114e157b4357ca867f89e6862ec642f6df64b9abf6b43b028bef05d` |
 | Primary hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-summary.md` | markdown | 121 lines | 5294 | `f5241b9da032963767762b0de7693b95aa9610a2efcc9aa652b62829f4c5d28e` |
 | Cross-model hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-cross-model-summary.md` | markdown | 86 lines | 3658 | `fe974dd10a218eda0b03d457dd2de593341d55c5f3d9854a5f911bf5180b5608` |
-| Research dashboard | `static/research-dashboard.html` | html | 1546 lines | 56092 | `4ddb5b1e6d76528312e1a974d5cc7a5176c42c67a9de10a3c54722cbb2238b4c` |
+| Research dashboard | `static/research-dashboard.html` | html | 1588 lines | 57895 | `efc68d74f5ffea6776cb62c8aeecb70b852637b8c814a88b96abe0fa697d441f` |
 
 ## Claim Map
 
