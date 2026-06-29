@@ -19,6 +19,7 @@ from agentic_web_poisoning_lab.hosted import (
 from agentic_web_poisoning_lab.io import append_jsonl, load_pages, load_tasks, read_jsonl, write_jsonl
 from agentic_web_poisoning_lab.metrics import summarize
 from agentic_web_poisoning_lab.paired_analysis import write_paired_analysis, write_preservation_analysis
+from agentic_web_poisoning_lab.preservation_casebook import write_preservation_casebook
 from agentic_web_poisoning_lab.research_stats import write_research_stats
 from agentic_web_poisoning_lab.reporting import write_markdown_report
 
@@ -142,6 +143,34 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("docs/paired-preservation-analysis.md"),
     )
 
+    casebook_parser = subparsers.add_parser(
+        "preservation-casebook",
+        help="Generate a qualitative A8/A9/A10 preservation repair casebook.",
+    )
+    casebook_parser.add_argument(
+        "--results",
+        type=Path,
+        nargs="+",
+        required=True,
+        help="One or more result JSONL files to merge before pairing rows by deployment.",
+    )
+    casebook_parser.add_argument(
+        "--pages",
+        type=Path,
+        default=Path("data/pages.graph-long-v2.jsonl"),
+    )
+    casebook_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/long-graph-v2-preservation-casebook.md"),
+    )
+    casebook_parser.add_argument(
+        "--max-cases",
+        type=int,
+        default=20,
+        help="Maximum representative repaired rows to include.",
+    )
+
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
     audit_parser.add_argument(
         "--results",
@@ -171,6 +200,8 @@ def main(argv: list[str] | None = None) -> int:
         return paired_analysis_command(args)
     if args.command == "preservation-analysis":
         return preservation_analysis_command(args)
+    if args.command == "preservation-casebook":
+        return preservation_casebook_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -276,6 +307,17 @@ def paired_analysis_command(args: argparse.Namespace) -> int:
 def preservation_analysis_command(args: argparse.Namespace) -> int:
     markdown = write_preservation_analysis(args.results, args.out)
     print(f"Wrote preservation analysis to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def preservation_casebook_command(args: argparse.Namespace) -> int:
+    markdown = write_preservation_casebook(
+        args.results,
+        args.pages,
+        args.out,
+        max_cases=args.max_cases,
+    )
+    print(f"Wrote preservation casebook to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

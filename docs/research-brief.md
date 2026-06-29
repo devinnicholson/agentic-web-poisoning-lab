@@ -221,7 +221,10 @@ Paired A7/A8/A9 appendix:
 19. A paired long-graph v2 preservation appendix with exact McNemar tests
     showing that A10 fixes direct-control over-abstention without weakening
     evidence-gap abstention across two deployments.
-20. A static dashboard for inspection.
+20. A qualitative long-graph v2 preservation casebook with 14 representative
+    repaired rows, trusted/current evidence pages, relation-label changes, and
+    A10 safety metrics.
+21. A static dashboard for inspection.
 
 ## Limitations
 
@@ -244,7 +247,9 @@ Paired A7/A8/A9 appendix:
 ## Demo Path
 
 Open `static/research-dashboard.html` for aggregate results. Open
-`static/action-hijack-case-study.html` for the trace-style demo.
+`static/action-hijack-case-study.html` for the trace-style demo. Open
+`docs/long-graph-v2-preservation-casebook.md` for row-level A10 preservation
+repair examples.
 
 ## Reproduction
 

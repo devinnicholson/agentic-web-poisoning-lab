@@ -263,6 +263,10 @@ Completed:
    `docs/paired-long-graph-v2-preservation-analysis.md`, a deployment-aware
    paired appendix. Across both v2 deployments, A10 fixed 14 direct-control
    rows relative to A8 and 19 relative to A9, with 0 new direct-control misses.
+8. `make casebook-long-graph-v2-preservation` generates
+   `docs/long-graph-v2-preservation-casebook.md`, a qualitative casebook with
+   14 representative repaired rows, trusted/current evidence pages,
+   relation-label changes, and A10 safety metrics.
 
 Next possible slice:
 

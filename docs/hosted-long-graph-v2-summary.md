@@ -96,6 +96,10 @@ cross-model v2 runs. Across both deployments, A10 fixed 14 direct-control rows
 relative to A8 and 19 relative to A9, with 0 new direct-control misses. The
 combined exact McNemar test is p = 0.0001 for A8 -> A10 direct controls and
 p < 0.0001 for A9 -> A10 direct controls.
+The companion qualitative casebook
+`docs/long-graph-v2-preservation-casebook.md` lists 14 representative repaired
+rows with trusted/current page evidence, relation-label changes, and A10 safety
+metrics.
 
 ## Provider Reliability
 

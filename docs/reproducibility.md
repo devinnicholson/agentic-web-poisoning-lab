@@ -165,6 +165,13 @@ primary and cross-model result files:
 make paired-analysis-long-graph-v2-preservation
 ```
 
+Regenerate the qualitative long-graph v2 preservation repair casebook from the
+same hosted rows and page corpus:
+
+```bash
+make casebook-long-graph-v2-preservation
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -184,6 +191,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-calibrated-expanded-summary.md`
 - `docs/paired-a7-a9-analysis.md`
 - `docs/paired-long-graph-v2-preservation-analysis.md`
+- `docs/long-graph-v2-preservation-casebook.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`
 - `docs/hosted-long-graph-preservation-summary.md`

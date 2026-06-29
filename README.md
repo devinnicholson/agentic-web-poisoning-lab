@@ -225,6 +225,13 @@ cross-model hosted result files:
 make paired-analysis-long-graph-v2-preservation
 ```
 
+Generate the qualitative long-graph v2 preservation repair casebook from the
+same hosted rows and page corpus:
+
+```bash
+make casebook-long-graph-v2-preservation
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -312,6 +319,9 @@ The paired v2 preservation appendix in
 deployment, task, and repeat index. Across both v2 deployments, A10 fixed 14
 direct-control rows relative to A8 and 19 relative to A9, with 0 new
 direct-control misses.
+The companion casebook in `docs/long-graph-v2-preservation-casebook.md`
+surfaces 14 representative repaired rows with trusted/current page evidence,
+relation-label changes, and safety metrics.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 

@@ -65,6 +65,10 @@ direct-control rows relative to A8 and introduced 0 new direct-control misses
 (exact McNemar p = 0.0001). Relative to A9, A10 fixed 19 direct-control rows
 and introduced 0 new direct-control misses (exact McNemar p < 0.0001). All
 three conditions preserved 48/48 paired evidence-gap abstentions.
+The companion qualitative casebook
+`docs/long-graph-v2-preservation-casebook.md` lists 14 representative repaired
+rows with trusted/current page evidence, relation-label changes, and A10 safety
+metrics.
 
 ## Provider Reliability
 

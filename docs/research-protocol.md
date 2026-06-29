@@ -293,6 +293,17 @@ The appendix aligns rows by deployment, task, and repeat index, reports exact
 McNemar tests on direct controls and evidence gaps, and is committed at
 `docs/paired-long-graph-v2-preservation-analysis.md`.
 
+Regenerate the companion qualitative repair casebook:
+
+```bash
+make casebook-long-graph-v2-preservation
+```
+
+The casebook is committed at
+`docs/long-graph-v2-preservation-casebook.md` and lists representative repaired
+rows with trusted/current page evidence, relation-label changes, and A10 safety
+metrics.
+
 Run the multi-page graph stress benchmark locally:
 
 ```bash
