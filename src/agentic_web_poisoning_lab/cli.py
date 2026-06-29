@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from agentic_web_poisoning_lab.agent import DeterministicWebAgent
+from agentic_web_poisoning_lab.artifact_manifest import write_artifact_manifest
 from agentic_web_poisoning_lab.audit import write_audit_queue
 from agentic_web_poisoning_lab.comparison import write_comparison_report
 from agentic_web_poisoning_lab.conditions import CONDITIONS, DEFAULT_CONDITIONS
@@ -196,6 +197,16 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("docs/long-graph-v2-preservation-transition-analysis.md"),
     )
 
+    manifest_parser = subparsers.add_parser(
+        "artifact-manifest",
+        help="Generate a deterministic research artifact checksum manifest.",
+    )
+    manifest_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/research-artifact-manifest.md"),
+    )
+
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
     audit_parser.add_argument(
         "--results",
@@ -229,6 +240,8 @@ def main(argv: list[str] | None = None) -> int:
         return preservation_casebook_command(args)
     if args.command == "preservation-transitions":
         return preservation_transitions_command(args)
+    if args.command == "artifact-manifest":
+        return artifact_manifest_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -355,6 +368,12 @@ def preservation_transitions_command(args: argparse.Namespace) -> int:
         args.out,
     )
     print(f"Wrote preservation transitions to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def artifact_manifest_command(args: argparse.Namespace) -> int:
+    markdown = write_artifact_manifest(args.out)
+    print(f"Wrote artifact manifest to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

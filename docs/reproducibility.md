@@ -179,6 +179,12 @@ hosted rows and page corpus:
 make transition-analysis-long-graph-v2-preservation
 ```
 
+Regenerate the deterministic artifact checksum manifest:
+
+```bash
+make artifact-manifest-refresh
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -200,6 +206,7 @@ The committed aggregate snapshots are:
 - `docs/paired-long-graph-v2-preservation-analysis.md`
 - `docs/long-graph-v2-preservation-casebook.md`
 - `docs/long-graph-v2-preservation-transition-analysis.md`
+- `docs/research-artifact-manifest.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`
 - `docs/hosted-long-graph-preservation-summary.md`

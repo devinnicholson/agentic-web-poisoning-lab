@@ -315,6 +315,14 @@ The transition appendix is committed at
 label changes are concentrated on repaired direct-control rows or spread across
 already-correct rows.
 
+Regenerate the deterministic artifact checksum manifest:
+
+```bash
+make artifact-manifest-refresh
+```
+
+The manifest is committed at `docs/research-artifact-manifest.md`.
+
 Run the multi-page graph stress benchmark locally:
 
 ```bash

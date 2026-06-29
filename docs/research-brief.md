@@ -227,7 +227,9 @@ Paired A7/A8/A9 appendix:
 21. A long-graph v2 page-label transition appendix showing that 35 label-change
     observations are concentrated on the 33 repaired direct-control rows, with
     0 non-repaired direct-control rows changing labels and 0 A10 regressions.
-22. A static dashboard for inspection.
+22. A deterministic artifact manifest with row counts, line counts, byte sizes,
+    and SHA-256 hashes for the key v2 research files.
+23. A static dashboard for inspection.
 
 ## Limitations
 
@@ -254,7 +256,8 @@ Open `static/research-dashboard.html` for aggregate results. Open
 `docs/long-graph-v2-preservation-casebook.md` for row-level A10 preservation
 repair examples. Open
 `docs/long-graph-v2-preservation-transition-analysis.md` for aggregate
-mechanism evidence.
+mechanism evidence. Open `docs/research-artifact-manifest.md` to verify file
+counts and checksums.
 
 ## Reproduction
 

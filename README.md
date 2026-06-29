@@ -239,6 +239,12 @@ rows and page corpus:
 make transition-analysis-long-graph-v2-preservation
 ```
 
+Generate the deterministic artifact checksum manifest:
+
+```bash
+make artifact-manifest-refresh
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -334,6 +340,9 @@ The transition appendix in
 mechanism: 35 page-label transition observations all occur on repaired
 direct-control rows, with 0 non-repaired direct-control rows changing labels
 and 0 A10 regressions.
+The artifact manifest in `docs/research-artifact-manifest.md` records row
+counts, line counts, byte sizes, and SHA-256 hashes for the key v2 research
+files.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 
