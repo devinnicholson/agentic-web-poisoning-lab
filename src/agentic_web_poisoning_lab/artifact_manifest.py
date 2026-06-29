@@ -39,6 +39,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "json",
     ),
     ManifestEntry(
+        "Long-graph v2 corpus card",
+        Path("docs/long-graph-v2-corpus-card.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Paired preservation appendix",
         Path("docs/paired-long-graph-v2-preservation-analysis.md"),
         "markdown",
@@ -92,6 +97,7 @@ def build_artifact_manifest(
         "## Regeneration Commands",
         "",
         "```bash",
+        "make long-graph-v2-corpus-card-refresh",
         "make paired-analysis-long-graph-v2-preservation",
         "make casebook-long-graph-v2-preservation",
         "make transition-analysis-long-graph-v2-preservation",
@@ -126,6 +132,12 @@ def build_artifact_manifest(
             "",
             "| Claim | Primary artifacts |",
             "| --- | --- |",
+            (
+                "| Corpus design is balanced and page-budget controlled | "
+                "`docs/long-graph-v2-corpus-card.md`, "
+                "`data/tasks.graph-long-v2.jsonl`, "
+                "`data/pages.graph-long-v2.jsonl` |"
+            ),
             (
                 "| A10 repairs direct-control over-abstention across two deployments | "
                 "`docs/paired-long-graph-v2-preservation-analysis.md`, "

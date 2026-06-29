@@ -151,6 +151,12 @@ Run the hosted A8/A9 cross-model long-chain baseline on the same deployment:
 make hosted-long-graph-relation-gates-cross-model-repeats-refresh
 ```
 
+Regenerate the long-graph v2 corpus card:
+
+```bash
+make long-graph-v2-corpus-card-refresh
+```
+
 Regenerate the paired A7/A8/A9 statistical appendix from the hosted result
 files:
 
@@ -203,6 +209,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-classifier-expanded-summary.md`
 - `docs/hosted-relation-calibrated-expanded-summary.md`
 - `docs/paired-a7-a9-analysis.md`
+- `docs/long-graph-v2-corpus-card.md`
 - `docs/paired-long-graph-v2-preservation-analysis.md`
 - `docs/long-graph-v2-preservation-casebook.md`
 - `docs/long-graph-v2-preservation-transition-analysis.md`

@@ -283,6 +283,16 @@ The appendix aligns rows by task and repeat index, reports exact McNemar tests,
 and is committed at `docs/paired-a7-a9-analysis.md`.
 
 After the primary and cross-model long-graph v2 hosted outputs exist locally,
+regenerate the corpus card:
+
+```bash
+make long-graph-v2-corpus-card-refresh
+```
+
+The corpus card is committed at `docs/long-graph-v2-corpus-card.md` and
+summarizes task balance, page budgets, domains, attack types, and page labels.
+
+After the primary and cross-model long-graph v2 hosted outputs exist locally,
 regenerate the paired A8/A9/A10 preservation appendix:
 
 ```bash

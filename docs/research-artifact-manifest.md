@@ -5,6 +5,7 @@ This deterministic manifest records the key public artifacts for the long-graph 
 ## Regeneration Commands
 
 ```bash
+make long-graph-v2-corpus-card-refresh
 make paired-analysis-long-graph-v2-preservation
 make casebook-long-graph-v2-preservation
 make transition-analysis-long-graph-v2-preservation
@@ -21,6 +22,7 @@ make artifact-manifest-refresh
 | Cross-model hosted long-graph v2 rows | `experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/results.jsonl` | jsonl | 216 records | 1375347 | `0bc6b8fba316cc3b4b48291f6af0a13f9a6b7f31bb9a1d9f5124a87987144e63` |
 | Primary hosted long-graph v2 summary | `experiments/results/hosted-long-graph-v2-pilot/summary.json` | json | 82 lines | 2241 | `1cb27b9b052dd3ee3b7336e5deb9f80bda42604fb47b945a7b7638865221e8b0` |
 | Cross-model hosted long-graph v2 summary | `experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/summary.json` | json | 50 lines | 1355 | `8a48fd19ec49919cb3ba5ed1c115608bd9ec6132b5ba21db156a32b989c555f9` |
+| Long-graph v2 corpus card | `docs/long-graph-v2-corpus-card.md` | markdown | 82 lines | 4062 | `bc6ed9f3599385581a99e0ca5890e37f5ade3e30b6860bce7823764ae1a3a928` |
 | Paired preservation appendix | `docs/paired-long-graph-v2-preservation-analysis.md` | markdown | 95 lines | 10337 | `162ccfce5160aaf303ba5f05461bec341c5ba7a5c2bd1600142e7887e67c1964` |
 | Preservation repair casebook | `docs/long-graph-v2-preservation-casebook.md` | markdown | 358 lines | 39064 | `0b098bfe970203781b2ab1804cb09172249575a9008c4e37c8500a90feefa4a0` |
 | Preservation transition appendix | `docs/long-graph-v2-preservation-transition-analysis.md` | markdown | 62 lines | 4290 | `c91725035114e157b4357ca867f89e6862ec642f6df64b9abf6b43b028bef05d` |
@@ -32,6 +34,7 @@ make artifact-manifest-refresh
 
 | Claim | Primary artifacts |
 | --- | --- |
+| Corpus design is balanced and page-budget controlled | `docs/long-graph-v2-corpus-card.md`, `data/tasks.graph-long-v2.jsonl`, `data/pages.graph-long-v2.jsonl` |
 | A10 repairs direct-control over-abstention across two deployments | `docs/paired-long-graph-v2-preservation-analysis.md`, `docs/hosted-long-graph-v2-summary.md`, `docs/hosted-long-graph-v2-cross-model-summary.md` |
 | Row-level repairs are inspectable against trusted/current pages | `docs/long-graph-v2-preservation-casebook.md`, `data/pages.graph-long-v2.jsonl` |
 | Page-label changes are concentrated on repaired rows | `docs/long-graph-v2-preservation-transition-analysis.md`, `experiments/results/hosted-long-graph-v2-pilot/results.jsonl`, `experiments/results/hosted-long-graph-v2-gpt41mini-a8-a10-repeats/results.jsonl` |

@@ -212,6 +212,12 @@ Run the hosted A8/A9 cross-model long-graph baseline on the same deployment:
 make hosted-long-graph-relation-gates-cross-model-repeats-refresh
 ```
 
+Generate the long-graph v2 corpus card:
+
+```bash
+make long-graph-v2-corpus-card-refresh
+```
+
 Generate the paired A7/A8/A9 statistical appendix from hosted result files:
 
 ```bash
@@ -318,6 +324,9 @@ The v2 cross-model replication target writes to
 A8/A9/A10 on the same corpus to test whether A10's preservation repair
 replicates beyond the primary `gpt-5-mini` deployment. A committed aggregate
 snapshot is in `docs/hosted-long-graph-v2-cross-model-summary.md`.
+The corpus card in `docs/long-graph-v2-corpus-card.md` documents the balanced
+24-task design: 8 yes, 8 no, and 8 insufficient-evidence tasks across 8
+domains, with 4 trusted pages and 4 attack pages per task.
 The cross-model A10 target defaults to
 `experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`
 and can be pointed at another deployment with

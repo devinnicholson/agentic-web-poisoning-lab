@@ -218,18 +218,20 @@ Paired A7/A8/A9 appendix:
 18. A 216-row cross-model long-graph v2 replication showing the A10 repair
     also holds on `gpt-4-1-mini`: A10 reached 72/72 while A8/A9 over-abstained
     on direct controls.
-19. A paired long-graph v2 preservation appendix with exact McNemar tests
+19. A generated long-graph v2 corpus card documenting the balanced 24-task,
+    8-domain, 128-page design and fixed 4 trusted/4 attack page budget.
+20. A paired long-graph v2 preservation appendix with exact McNemar tests
     showing that A10 fixes direct-control over-abstention without weakening
     evidence-gap abstention across two deployments.
-20. A qualitative long-graph v2 preservation casebook with 14 representative
+21. A qualitative long-graph v2 preservation casebook with 14 representative
     repaired rows, trusted/current evidence pages, relation-label changes, and
     A10 safety metrics.
-21. A long-graph v2 page-label transition appendix showing that 35 label-change
+22. A long-graph v2 page-label transition appendix showing that 35 label-change
     observations are concentrated on the 33 repaired direct-control rows, with
     0 non-repaired direct-control rows changing labels and 0 A10 regressions.
-22. A deterministic artifact manifest with row counts, line counts, byte sizes,
+23. A deterministic artifact manifest with row counts, line counts, byte sizes,
     and SHA-256 hashes for the key v2 research files.
-23. A static dashboard for inspection.
+24. A static dashboard for inspection.
 
 ## Limitations
 
@@ -253,6 +255,7 @@ Paired A7/A8/A9 appendix:
 
 Open `static/research-dashboard.html` for aggregate results. Open
 `static/action-hijack-case-study.html` for the trace-style demo. Open
+`docs/long-graph-v2-corpus-card.md` for the v2 dataset card. Open
 `docs/long-graph-v2-preservation-casebook.md` for row-level A10 preservation
 repair examples. Open
 `docs/long-graph-v2-preservation-transition-analysis.md` for aggregate

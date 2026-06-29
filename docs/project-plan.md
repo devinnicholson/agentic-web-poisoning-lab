@@ -259,20 +259,23 @@ Completed:
    reached 72/72 accuracy, 24/24 abstention, and 48/48 direct controls, while
    A8 reached 60/72 and A9 reached 59/72 because direct-control false
    abstentions were stronger on the second deployment.
-7. `make paired-analysis-long-graph-v2-preservation` generates
+7. `make long-graph-v2-corpus-card-refresh` generates
+   `docs/long-graph-v2-corpus-card.md`, a generated data sheet for the balanced
+   24-task, 8-domain, 128-page v2 corpus.
+8. `make paired-analysis-long-graph-v2-preservation` generates
    `docs/paired-long-graph-v2-preservation-analysis.md`, a deployment-aware
    paired appendix. Across both v2 deployments, A10 fixed 14 direct-control
    rows relative to A8 and 19 relative to A9, with 0 new direct-control misses.
-8. `make casebook-long-graph-v2-preservation` generates
+9. `make casebook-long-graph-v2-preservation` generates
    `docs/long-graph-v2-preservation-casebook.md`, a qualitative casebook with
    14 representative repaired rows, trusted/current evidence pages,
    relation-label changes, and A10 safety metrics.
-9. `make transition-analysis-long-graph-v2-preservation` generates
+10. `make transition-analysis-long-graph-v2-preservation` generates
    `docs/long-graph-v2-preservation-transition-analysis.md`, a mechanism
    appendix showing 35 page-label transition observations concentrated on the
    33 repaired direct-control rows, with 0 non-repaired direct-control rows
    changing labels and 0 A10 regressions.
-10. `make artifact-manifest-refresh` generates
+11. `make artifact-manifest-refresh` generates
     `docs/research-artifact-manifest.md`, a deterministic checksum manifest
     covering the key v2 corpora, hosted result files, public summaries,
     casebook, transition appendix, and dashboard.

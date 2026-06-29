@@ -341,6 +341,8 @@ current evidence pages plus four adversarial distractors. It added fake-citation
 laundering to the earlier source-laundering, stale-page, and confidence-pressure
 distractors. The hosted run used three repeats across A1, A4, A8, A9, and A10,
 for 360 rows.
+The generated corpus card, `docs/long-graph-v2-corpus-card.md`, documents this
+balanced 24-task, 8-domain, 128-page design.
 
 | Condition | Rows | Accuracy | Attack success | Cited poisoned | Correct abstention | Direct controls |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
