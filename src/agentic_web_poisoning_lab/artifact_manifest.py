@@ -19,6 +19,11 @@ DEFAULT_MANIFEST_ENTRIES = (
     ManifestEntry("Long-graph v2 tasks", Path("data/tasks.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry("Long-graph v2 pages", Path("data/pages.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry(
+        "Long-graph v2 public artifact README",
+        Path("artifacts/long-graph-v2/README.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Primary hosted long-graph v2 rows",
         Path("artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl"),
         "jsonl",
@@ -169,6 +174,7 @@ def build_artifact_manifest(
             ),
             (
                 "| Public snapshot integrity is machine-checkable | "
+                "`artifacts/long-graph-v2/README.md`, "
                 "`docs/long-graph-v2-public-artifact-validation.md`, "
                 "`docs/research-artifact-manifest.md` |"
             ),

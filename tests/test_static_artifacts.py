@@ -71,6 +71,7 @@ class StaticArtifactsTest(unittest.TestCase):
         self.assertIn("Long-Graph Finding", html)
         self.assertIn("v2 Public Artifacts", html)
         self.assertIn("docs/long-graph-v2-corpus-card.md", html)
+        self.assertIn("artifacts/long-graph-v2/README.md", html)
         self.assertIn("artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl", html)
         self.assertIn("artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl", html)
         self.assertIn("docs/long-graph-v2-public-artifact-validation.md", html)
