@@ -49,6 +49,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry(
+        "Extended abstract",
+        Path("docs/extended-abstract.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Paired preservation appendix",
         Path("docs/paired-long-graph-v2-preservation-analysis.md"),
         "markdown",
@@ -153,6 +158,7 @@ def build_artifact_manifest(
             ),
             (
                 "| A10 repairs direct-control over-abstention across two deployments | "
+                "`docs/extended-abstract.md`, "
                 "`docs/paired-long-graph-v2-preservation-analysis.md`, "
                 "`docs/hosted-long-graph-v2-summary.md`, "
                 "`docs/hosted-long-graph-v2-cross-model-summary.md` |"

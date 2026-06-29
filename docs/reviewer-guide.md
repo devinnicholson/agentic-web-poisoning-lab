@@ -5,10 +5,11 @@ preservation result without reading the whole repository.
 
 ## Five-Minute Path
 
-1. Open `static/research-dashboard.html`.
-2. In the Graph Stress view, read the v2 tables and the v2 public artifacts
+1. Read `docs/extended-abstract.md`.
+2. Open `static/research-dashboard.html`.
+3. In the Graph Stress view, read the v2 tables and the v2 public artifacts
    packet.
-3. Open `docs/research-artifact-manifest.md` and confirm the row counts:
+4. Open `docs/research-artifact-manifest.md` and confirm the row counts:
    360 primary hosted rows, 216 cross-model hosted rows, 24 tasks, and 128
    pages.
 

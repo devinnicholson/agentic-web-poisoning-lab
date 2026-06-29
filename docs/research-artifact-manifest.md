@@ -26,21 +26,22 @@ make artifact-manifest-refresh
 | Primary hosted long-graph v2 summary | `artifacts/long-graph-v2/hosted-gpt5-mini-summary.json` | json | 82 lines | 2241 | `1cb27b9b052dd3ee3b7336e5deb9f80bda42604fb47b945a7b7638865221e8b0` |
 | Cross-model hosted long-graph v2 summary | `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-summary.json` | json | 50 lines | 1355 | `8a48fd19ec49919cb3ba5ed1c115608bd9ec6132b5ba21db156a32b989c555f9` |
 | Long-graph v2 corpus card | `docs/long-graph-v2-corpus-card.md` | markdown | 82 lines | 4062 | `bc6ed9f3599385581a99e0ca5890e37f5ade3e30b6860bce7823764ae1a3a928` |
+| Extended abstract | `docs/extended-abstract.md` | markdown | 73 lines | 4206 | `8cfb43f084f94fbe1db1e9ba029fc48167d64c1bef9834b2d978840b06153a41` |
 | Paired preservation appendix | `docs/paired-long-graph-v2-preservation-analysis.md` | markdown | 95 lines | 10314 | `c5508974ec2b7c66e518c5bfd9464796d54e83a0da1904faac90fc80c1754df9` |
 | Preservation repair casebook | `docs/long-graph-v2-preservation-casebook.md` | markdown | 358 lines | 39041 | `c324b3c9f0e415d23f5a1c03b2d2e409e60fca3caedfe1f4812992e093a554f8` |
 | Preservation transition appendix | `docs/long-graph-v2-preservation-transition-analysis.md` | markdown | 62 lines | 4267 | `50c2856d6f6102ae9196387deba775b7d1f4e9fa509bb60111c2d1f3cb598746` |
 | Public artifact validation report | `docs/long-graph-v2-public-artifact-validation.md` | markdown | 44 lines | 1932 | `819f350f584ac8cbd3092721463977ba77a8b4aae4e238617d8d7cc110e59344` |
 | Primary hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-summary.md` | markdown | 122 lines | 5327 | `e6476a083a54b23e8b642b0fd17137c23e769611814a76f43e5087387298aede` |
 | Cross-model hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-cross-model-summary.md` | markdown | 87 lines | 3699 | `155a28d607f6df7f62185f0f3b2f70f9af50ff80d1410782e3a6c2cef385abee` |
-| Research dashboard | `static/research-dashboard.html` | html | 1608 lines | 59049 | `b647bbd80614587f4d35b4cf931808a8b65aa4c1531403e54557e65f4b2bf0f5` |
-| Reviewer guide | `docs/reviewer-guide.md` | markdown | 82 lines | 3387 | `c66f298bebbf96107421d67d1bd2c585be1f3d2e91553fab49021dc5a79270d3` |
+| Research dashboard | `static/research-dashboard.html` | html | 1612 lines | 59265 | `bd4f9314c818f3b64c66da69afd91a1d5738a9bc46628210f6af4fed2539a15d` |
+| Reviewer guide | `docs/reviewer-guide.md` | markdown | 83 lines | 3424 | `7687c9c87ef2fcb27933609a67e76d212c58b235ca4ed3f9136cc56ac5ae8ec8` |
 
 ## Claim Map
 
 | Claim | Primary artifacts |
 | --- | --- |
 | Corpus design is balanced and page-budget controlled | `docs/long-graph-v2-corpus-card.md`, `data/tasks.graph-long-v2.jsonl`, `data/pages.graph-long-v2.jsonl` |
-| A10 repairs direct-control over-abstention across two deployments | `docs/paired-long-graph-v2-preservation-analysis.md`, `docs/hosted-long-graph-v2-summary.md`, `docs/hosted-long-graph-v2-cross-model-summary.md` |
+| A10 repairs direct-control over-abstention across two deployments | `docs/extended-abstract.md`, `docs/paired-long-graph-v2-preservation-analysis.md`, `docs/hosted-long-graph-v2-summary.md`, `docs/hosted-long-graph-v2-cross-model-summary.md` |
 | Row-level repairs are inspectable against trusted/current pages | `docs/long-graph-v2-preservation-casebook.md`, `data/pages.graph-long-v2.jsonl` |
 | Page-label changes are concentrated on repaired rows | `docs/long-graph-v2-preservation-transition-analysis.md`, `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`, `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` |
 | Public dashboard summarizes the committed aggregate results | `static/research-dashboard.html` |
