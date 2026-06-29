@@ -18,7 +18,7 @@ from agentic_web_poisoning_lab.hosted import (
 )
 from agentic_web_poisoning_lab.io import append_jsonl, load_pages, load_tasks, read_jsonl, write_jsonl
 from agentic_web_poisoning_lab.metrics import summarize
-from agentic_web_poisoning_lab.paired_analysis import write_paired_analysis
+from agentic_web_poisoning_lab.paired_analysis import write_paired_analysis, write_preservation_analysis
 from agentic_web_poisoning_lab.research_stats import write_research_stats
 from agentic_web_poisoning_lab.reporting import write_markdown_report
 
@@ -125,6 +125,23 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("docs/paired-condition-analysis.md"),
     )
 
+    preservation_parser = subparsers.add_parser(
+        "preservation-analysis",
+        help="Generate a paired A8/A9/A10 preservation-analysis appendix.",
+    )
+    preservation_parser.add_argument(
+        "--results",
+        type=Path,
+        nargs="+",
+        required=True,
+        help="One or more result JSONL files to merge before pairing rows by deployment.",
+    )
+    preservation_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/paired-preservation-analysis.md"),
+    )
+
     audit_parser = subparsers.add_parser("audit", help="Generate a human audit queue.")
     audit_parser.add_argument(
         "--results",
@@ -152,6 +169,8 @@ def main(argv: list[str] | None = None) -> int:
         return stats_command(args)
     if args.command == "paired-analysis":
         return paired_analysis_command(args)
+    if args.command == "preservation-analysis":
+        return preservation_analysis_command(args)
     if args.command == "audit":
         return audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
@@ -251,6 +270,12 @@ def stats_command(args: argparse.Namespace) -> int:
 def paired_analysis_command(args: argparse.Namespace) -> int:
     markdown = write_paired_analysis(args.results, args.out)
     print(f"Wrote paired analysis to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def preservation_analysis_command(args: argparse.Namespace) -> int:
+    markdown = write_preservation_analysis(args.results, args.out)
+    print(f"Wrote preservation analysis to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

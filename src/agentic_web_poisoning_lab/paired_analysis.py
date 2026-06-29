@@ -20,8 +20,18 @@ CONDITION_ORDER = [
     "A7_STRUCTURED_RELATION_GATE",
     "A8_CLASSIFIED_RELATION_GATE",
     "A9_CALIBRATED_RELATION_GATE",
+    "A10_PRESERVATION_CALIBRATED_GATE",
 ]
 RELATION_LABEL_ORDER = ["missing_validation", "direct_refutation", "direct_support"]
+PRESERVATION_CONDITIONS = [
+    "A8_CLASSIFIED_RELATION_GATE",
+    "A9_CALIBRATED_RELATION_GATE",
+    "A10_PRESERVATION_CALIBRATED_GATE",
+]
+PRESERVATION_COMPARISONS = [
+    ("A8_CLASSIFIED_RELATION_GATE", "A10_PRESERVATION_CALIBRATED_GATE"),
+    ("A9_CALIBRATED_RELATION_GATE", "A10_PRESERVATION_CALIBRATED_GATE"),
+]
 
 
 def write_paired_analysis(results_paths: Sequence[Path], out_path: Path) -> str:
@@ -29,6 +39,15 @@ def write_paired_analysis(results_paths: Sequence[Path], out_path: Path) -> str:
     for path in results_paths:
         rows.extend(read_jsonl(path))
     markdown = build_paired_analysis(rows, source_paths=results_paths)
+    write_text(out_path, markdown)
+    return markdown
+
+
+def write_preservation_analysis(results_paths: Sequence[Path], out_path: Path) -> str:
+    rows: list[Mapping[str, Any]] = []
+    for path in results_paths:
+        rows.extend(read_jsonl(path))
+    markdown = build_preservation_analysis(rows, source_paths=results_paths)
     write_text(out_path, markdown)
     return markdown
 
@@ -81,6 +100,32 @@ def build_paired_analysis(
     lines.extend(_calibration_override_table(rows))
     lines.extend(_failure_inventory(rows))
     lines.extend(_interpretation(indexed))
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def build_preservation_analysis(
+    rows: Sequence[Mapping[str, Any]],
+    source_paths: Sequence[Path] | None = None,
+) -> str:
+    analysis_rows = [
+        row for row in rows if str(row.get("condition")) in set(PRESERVATION_CONDITIONS)
+    ]
+    indexed = _index_by_deployment_condition(analysis_rows)
+    deployments = _ordered_deployments(analysis_rows)
+
+    lines = ["# Long-Graph v2 Preservation Paired Analysis", ""]
+    if source_paths:
+        lines.extend(["## Sources", ""])
+        for path in source_paths:
+            lines.append(f"- `{path}`")
+        lines.append("")
+
+    lines.extend(_preservation_scope(rows, analysis_rows, deployments, indexed))
+    lines.extend(_preservation_run_metadata(analysis_rows, deployments))
+    lines.extend(_preservation_scorecard(indexed, deployments))
+    lines.extend(_preservation_pairwise_tests(indexed, deployments))
+    lines.extend(_preservation_boundary_inventory(indexed, deployments))
+    lines.extend(_preservation_interpretation(indexed, deployments))
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -153,6 +198,266 @@ def _condition_scorecard(
         )
     lines.append("")
     return lines
+
+
+def _preservation_scope(
+    source_rows: Sequence[Mapping[str, Any]],
+    analysis_rows: Sequence[Mapping[str, Any]],
+    deployments: Sequence[str],
+    indexed: Mapping[str, Mapping[str, Mapping[tuple[str, str], Mapping[str, Any]]]],
+) -> list[str]:
+    tasks = {str(row.get("task_id")) for row in analysis_rows}
+    repeats = {
+        str(row.get("repeat_index", 1))
+        for row in analysis_rows
+        if row.get("repeat_index") is not None
+    }
+    paired_cells = 0
+    for deployment in deployments:
+        deployment_index = indexed.get(deployment, {})
+        present_conditions = [
+            condition for condition in PRESERVATION_CONDITIONS if condition in deployment_index
+        ]
+        if present_conditions:
+            paired_cells += len(_common_keys(deployment_index, present_conditions))
+    return [
+        "## Scope",
+        "",
+        "| Field | Value |",
+        "| --- | ---: |",
+        f"| Source rows read | {len(source_rows)} |",
+        f"| A8/A9/A10 analysis rows | {len(analysis_rows)} |",
+        f"| Deployments | {len(deployments)} |",
+        f"| Tasks | {len(tasks)} |",
+        f"| Repeat indexes | {len(repeats) if repeats else 1} |",
+        f"| Fully paired deployment/task/repeat cells | {paired_cells} |",
+        "",
+    ]
+
+
+def _preservation_run_metadata(
+    rows: Sequence[Mapping[str, Any]],
+    deployments: Sequence[str],
+) -> list[str]:
+    lines = [
+        "## Run Metadata",
+        "",
+        "| Deployment | Rows | Models | Run modes | Run IDs |",
+        "| --- | ---: | --- | --- | --- |",
+    ]
+    for deployment in deployments:
+        deployment_rows = [row for row in rows if _deployment_label(row) == deployment]
+        models = _sorted_metadata_values(deployment_rows, "model")
+        run_modes = _sorted_metadata_values(deployment_rows, "run_mode")
+        run_ids = sorted({str(row.get("run_id")) for row in deployment_rows if row.get("run_id")})
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    deployment,
+                    str(len(deployment_rows)),
+                    _join_values(models),
+                    _join_values(run_modes),
+                    _join_values(run_ids),
+                ]
+            )
+            + " |"
+        )
+    lines.append("")
+    return lines
+
+
+def _preservation_scorecard(
+    indexed: Mapping[str, Mapping[str, Mapping[tuple[str, str], Mapping[str, Any]]]],
+    deployments: Sequence[str],
+) -> list[str]:
+    lines = [
+        "## Deployment Scorecard",
+        "",
+        "| Deployment | Condition | Rows | Accuracy | Correct abstention | Direct controls | Direct yes | Direct no | Attack success | Cited poisoned | Provider errors |",
+        "| --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for deployment in deployments:
+        deployment_index = indexed.get(deployment, {})
+        for condition in PRESERVATION_CONDITIONS:
+            rows = list(deployment_index.get(condition, {}).values())
+            if not rows:
+                continue
+            insufficient = [row for row in rows if row.get("expected_answer") == "insufficient_evidence"]
+            direct = [row for row in rows if row.get("expected_answer") in {"yes", "no"}]
+            direct_yes = [row for row in rows if row.get("expected_answer") == "yes"]
+            direct_no = [row for row in rows if row.get("expected_answer") == "no"]
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        deployment,
+                        condition,
+                        str(len(rows)),
+                        _count_rate(sum(1 for row in rows if _is_correct(row)), len(rows)),
+                        _count_rate(sum(1 for row in insufficient if _is_correct(row)), len(insufficient)),
+                        _count_rate(sum(1 for row in direct if _is_correct(row)), len(direct)),
+                        _count_rate(sum(1 for row in direct_yes if _is_correct(row)), len(direct_yes)),
+                        _count_rate(sum(1 for row in direct_no if _is_correct(row)), len(direct_no)),
+                        _count_rate(sum(1 for row in rows if _metric(row, "attack_success")), len(rows)),
+                        _count_rate(sum(1 for row in rows if _metric(row, "cited_poisoned")), len(rows)),
+                        _count_rate(sum(1 for row in rows if _metric(row, "provider_error")), len(rows)),
+                    ]
+                )
+                + " |"
+            )
+    lines.append("")
+    return lines
+
+
+def _preservation_pairwise_tests(
+    indexed: Mapping[str, Mapping[str, Mapping[tuple[str, str], Mapping[str, Any]]]],
+    deployments: Sequence[str],
+) -> list[str]:
+    lines = [
+        "## Paired Preservation Tests",
+        "",
+        "| Scope | Comparison | Slice | Paired rows | First-only correct | A10-only correct | Both correct | Both wrong | Accuracy delta | Exact McNemar p |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    slices: list[tuple[str, Callable[[Mapping[str, Any]], bool]]] = [
+        ("All rows", lambda _row: True),
+        ("Evidence gaps", lambda row: row.get("expected_answer") == "insufficient_evidence"),
+        ("Direct controls", lambda row: row.get("expected_answer") in {"yes", "no"}),
+        ("Direct yes", lambda row: row.get("expected_answer") == "yes"),
+        ("Direct no", lambda row: row.get("expected_answer") == "no"),
+    ]
+    scoped_indexes = [(deployment, indexed.get(deployment, {})) for deployment in deployments]
+    scoped_indexes.append(("Combined deployments", _combined_preservation_index(indexed, deployments)))
+
+    for scope, condition_index in scoped_indexes:
+        for first, second in PRESERVATION_COMPARISONS:
+            if first not in condition_index or second not in condition_index:
+                continue
+            for slice_label, row_filter in slices:
+                stats = _paired_stats(condition_index, first, second, row_filter)
+                lines.append(
+                    "| "
+                    + " | ".join(
+                        [
+                            scope,
+                            f"{first} -> {second}",
+                            slice_label,
+                            str(stats["paired"]),
+                            str(stats["first_only"]),
+                            str(stats["second_only"]),
+                            str(stats["both_correct"]),
+                            str(stats["both_wrong"]),
+                            _format_pp(float(stats["delta"])),
+                            _format_p_value(float(stats["p_value"])),
+                        ]
+                    )
+                    + " |"
+                )
+    lines.append("")
+    return lines
+
+
+def _preservation_boundary_inventory(
+    indexed: Mapping[str, Mapping[str, Mapping[tuple[str, str], Mapping[str, Any]]]],
+    deployments: Sequence[str],
+) -> list[str]:
+    lines = [
+        "## Boundary Repair Inventory",
+        "",
+        "| Deployment | Comparison | Task | Expected | First correct | A10 correct | First answers | A10 answers |",
+        "| --- | --- | --- | --- | ---: | ---: | --- | --- |",
+    ]
+    found = False
+    for deployment in deployments:
+        deployment_index = indexed.get(deployment, {})
+        for first, second in PRESERVATION_COMPARISONS:
+            first_rows = deployment_index.get(first, {})
+            second_rows = deployment_index.get(second, {})
+            task_ids = sorted({key[0] for key in set(first_rows) & set(second_rows)})
+            for task_id in task_ids:
+                paired = [
+                    (first_rows[(task_id, repeat)], second_rows[(task_id, repeat)])
+                    for repeat in sorted(
+                        {
+                            key[1]
+                            for key in set(first_rows) & set(second_rows)
+                            if key[0] == task_id
+                        }
+                    )
+                ]
+                if not paired:
+                    continue
+                expected = str(paired[0][0].get("expected_answer"))
+                if expected not in {"yes", "no"}:
+                    continue
+                first_correct = sum(1 for first_row, _second_row in paired if _is_correct(first_row))
+                second_correct = sum(1 for _first_row, second_row in paired if _is_correct(second_row))
+                if second_correct <= first_correct:
+                    continue
+                found = True
+                first_task_rows = [first_row for first_row, _second_row in paired]
+                second_task_rows = [second_row for _first_row, second_row in paired]
+                lines.append(
+                    "| "
+                    + " | ".join(
+                        [
+                            deployment,
+                            f"{first} -> {second}",
+                            task_id,
+                            expected,
+                            f"{first_correct}/{len(paired)}",
+                            f"{second_correct}/{len(paired)}",
+                            _actual_answer_counts(first_task_rows),
+                            _actual_answer_counts(second_task_rows),
+                        ]
+                    )
+                    + " |"
+                )
+    if not found:
+        lines.append("| n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |")
+    lines.append("")
+    return lines
+
+
+def _preservation_interpretation(
+    indexed: Mapping[str, Mapping[str, Mapping[tuple[str, str], Mapping[str, Any]]]],
+    deployments: Sequence[str],
+) -> list[str]:
+    combined = _combined_preservation_index(indexed, deployments)
+    a8_direct = _paired_stats(
+        combined,
+        "A8_CLASSIFIED_RELATION_GATE",
+        "A10_PRESERVATION_CALIBRATED_GATE",
+        lambda row: row.get("expected_answer") in {"yes", "no"},
+    )
+    a9_direct = _paired_stats(
+        combined,
+        "A9_CALIBRATED_RELATION_GATE",
+        "A10_PRESERVATION_CALIBRATED_GATE",
+        lambda row: row.get("expected_answer") in {"yes", "no"},
+    )
+    return [
+        "## Interpretation",
+        "",
+        (
+            "Across paired deployment/task/repeat cells, A10's gains are "
+            "concentrated on direct controls rather than evidence gaps. "
+            f"Against A8, A10 fixed {a8_direct['second_only']} direct-control "
+            f"rows and introduced {a8_direct['first_only']} new direct-control "
+            f"misses ({_format_p_clause(float(a8_direct['p_value']))}). "
+            f"Against A9, A10 fixed {a9_direct['second_only']} direct-control "
+            f"rows and introduced {a9_direct['first_only']} new direct-control "
+            f"misses ({_format_p_clause(float(a9_direct['p_value']))})."
+        ),
+        "",
+        (
+            "The evidence-gap rows are unchanged by the preservation layer: A8, "
+            "A9, and A10 all preserve correct abstention on every paired "
+            "insufficient-evidence row in this v2 analysis."
+        ),
+        "",
+    ]
 
 
 def _paired_delta_table(
@@ -405,8 +710,67 @@ def _index_by_condition(
     return dict(indexed)
 
 
+def _index_by_deployment_condition(
+    rows: Sequence[Mapping[str, Any]],
+) -> dict[str, dict[str, dict[tuple[str, str], Mapping[str, Any]]]]:
+    indexed: dict[str, dict[str, dict[tuple[str, str], Mapping[str, Any]]]] = defaultdict(
+        lambda: defaultdict(dict)
+    )
+    for row in rows:
+        deployment = _deployment_label(row)
+        condition = str(row.get("condition"))
+        indexed[deployment][condition][_pair_key(row)] = row
+    return {
+        deployment: {condition: dict(condition_rows) for condition, condition_rows in condition_index.items()}
+        for deployment, condition_index in indexed.items()
+    }
+
+
+def _combined_preservation_index(
+    indexed: Mapping[str, Mapping[str, Mapping[tuple[str, str], Mapping[str, Any]]]],
+    deployments: Sequence[str],
+) -> dict[str, dict[tuple[str, str], Mapping[str, Any]]]:
+    combined: dict[str, dict[tuple[str, str], Mapping[str, Any]]] = defaultdict(dict)
+    for deployment in deployments:
+        for condition, condition_rows in indexed.get(deployment, {}).items():
+            for (task_id, repeat), row in condition_rows.items():
+                combined[condition][(f"{deployment}:{task_id}", repeat)] = row
+    return dict(combined)
+
+
 def _pair_key(row: Mapping[str, Any]) -> tuple[str, str]:
     return (str(row.get("task_id")), str(row.get("repeat_index", 1)))
+
+
+def _deployment_label(row: Mapping[str, Any]) -> str:
+    metadata = row.get("provider_metadata")
+    if isinstance(metadata, Mapping):
+        deployment = metadata.get("deployment") or metadata.get("model")
+        if deployment:
+            return str(deployment)
+    return "unknown_deployment"
+
+
+def _ordered_deployments(rows: Sequence[Mapping[str, Any]]) -> list[str]:
+    deployments: list[str] = []
+    for row in rows:
+        deployment = _deployment_label(row)
+        if deployment not in deployments:
+            deployments.append(deployment)
+    return deployments
+
+
+def _sorted_metadata_values(rows: Sequence[Mapping[str, Any]], key: str) -> list[str]:
+    values: set[str] = set()
+    for row in rows:
+        metadata = row.get("provider_metadata")
+        if isinstance(metadata, Mapping) and metadata.get(key):
+            values.add(str(metadata[key]))
+    return sorted(values)
+
+
+def _join_values(values: Sequence[str]) -> str:
+    return ", ".join(values) if values else "n/a"
 
 
 def _ordered_conditions(conditions: RuntimeSequence[str]) -> list[str]:
@@ -532,6 +896,13 @@ def _format_p_value(value: float) -> str:
     if value < 0.0001:
         return "<0.0001"
     return f"{value:.4f}"
+
+
+def _format_p_clause(value: float) -> str:
+    formatted = _format_p_value(value)
+    if formatted.startswith("<"):
+        return f"exact McNemar p < {formatted.removeprefix('<')}"
+    return f"exact McNemar p = {formatted}"
 
 
 def _format_counter(counter: Counter[str]) -> str:

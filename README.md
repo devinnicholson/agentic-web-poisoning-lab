@@ -218,6 +218,13 @@ Generate the paired A7/A8/A9 statistical appendix from hosted result files:
 make paired-analysis-a7-a9
 ```
 
+Generate the paired long-graph v2 preservation appendix from the primary and
+cross-model hosted result files:
+
+```bash
+make paired-analysis-long-graph-v2-preservation
+```
+
 Outputs are written under `experiments/results/local/` and kept out of Git.
 Hosted smoke outputs are written under `experiments/results/hosted-smoke/` and
 are also kept out of Git. Focused sweep outputs are written under
@@ -300,6 +307,11 @@ The cross-model A8/A9 relation-gate target defaults to
 The paired statistical appendix in `docs/paired-a7-a9-analysis.md` aligns A7,
 A8, and A9 rows by task and repeat index, including exact McNemar tests for the
 A8 degradation and A9 repair.
+The paired v2 preservation appendix in
+`docs/paired-long-graph-v2-preservation-analysis.md` aligns A8/A9/A10 rows by
+deployment, task, and repeat index. Across both v2 deployments, A10 fixed 14
+direct-control rows relative to A8 and 19 relative to A9, with 0 new
+direct-control misses.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 

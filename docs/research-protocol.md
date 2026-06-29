@@ -282,6 +282,17 @@ make paired-analysis-a7-a9
 The appendix aligns rows by task and repeat index, reports exact McNemar tests,
 and is committed at `docs/paired-a7-a9-analysis.md`.
 
+After the primary and cross-model long-graph v2 hosted outputs exist locally,
+regenerate the paired A8/A9/A10 preservation appendix:
+
+```bash
+make paired-analysis-long-graph-v2-preservation
+```
+
+The appendix aligns rows by deployment, task, and repeat index, reports exact
+McNemar tests on direct controls and evidence gaps, and is committed at
+`docs/paired-long-graph-v2-preservation-analysis.md`.
+
 Run the multi-page graph stress benchmark locally:
 
 ```bash

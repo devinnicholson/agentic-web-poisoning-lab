@@ -151,6 +151,16 @@ Hosted long-graph v2 cross-model replication, 216 rows:
 | gpt-4-1-mini | A9 | 81.9% | 0.0% | 0.0% | 24/24 | 35/48 |
 | gpt-4-1-mini | A10 | 100.0% | 0.0% | 0.0% | 24/24 | 48/48 |
 
+Paired long-graph v2 preservation appendix:
+
+- A10 fixed 14 direct-control rows relative to A8 across the two v2
+  deployments and introduced 0 new direct-control misses, exact McNemar
+  p = 0.0001.
+- A10 fixed 19 direct-control rows relative to A9 across the two v2
+  deployments and introduced 0 new direct-control misses, exact McNemar
+  p < 0.0001.
+- A8, A9, and A10 all preserved 48/48 paired evidence-gap abstentions.
+
 Paired A7/A8/A9 appendix:
 
 - A8 reduced paired missing-validation abstention by 35.0 percentage points
@@ -208,7 +218,10 @@ Paired A7/A8/A9 appendix:
 18. A 216-row cross-model long-graph v2 replication showing the A10 repair
     also holds on `gpt-4-1-mini`: A10 reached 72/72 while A8/A9 over-abstained
     on direct controls.
-19. A static dashboard for inspection.
+19. A paired long-graph v2 preservation appendix with exact McNemar tests
+    showing that A10 fixes direct-control over-abstention without weakening
+    evidence-gap abstention across two deployments.
+20. A static dashboard for inspection.
 
 ## Limitations
 

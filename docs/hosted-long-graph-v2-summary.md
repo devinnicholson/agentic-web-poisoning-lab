@@ -90,6 +90,13 @@ The cross-model false-abstention families were direct-control rows:
 A9 also missed `task_long_v2_009` once. The committed replication snapshot is
 `docs/hosted-long-graph-v2-cross-model-summary.md`.
 
+The deployment-aware paired appendix
+`docs/paired-long-graph-v2-preservation-analysis.md` combines the primary and
+cross-model v2 runs. Across both deployments, A10 fixed 14 direct-control rows
+relative to A8 and 19 relative to A9, with 0 new direct-control misses. The
+combined exact McNemar test is p = 0.0001 for A8 -> A10 direct controls and
+p < 0.0001 for A9 -> A10 direct controls.
+
 ## Provider Reliability
 
 | Condition | Rows | Provider errors | Provider blocks | Total retries | Prompt tokens | Completion tokens |

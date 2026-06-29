@@ -11,7 +11,11 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_web_poisoning_lab.cli import main
 from agentic_web_poisoning_lab.io import write_jsonl
-from agentic_web_poisoning_lab.paired_analysis import build_paired_analysis, write_paired_analysis
+from agentic_web_poisoning_lab.paired_analysis import (
+    build_paired_analysis,
+    build_preservation_analysis,
+    write_paired_analysis,
+)
 
 
 class PairedAnalysisTest(unittest.TestCase):
@@ -106,6 +110,128 @@ class PairedAnalysisTest(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertTrue(cli_out_path.exists())
 
+    def test_build_preservation_analysis_groups_by_deployment(self) -> None:
+        rows = [
+            row(
+                "task_direct_no",
+                1,
+                "A8_CLASSIFIED_RELATION_GATE",
+                False,
+                expected_answer="no",
+                actual_answer="insufficient_evidence",
+                deployment="gpt-5-mini",
+            ),
+            row(
+                "task_direct_no",
+                1,
+                "A10_PRESERVATION_CALIBRATED_GATE",
+                True,
+                expected_answer="no",
+                actual_answer="no",
+                deployment="gpt-5-mini",
+            ),
+            row(
+                "task_gap",
+                1,
+                "A8_CLASSIFIED_RELATION_GATE",
+                True,
+                deployment="gpt-5-mini",
+            ),
+            row(
+                "task_gap",
+                1,
+                "A10_PRESERVATION_CALIBRATED_GATE",
+                True,
+                deployment="gpt-5-mini",
+            ),
+            row(
+                "task_direct_no",
+                1,
+                "A8_CLASSIFIED_RELATION_GATE",
+                True,
+                expected_answer="no",
+                actual_answer="no",
+                deployment="gpt-4-1-mini",
+            ),
+            row(
+                "task_direct_no",
+                1,
+                "A10_PRESERVATION_CALIBRATED_GATE",
+                True,
+                expected_answer="no",
+                actual_answer="no",
+                deployment="gpt-4-1-mini",
+            ),
+            row(
+                "task_gap",
+                1,
+                "A8_CLASSIFIED_RELATION_GATE",
+                True,
+                deployment="gpt-4-1-mini",
+            ),
+            row(
+                "task_gap",
+                1,
+                "A10_PRESERVATION_CALIBRATED_GATE",
+                True,
+                deployment="gpt-4-1-mini",
+            ),
+        ]
+
+        markdown = build_preservation_analysis(rows)
+
+        self.assertIn("# Long-Graph v2 Preservation Paired Analysis", markdown)
+        self.assertIn("gpt-5-mini", markdown)
+        self.assertIn("gpt-4-1-mini", markdown)
+        self.assertIn("Combined deployments", markdown)
+        self.assertIn("A8_CLASSIFIED_RELATION_GATE -> A10_PRESERVATION_CALIBRATED_GATE", markdown)
+        self.assertIn("Direct controls", markdown)
+        self.assertIn("+50.0 pp", markdown)
+        self.assertIn("task_direct_no", markdown)
+
+    def test_preservation_analysis_cli(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            results_path = tmp_path / "results.jsonl"
+            out_path = tmp_path / "preservation.md"
+            write_jsonl(
+                results_path,
+                [
+                    row(
+                        "task_direct_no",
+                        1,
+                        "A9_CALIBRATED_RELATION_GATE",
+                        False,
+                        expected_answer="no",
+                        actual_answer="insufficient_evidence",
+                        deployment="gpt-4-1-mini",
+                    ),
+                    row(
+                        "task_direct_no",
+                        1,
+                        "A10_PRESERVATION_CALIBRATED_GATE",
+                        True,
+                        expected_answer="no",
+                        actual_answer="no",
+                        deployment="gpt-4-1-mini",
+                    ),
+                ],
+            )
+
+            exit_code = main(
+                [
+                    "preservation-analysis",
+                    "--results",
+                    str(results_path),
+                    "--out",
+                    str(out_path),
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(out_path.exists())
+            self.assertIn("A9_CALIBRATED_RELATION_GATE", out_path.read_text())
+
 
 def row(
     task_id: str,
@@ -117,6 +243,7 @@ def row(
     relation_label: str | None = None,
     raw_relation_label: str | None = None,
     calibration_override: bool = False,
+    deployment: str = "test-deployment",
 ) -> dict[str, object]:
     result: dict[str, object] = {
         "task_id": task_id,
@@ -130,7 +257,14 @@ def row(
             "answer_accuracy": answer_accuracy,
             "attack_success": False,
             "cited_poisoned": False,
+            "provider_error": False,
         },
+        "provider_metadata": {
+            "deployment": deployment,
+            "model": f"{deployment}-model",
+            "run_mode": "unit_test",
+        },
+        "run_id": f"run-{deployment}",
     }
     if relation_label is not None:
         classifier_entry: dict[str, object] = {
@@ -140,7 +274,7 @@ def row(
         }
         if raw_relation_label is not None:
             classifier_entry["raw_evidence_relation"] = raw_relation_label
-        result["provider_metadata"] = {"relation_classifier": [classifier_entry]}
+        result["provider_metadata"]["relation_classifier"] = [classifier_entry]  # type: ignore[index]
     return result
 
 

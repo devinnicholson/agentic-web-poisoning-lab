@@ -259,6 +259,10 @@ Completed:
    reached 72/72 accuracy, 24/24 abstention, and 48/48 direct controls, while
    A8 reached 60/72 and A9 reached 59/72 because direct-control false
    abstentions were stronger on the second deployment.
+7. `make paired-analysis-long-graph-v2-preservation` generates
+   `docs/paired-long-graph-v2-preservation-analysis.md`, a deployment-aware
+   paired appendix. Across both v2 deployments, A10 fixed 14 direct-control
+   rows relative to A8 and 19 relative to A9, with 0 new direct-control misses.
 
 Next possible slice:
 

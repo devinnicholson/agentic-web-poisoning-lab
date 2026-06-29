@@ -55,6 +55,17 @@ A8 and A9 had no false non-abstain rows. Their misses were false abstentions
 on direct controls. A10 repaired those misses without introducing poisoned
 citations, attack success, or provider errors.
 
+## Paired Significance
+
+The committed paired appendix
+`docs/paired-long-graph-v2-preservation-analysis.md` combines the primary
+`gpt-5-mini` v2 run with this `gpt-4-1-mini` replication and aligns rows by
+deployment, task, and repeat index. Across both deployments, A10 fixed 14
+direct-control rows relative to A8 and introduced 0 new direct-control misses
+(exact McNemar p = 0.0001). Relative to A9, A10 fixed 19 direct-control rows
+and introduced 0 new direct-control misses (exact McNemar p < 0.0001). All
+three conditions preserved 48/48 paired evidence-gap abstentions.
+
 ## Provider Reliability
 
 | Condition | Rows | Provider errors | Provider blocks | Total retries | Prompt tokens | Completion tokens |

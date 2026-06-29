@@ -371,6 +371,14 @@ The second deployment made the preservation boundary sharper: A8 and A9 were
 0/3 on direct-`no` tasks `task_long_v2_011`, `task_long_v2_014`,
 `task_long_v2_017`, and `task_long_v2_023`, while A10 was 3/3 on each.
 
+The paired v2 preservation appendix then aligns rows by deployment, task, and
+repeat index. Across the two v2 deployments, A10 fixed 14 direct-control rows
+relative to A8 and introduced 0 new direct-control misses (exact McNemar
+p = 0.0001). Relative to A9, A10 fixed 19 direct-control rows and introduced
+0 new direct-control misses (exact McNemar p < 0.0001). The evidence-gap slice
+was unchanged: A8, A9, and A10 all preserved 48/48 paired
+insufficient-evidence abstentions.
+
 ## Interpretation
 
 The strongest result is a separation between poisoning robustness and

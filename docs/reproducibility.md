@@ -158,6 +158,13 @@ files:
 make paired-analysis-a7-a9
 ```
 
+Regenerate the paired long-graph v2 preservation appendix from the hosted
+primary and cross-model result files:
+
+```bash
+make paired-analysis-long-graph-v2-preservation
+```
+
 Hosted targets stream each row to `results.jsonl` and resume by default. To
 replace a hosted run intentionally, pass `HOSTED_RESUME=`.
 
@@ -176,6 +183,7 @@ The committed aggregate snapshots are:
 - `docs/hosted-relation-classifier-expanded-summary.md`
 - `docs/hosted-relation-calibrated-expanded-summary.md`
 - `docs/paired-a7-a9-analysis.md`
+- `docs/paired-long-graph-v2-preservation-analysis.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`
 - `docs/hosted-long-graph-preservation-summary.md`
