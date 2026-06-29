@@ -59,6 +59,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry(
+        "Threat model and safety scope",
+        Path("docs/threat-model.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Paired preservation appendix",
         Path("docs/paired-long-graph-v2-preservation-analysis.md"),
         "markdown",
@@ -192,7 +197,8 @@ def build_artifact_manifest(
             (
                 "| Reviewer path and safety scope are documented | "
                 "`docs/reviewer-guide.md`, "
-                "`docs/demo-script.md` |"
+                "`docs/demo-script.md`, "
+                "`docs/threat-model.md` |"
             ),
             "",
         ]

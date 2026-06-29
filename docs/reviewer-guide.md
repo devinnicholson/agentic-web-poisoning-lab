@@ -74,10 +74,13 @@ The result would be weakened if any of the following are found:
   rows.
 - The cross-model deployment fails to reproduce the A10 direct-control repair.
 - The generated artifacts cannot be reproduced from the committed JSONL files.
+- The validation report misses unredacted provider identifiers or unresolved
+  task/page references.
 
 ## Safety Scope
 
 The corpus is synthetic and uses synthetic local URLs. The project does not
 publish live exploit instructions for poisoning real websites or services. The
 research focus is defensive evaluation of agent evidence handling under
-controlled web-poisoning pressure.
+controlled web-poisoning pressure. `docs/threat-model.md` gives the full
+adversary model, release boundary, out-of-scope misuse, and remaining risk.

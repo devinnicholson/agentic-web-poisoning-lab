@@ -13,6 +13,7 @@ Open these files before the demo:
 4. `docs/long-graph-v2-preservation-casebook.md`
 5. `docs/long-graph-v2-public-artifact-validation.md`
 6. `docs/research-artifact-manifest.md`
+7. `docs/threat-model.md`
 
 ## Talk Track
 
@@ -78,6 +79,10 @@ packet."
 
 Open `docs/long-graph-v2-public-artifact-validation.md`, then
 `docs/research-artifact-manifest.md`.
+
+If asked about safety scope, open `docs/threat-model.md` and emphasize that the
+corpus is synthetic, the runs do not crawl the public web, and the release
+boundary is defensive evaluation.
 
 ## Closing
 
