@@ -59,6 +59,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry(
+        "Public artifact validation report",
+        Path("docs/long-graph-v2-public-artifact-validation.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Primary hosted long-graph v2 narrative",
         Path("docs/hosted-long-graph-v2-summary.md"),
         "markdown",
@@ -103,6 +108,7 @@ def build_artifact_manifest(
         "make paired-analysis-long-graph-v2-preservation",
         "make casebook-long-graph-v2-preservation",
         "make transition-analysis-long-graph-v2-preservation",
+        "make validate-long-graph-v2-public-artifacts",
         "make artifact-manifest-refresh",
         "```",
         "",
@@ -160,6 +166,11 @@ def build_artifact_manifest(
             (
                 "| Public dashboard summarizes the committed aggregate results | "
                 "`static/research-dashboard.html` |"
+            ),
+            (
+                "| Public snapshot integrity is machine-checkable | "
+                "`docs/long-graph-v2-public-artifact-validation.md`, "
+                "`docs/research-artifact-manifest.md` |"
             ),
             (
                 "| Reviewer path and safety scope are documented | "

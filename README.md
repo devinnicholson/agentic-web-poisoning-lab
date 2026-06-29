@@ -333,6 +333,9 @@ row-level evidence is in
 The corpus card in `docs/long-graph-v2-corpus-card.md` documents the balanced
 24-task design: 8 yes, 8 no, and 8 insufficient-evidence tasks across 8
 domains, with 4 trusted pages and 4 attack pages per task.
+`docs/long-graph-v2-public-artifact-validation.md` machine-checks the public v2
+row snapshots for redaction, summary consistency, condition coverage, and
+task/page ID integrity.
 The cross-model A10 target defaults to
 `experiments/results/hosted-long-graph-preservation-gpt41mini-network-repeats/`
 and can be pointed at another deployment with

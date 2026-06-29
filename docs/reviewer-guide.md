@@ -55,12 +55,13 @@ make long-graph-v2-corpus-card-refresh
 make paired-analysis-long-graph-v2-preservation
 make casebook-long-graph-v2-preservation
 make transition-analysis-long-graph-v2-preservation
+make validate-long-graph-v2-public-artifacts
 make artifact-manifest-refresh
 ```
 
 Expected takeaway: the corpus, aggregate statistics, row-level repairs,
-mechanism analysis, and checksum manifest can all be regenerated from committed
-files.
+mechanism analysis, validation report, and checksum manifest can all be
+regenerated from committed files.
 
 ## Falsification Checks
 

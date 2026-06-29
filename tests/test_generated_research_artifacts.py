@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -9,6 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from agentic_web_poisoning_lab.artifact_manifest import build_artifact_manifest
+from agentic_web_poisoning_lab.artifact_validation import (
+    DEFAULT_PUBLIC_SNAPSHOT_VALIDATION_SPECS,
+    build_public_artifact_validation,
+)
 from agentic_web_poisoning_lab.corpus_card import build_corpus_card
 from agentic_web_poisoning_lab.io import load_pages, load_tasks, read_jsonl
 from agentic_web_poisoning_lab.paired_analysis import build_preservation_analysis
@@ -76,6 +81,28 @@ class GeneratedResearchArtifactsTest(unittest.TestCase):
         actual = (
             ROOT / "docs/long-graph-v2-preservation-transition-analysis.md"
         ).read_text(encoding="utf-8")
+
+        self.assertEqual(actual, expected)
+
+    def test_committed_public_artifact_validation_is_current(self) -> None:
+        snapshots = [
+            (
+                spec,
+                read_jsonl(ROOT / spec.results_path),
+                json.loads((ROOT / spec.summary_path).read_text(encoding="utf-8")),
+            )
+            for spec in DEFAULT_PUBLIC_SNAPSHOT_VALIDATION_SPECS
+        ]
+        expected = build_public_artifact_validation(
+            load_tasks(ROOT / LONG_GRAPH_V2_TASKS),
+            load_pages(ROOT / LONG_GRAPH_V2_PAGES),
+            LONG_GRAPH_V2_TASKS,
+            LONG_GRAPH_V2_PAGES,
+            snapshots,
+        )
+        actual = (ROOT / "docs/long-graph-v2-public-artifact-validation.md").read_text(
+            encoding="utf-8"
+        )
 
         self.assertEqual(actual, expected)
 

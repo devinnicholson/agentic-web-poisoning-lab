@@ -6,6 +6,7 @@ from pathlib import Path
 
 from agentic_web_poisoning_lab.agent import DeterministicWebAgent
 from agentic_web_poisoning_lab.artifact_manifest import write_artifact_manifest
+from agentic_web_poisoning_lab.artifact_validation import write_public_artifact_validation
 from agentic_web_poisoning_lab.audit import write_audit_queue
 from agentic_web_poisoning_lab.comparison import write_comparison_report
 from agentic_web_poisoning_lab.conditions import CONDITIONS, DEFAULT_CONDITIONS
@@ -212,6 +213,26 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("docs/research-artifact-manifest.md"),
     )
 
+    artifact_validation_parser = subparsers.add_parser(
+        "artifact-validation",
+        help="Validate committed public long-graph v2 artifacts.",
+    )
+    artifact_validation_parser.add_argument(
+        "--tasks",
+        type=Path,
+        default=Path("data/tasks.graph-long-v2.jsonl"),
+    )
+    artifact_validation_parser.add_argument(
+        "--pages",
+        type=Path,
+        default=Path("data/pages.graph-long-v2.jsonl"),
+    )
+    artifact_validation_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/long-graph-v2-public-artifact-validation.md"),
+    )
+
     corpus_card_parser = subparsers.add_parser(
         "corpus-card",
         help="Generate a deterministic corpus card for a task/page dataset.",
@@ -290,6 +311,8 @@ def main(argv: list[str] | None = None) -> int:
         return preservation_transitions_command(args)
     if args.command == "artifact-manifest":
         return artifact_manifest_command(args)
+    if args.command == "artifact-validation":
+        return artifact_validation_command(args)
     if args.command == "corpus-card":
         return corpus_card_command(args)
     if args.command == "public-snapshot":
@@ -426,6 +449,12 @@ def preservation_transitions_command(args: argparse.Namespace) -> int:
 def artifact_manifest_command(args: argparse.Namespace) -> int:
     markdown = write_artifact_manifest(args.out)
     print(f"Wrote artifact manifest to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def artifact_validation_command(args: argparse.Namespace) -> int:
+    markdown = write_public_artifact_validation(args.tasks, args.pages, args.out)
+    print(f"Wrote artifact validation report to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

@@ -10,6 +10,7 @@ make public-snapshot-long-graph-v2
 make paired-analysis-long-graph-v2-preservation
 make casebook-long-graph-v2-preservation
 make transition-analysis-long-graph-v2-preservation
+make validate-long-graph-v2-public-artifacts
 make artifact-manifest-refresh
 ```
 
@@ -27,10 +28,11 @@ make artifact-manifest-refresh
 | Paired preservation appendix | `docs/paired-long-graph-v2-preservation-analysis.md` | markdown | 95 lines | 10314 | `c5508974ec2b7c66e518c5bfd9464796d54e83a0da1904faac90fc80c1754df9` |
 | Preservation repair casebook | `docs/long-graph-v2-preservation-casebook.md` | markdown | 358 lines | 39041 | `c324b3c9f0e415d23f5a1c03b2d2e409e60fca3caedfe1f4812992e093a554f8` |
 | Preservation transition appendix | `docs/long-graph-v2-preservation-transition-analysis.md` | markdown | 62 lines | 4267 | `50c2856d6f6102ae9196387deba775b7d1f4e9fa509bb60111c2d1f3cb598746` |
+| Public artifact validation report | `docs/long-graph-v2-public-artifact-validation.md` | markdown | 44 lines | 1932 | `819f350f584ac8cbd3092721463977ba77a8b4aae4e238617d8d7cc110e59344` |
 | Primary hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-summary.md` | markdown | 122 lines | 5327 | `e6476a083a54b23e8b642b0fd17137c23e769611814a76f43e5087387298aede` |
 | Cross-model hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-cross-model-summary.md` | markdown | 87 lines | 3699 | `155a28d607f6df7f62185f0f3b2f70f9af50ff80d1410782e3a6c2cef385abee` |
-| Research dashboard | `static/research-dashboard.html` | html | 1600 lines | 58589 | `c7d67bc8ad577f02e9f1a0cfde9223f2e521161357b9782b9634540ad5b76c7c` |
-| Reviewer guide | `docs/reviewer-guide.md` | markdown | 81 lines | 3323 | `264dfbc1b0810c928d5fb33f13c0ab503aeecc1e84a55e9ed3500355904baa6d` |
+| Research dashboard | `static/research-dashboard.html` | html | 1604 lines | 58826 | `5401901e1e352193eefb7cae372e11ef6d7e4eefc3f53ee34ddc977ee5611489` |
+| Reviewer guide | `docs/reviewer-guide.md` | markdown | 82 lines | 3387 | `c66f298bebbf96107421d67d1bd2c585be1f3d2e91553fab49021dc5a79270d3` |
 
 ## Claim Map
 
@@ -41,4 +43,5 @@ make artifact-manifest-refresh
 | Row-level repairs are inspectable against trusted/current pages | `docs/long-graph-v2-preservation-casebook.md`, `data/pages.graph-long-v2.jsonl` |
 | Page-label changes are concentrated on repaired rows | `docs/long-graph-v2-preservation-transition-analysis.md`, `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`, `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` |
 | Public dashboard summarizes the committed aggregate results | `static/research-dashboard.html` |
+| Public snapshot integrity is machine-checkable | `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
 | Reviewer path and safety scope are documented | `docs/reviewer-guide.md` |
