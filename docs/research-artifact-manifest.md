@@ -38,7 +38,7 @@ make artifact-manifest-refresh
 | Public artifact validation report | `docs/long-graph-v2-public-artifact-validation.md` | markdown | 44 lines | 1932 | `819f350f584ac8cbd3092721463977ba77a8b4aae4e238617d8d7cc110e59344` |
 | Primary hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-summary.md` | markdown | 122 lines | 5327 | `e6476a083a54b23e8b642b0fd17137c23e769611814a76f43e5087387298aede` |
 | Cross-model hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-cross-model-summary.md` | markdown | 87 lines | 3699 | `155a28d607f6df7f62185f0f3b2f70f9af50ff80d1410782e3a6c2cef385abee` |
-| Research dashboard | `static/research-dashboard.html` | html | 1624 lines | 59913 | `e983e55e5a68bba5c5476d4b9f634789bbdfa582fe50f39bee6b1176f8823029` |
+| Research dashboard | `static/research-dashboard.html` | html | 1629 lines | 60261 | `7d3f780a7a9ec07ef6e7428f108e8aa971fddc095070bd916c82074bd36fb017` |
 | Reviewer guide | `docs/reviewer-guide.md` | markdown | 86 lines | 3639 | `a2f249d9a5d969b61e8ffff58a32dc29818e14870759b2b76f0535f0a6f169a1` |
 
 ## Claim Map

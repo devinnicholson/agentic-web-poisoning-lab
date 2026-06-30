@@ -361,14 +361,14 @@
       <div class="wrap">
         <div>
           <h1>Agentic Web Poisoning Lab</h1>
-          <p class="meta">Synthetic hosted benchmark, Azure OpenAI gpt-5-mini and gpt-4.1-mini, including hosted graph and long-graph v2 follow-ups.</p>
+          <p class="meta">Portfolio-grade AI safety artifact: preserving useful answers while blocking poisoned, stale, and source-laundered web evidence.</p>
         </div>
         <nav class="tabs" aria-label="Dashboard views">
-          <button class="tab" type="button" aria-selected="true" data-view="strict">Strict A5</button>
+          <button class="tab" type="button" aria-selected="false" data-view="strict">Strict A5</button>
           <button class="tab" type="button" aria-selected="false" data-view="challenge">Challenge</button>
           <button class="tab" type="button" aria-selected="false" data-view="full">Full Matrix</button>
           <button class="tab" type="button" aria-selected="false" data-view="boundary">Boundary</button>
-          <button class="tab" type="button" aria-selected="false" data-view="graph">Graph Stress</button>
+          <button class="tab" type="button" aria-selected="true" data-view="graph">Graph Stress</button>
           <button class="tab" type="button" aria-selected="false" data-view="audit">Audit</button>
         </nav>
       </div>
@@ -379,30 +379,35 @@
         <div class="wrap section">
           <div class="kpi-grid">
             <div class="kpi">
-              <div class="label">A5 Accuracy</div>
-              <strong>95.8%</strong>
-              <span>23/24 hosted strict challenge rows.</span>
+              <div class="label">Public Hosted Rows</div>
+              <strong>576</strong>
+              <span>Sanitized v2 rows across two Azure OpenAI deployments.</span>
             </div>
             <div class="kpi">
-              <div class="label">Correct Abstention</div>
-              <strong>12/13</strong>
-              <span>A4 was 3/13 on the same evidence-gap slice.</span>
+              <div class="label">A10 Accuracy</div>
+              <strong>72/72</strong>
+              <span>Primary and cross-model v2 condition rows both reached 72/72.</span>
             </div>
             <div class="kpi">
-              <div class="label">Attack Success</div>
-              <strong>0/20</strong>
-              <span>A5 preserved A4's attack blocking profile.</span>
+              <div class="label">Direct Controls</div>
+              <strong>48/48</strong>
+              <span>A10 restored every direct yes/no control on both deployments.</span>
             </div>
             <div class="kpi">
-              <div class="label">A10 Long-Graph v2</div>
-              <strong>100.0%</strong>
-              <span>72/72 primary and 72/72 cross-model rows.</span>
+              <div class="label">Paired Repairs</div>
+              <strong>+14/+19</strong>
+              <span>A10 fixed A8/A9 direct-control misses with 0 new misses.</span>
             </div>
           </div>
+          <p class="meta" style="margin-top: 12px;">
+            Earlier milestone: A5 reached 95.8% on the strict challenge with
+            12/13 correct abstentions; the current portfolio finding is the
+            long-graph v2 A10 preservation result.
+          </p>
         </div>
       </section>
 
-      <section class="view active" id="view-strict">
+      <section class="view" id="view-strict">
         <div class="band">
           <div class="wrap section layout">
             <div class="panel">
@@ -804,7 +809,7 @@
         </div>
       </section>
 
-      <section class="view" id="view-graph">
+      <section class="view active" id="view-graph">
         <div class="band">
           <div class="wrap section layout">
             <div class="panel">
