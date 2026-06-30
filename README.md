@@ -1,5 +1,8 @@
 # Agentic Web Poisoning Lab
 
+[![CI](https://github.com/devinnicholson/agentic-web-poisoning-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/devinnicholson/agentic-web-poisoning-lab/actions/workflows/ci.yml)
+[![Tag](https://img.shields.io/badge/tag-v0.1--long--graph--v2-256fb6)](https://github.com/devinnicholson/agentic-web-poisoning-lab/tree/v0.1-long-graph-v2)
+
 Research and demo repo for testing whether agentic AI systems stay useful and
 safe when external web-like pages contain adversarial, misleading, stale, or
 source-laundered content.
