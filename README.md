@@ -21,6 +21,12 @@ long-graph v2 experiment evaluates that safety/usefulness tradeoff on a
 synthetic campus AI-governance corpus with hosted model runs, paired tests,
 row-level public data, and a dashboard/demo packet.
 
+The differentiator is the research method around the result: a named benchmark
+specification, row-level public snapshots, machine validation, a blinded manual
+audit queue, and a preregistered held-out v3 replication plan. The repo is set
+up so another reviewer can inspect evidence paths and falsify the claim rather
+than just watch an agent demo.
+
 **Core finding:** the A10 preservation-calibrated relation gate preserved
 correct abstention on all paired evidence-gap rows while repairing
 direct-control over-abstention introduced by earlier relation gates.
@@ -38,12 +44,15 @@ direct-control over-abstention introduced by earlier relation gates.
 
 | Goal | File |
 | --- | --- |
+| Understand the benchmark contract | `docs/benchmark-spec.md` |
 | Understand the research claim in two minutes | `docs/extended-abstract.md` |
 | Give a short demo | `docs/demo-script.md` |
 | Inspect the headline dashboard | `static/research-dashboard.html` |
 | Follow a reviewer path | `docs/reviewer-guide.md` |
 | Verify the public data package | `artifacts/long-graph-v2/README.md` |
 | Check machine validation and hashes | `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
+| Run a blind evidence audit | `docs/manual-audit-protocol.md`, `artifacts/long-graph-v2/blind-audit-queue.jsonl` |
+| Inspect the held-out replication plan | `docs/v3-replication-plan.md` |
 | Review safety boundaries | `docs/threat-model.md` |
 | Track submission readiness | `docs/submission-checklist.md` |
 
@@ -286,6 +295,13 @@ rows and page corpus:
 make transition-analysis-long-graph-v2-preservation
 ```
 
+Generate the full blinded long-graph v2 audit queue and unblinding key from the
+committed public snapshots:
+
+```bash
+make blind-audit-long-graph-v2-public
+```
+
 Generate the deterministic artifact checksum manifest:
 
 ```bash
@@ -384,6 +400,9 @@ data, method, reproducibility, demo, and safety.
 `docs/release-notes-v0.1-long-graph-v2.md` describes the current portfolio
 artifact release.
 Citation metadata is available in `CITATION.cff`.
+The benchmark contract in `docs/benchmark-spec.md` defines the task/page/result
+schemas, condition set, model-adapter expectations, and metrics for the named
+Long-Graph v2 Preservation benchmark.
 The corpus card in `docs/long-graph-v2-corpus-card.md` documents the balanced
 24-task design: 8 yes, 8 no, and 8 insufficient-evidence tasks across 8
 domains, with 4 trusted pages and 4 attack pages per task.
@@ -415,6 +434,11 @@ and 0 A10 regressions.
 The artifact manifest in `docs/research-artifact-manifest.md` records row
 counts, line counts, byte sizes, and SHA-256 hashes for the key v2 research
 files.
+The blind audit protocol in `docs/manual-audit-protocol.md` and generated queue
+in `artifacts/long-graph-v2/blind-audit-queue.jsonl` support condition-blinded
+evidence review. The future-facing preregistration in
+`docs/v3-replication-plan.md` defines held-out hypotheses, budget gates, and
+success/failure criteria before any v3 rows are collected.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and
 resume by default. To force a clean rerun, pass `HOSTED_RESUME=`:
 

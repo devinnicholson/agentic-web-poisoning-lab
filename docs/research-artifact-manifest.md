@@ -7,6 +7,7 @@ This deterministic manifest records the key public artifacts for the long-graph 
 ```bash
 make long-graph-v2-corpus-card-refresh
 make public-snapshot-long-graph-v2
+make blind-audit-long-graph-v2-public
 make paired-analysis-long-graph-v2-preservation
 make casebook-long-graph-v2-preservation
 make transition-analysis-long-graph-v2-preservation
@@ -19,19 +20,24 @@ make artifact-manifest-refresh
 | Artifact | Path | Kind | Records/lines | Bytes | SHA-256 |
 | --- | --- | --- | ---: | ---: | --- |
 | Citation metadata | `CITATION.cff` | yaml | 21 lines | 739 | `26a772991fb896c0098efaa1db5993df8d7618389ba4c57cd8d4579bb4b0d729` |
-| Repository README | `README.md` | markdown | 513 lines | 21722 | `8ac84bc0ee7e53f0a7d93797d55710eeaf07fec80f0b67340c3366a85bbf9c18` |
+| Repository README | `README.md` | markdown | 537 lines | 23031 | `5e14e3ba8c50077e8ec3f92e021913b3872745515e3731d82f6d99816413998b` |
 | Long-graph v2 tasks | `data/tasks.graph-long-v2.jsonl` | jsonl | 24 records | 13229 | `cb39b495f6aee1e3960d6870238a7f679f3ff6de487c2a858d7df8960c5b864a` |
 | Long-graph v2 pages | `data/pages.graph-long-v2.jsonl` | jsonl | 128 records | 60366 | `afb3a01edc456578f52f44ae76cf831559a298f12ec147d3298154e0230fa965` |
-| Long-graph v2 public artifact README | `artifacts/long-graph-v2/README.md` | markdown | 60 lines | 2687 | `c13bcdbfa12ecb6b862fc31821cd66a1eb4a6293f114c25e7ae7efcc71e03808` |
+| Long-graph v2 public artifact README | `artifacts/long-graph-v2/README.md` | markdown | 63 lines | 2960 | `0da3c8d3aef79ac5c4894e0762f9e53d40d7ccf1b1de916ba281d1824b71dd7d` |
 | Primary hosted long-graph v2 rows | `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl` | jsonl | 360 records | 1911879 | `4298dc4612e4f24a809d262f18e6e9a8436ee52ac0f54f903dafa557185d468c` |
 | Cross-model hosted long-graph v2 rows | `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` | jsonl | 216 records | 1401699 | `1a6ee8393d3927f1ffde52d71af47cf3928334dbc1ac108fac4a77d6bf4e26bf` |
 | Primary hosted long-graph v2 summary | `artifacts/long-graph-v2/hosted-gpt5-mini-summary.json` | json | 82 lines | 2241 | `1cb27b9b052dd3ee3b7336e5deb9f80bda42604fb47b945a7b7638865221e8b0` |
 | Cross-model hosted long-graph v2 summary | `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-summary.json` | json | 50 lines | 1355 | `8a48fd19ec49919cb3ba5ed1c115608bd9ec6132b5ba21db156a32b989c555f9` |
+| Blinded long-graph v2 audit queue | `artifacts/long-graph-v2/blind-audit-queue.jsonl` | jsonl | 576 records | 1998859 | `b5364a1ebf1cba91714341766dde3e6d4d0a291b7af800e4130a68ba31c4cd30` |
+| Long-graph v2 audit unblinding key | `artifacts/long-graph-v2/blind-audit-key.jsonl` | jsonl | 576 records | 794574 | `1e8487e12e6e1cfb90d008692365734ef1013550f0d8602cf44389ef635e4469` |
 | Long-graph v2 corpus card | `docs/long-graph-v2-corpus-card.md` | markdown | 82 lines | 4062 | `bc6ed9f3599385581a99e0ca5890e37f5ade3e30b6860bce7823764ae1a3a928` |
+| Long-graph v2 benchmark specification | `docs/benchmark-spec.md` | markdown | 243 lines | 10415 | `2469555ce32aa7e7c53c9487dbd1073372863b6cf6680256e864c32a4105ca10` |
 | Extended abstract | `docs/extended-abstract.md` | markdown | 73 lines | 4206 | `8cfb43f084f94fbe1db1e9ba029fc48167d64c1bef9834b2d978840b06153a41` |
 | Demo script | `docs/demo-script.md` | markdown | 110 lines | 4274 | `080cdbc653fcc4334ec51f4901e2d800be669d2367a0cadb96dc9aca2b2cd49f` |
 | Threat model and safety scope | `docs/threat-model.md` | markdown | 100 lines | 3849 | `5ddbea092e915d1b2fcc882de4c96d5ac7de93a60cb8e3037dfd2cc80a7bb746` |
-| Submission checklist | `docs/submission-checklist.md` | markdown | 91 lines | 2729 | `a9f2961e99befd24f1e5cbb6f3bcc46314c46caed2ad1147fddb6acfebae036f` |
+| Submission checklist | `docs/submission-checklist.md` | markdown | 100 lines | 3177 | `c8dbd223cf23681aeb91c8640353a1ad450ad8e62f6e6991334247071366a5a4` |
+| Blind manual audit protocol | `docs/manual-audit-protocol.md` | markdown | 357 lines | 15931 | `bdcb3fcb7709f9334800c9612b777c1fd12232dbb314f0ee5bcd37d29dd6c308` |
+| Held-out v3 replication preregistration | `docs/v3-replication-plan.md` | markdown | 309 lines | 13732 | `9e940f4d2fa81267c7f9fbca3fb934e22d46dfe3b6e3ff6e19789c54701e8ac4` |
 | v0.1 release notes | `docs/release-notes-v0.1-long-graph-v2.md` | markdown | 60 lines | 2463 | `389613ce0bfd8b75909077056a8e089e41a4bb2a7fc1bb545a6d809cea37e4ce` |
 | Paired preservation appendix | `docs/paired-long-graph-v2-preservation-analysis.md` | markdown | 95 lines | 10314 | `c5508974ec2b7c66e518c5bfd9464796d54e83a0da1904faac90fc80c1754df9` |
 | Preservation repair casebook | `docs/long-graph-v2-preservation-casebook.md` | markdown | 358 lines | 39041 | `c324b3c9f0e415d23f5a1c03b2d2e409e60fca3caedfe1f4812992e093a554f8` |
@@ -39,17 +45,18 @@ make artifact-manifest-refresh
 | Public artifact validation report | `docs/long-graph-v2-public-artifact-validation.md` | markdown | 44 lines | 1932 | `819f350f584ac8cbd3092721463977ba77a8b4aae4e238617d8d7cc110e59344` |
 | Primary hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-summary.md` | markdown | 122 lines | 5327 | `e6476a083a54b23e8b642b0fd17137c23e769611814a76f43e5087387298aede` |
 | Cross-model hosted long-graph v2 narrative | `docs/hosted-long-graph-v2-cross-model-summary.md` | markdown | 87 lines | 3699 | `155a28d607f6df7f62185f0f3b2f70f9af50ff80d1410782e3a6c2cef385abee` |
-| Research dashboard | `static/research-dashboard.html` | html | 1629 lines | 60261 | `7d3f780a7a9ec07ef6e7428f108e8aa971fddc095070bd916c82074bd36fb017` |
+| Research dashboard | `static/research-dashboard.html` | html | 1649 lines | 61438 | `c94564d4fc5472ebb7218b3f6336420f99848c4eba9ff30b22ced1b77dd42df4` |
 | Reviewer guide | `docs/reviewer-guide.md` | markdown | 86 lines | 3639 | `a2f249d9a5d969b61e8ffff58a32dc29818e14870759b2b76f0535f0a6f169a1` |
 
 ## Claim Map
 
 | Claim | Primary artifacts |
 | --- | --- |
-| Corpus design is balanced and page-budget controlled | `docs/long-graph-v2-corpus-card.md`, `data/tasks.graph-long-v2.jsonl`, `data/pages.graph-long-v2.jsonl` |
+| Corpus design is balanced and page-budget controlled | `docs/benchmark-spec.md`, `docs/long-graph-v2-corpus-card.md`, `data/tasks.graph-long-v2.jsonl`, `data/pages.graph-long-v2.jsonl` |
 | A10 repairs direct-control over-abstention across two deployments | `README.md`, `docs/extended-abstract.md`, `docs/paired-long-graph-v2-preservation-analysis.md`, `docs/hosted-long-graph-v2-summary.md`, `docs/hosted-long-graph-v2-cross-model-summary.md` |
 | Row-level repairs are inspectable against trusted/current pages | `docs/long-graph-v2-preservation-casebook.md`, `data/pages.graph-long-v2.jsonl` |
 | Page-label changes are concentrated on repaired rows | `docs/long-graph-v2-preservation-transition-analysis.md`, `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl`, `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` |
 | Public dashboard summarizes the committed aggregate results | `static/research-dashboard.html` |
 | Public snapshot integrity is machine-checkable | `artifacts/long-graph-v2/README.md`, `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
+| Blind review and held-out replication are preregistered | `docs/manual-audit-protocol.md`, `artifacts/long-graph-v2/blind-audit-queue.jsonl`, `artifacts/long-graph-v2/blind-audit-key.jsonl`, `docs/v3-replication-plan.md` |
 | Reviewer path and safety scope are documented | `docs/reviewer-guide.md`, `docs/demo-script.md`, `docs/threat-model.md`, `docs/submission-checklist.md`, `docs/release-notes-v0.1-long-graph-v2.md` |

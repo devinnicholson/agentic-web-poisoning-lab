@@ -8,6 +8,7 @@ from agentic_web_poisoning_lab.agent import DeterministicWebAgent
 from agentic_web_poisoning_lab.artifact_manifest import write_artifact_manifest
 from agentic_web_poisoning_lab.artifact_validation import write_public_artifact_validation
 from agentic_web_poisoning_lab.audit import write_audit_queue
+from agentic_web_poisoning_lab.blind_audit import write_blind_audit_queue
 from agentic_web_poisoning_lab.comparison import write_comparison_report
 from agentic_web_poisoning_lab.conditions import CONDITIONS, DEFAULT_CONDITIONS
 from agentic_web_poisoning_lab.corpus_card import write_corpus_card
@@ -290,6 +291,35 @@ def main(argv: list[str] | None = None) -> int:
     )
     audit_parser.add_argument("--max-rows", type=int, default=80)
 
+    blind_audit_parser = subparsers.add_parser(
+        "blind-audit",
+        help="Generate a blinded JSONL reviewer queue and optional unblinding key.",
+    )
+    blind_audit_parser.add_argument(
+        "--results",
+        type=Path,
+        nargs="+",
+        required=True,
+        help="One or more public result JSONL files.",
+    )
+    blind_audit_parser.add_argument(
+        "--pages",
+        type=Path,
+        default=Path("data/pages.graph-long-v2.jsonl"),
+    )
+    blind_audit_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("artifacts/long-graph-v2/blind-audit-queue.jsonl"),
+    )
+    blind_audit_parser.add_argument(
+        "--out-key",
+        type=Path,
+        default=None,
+        help="Optional unblinding key with task, condition, answer, and metric fields.",
+    )
+    blind_audit_parser.add_argument("--max-items", type=int, default=96)
+
     args = parser.parse_args(argv)
     if args.command == "run":
         return run_command(args)
@@ -319,6 +349,8 @@ def main(argv: list[str] | None = None) -> int:
         return public_snapshot_command(args)
     if args.command == "audit":
         return audit_command(args)
+    if args.command == "blind-audit":
+        return blind_audit_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
 
 
@@ -478,6 +510,20 @@ def public_snapshot_command(args: argparse.Namespace) -> int:
 def audit_command(args: argparse.Namespace) -> int:
     markdown = write_audit_queue(args.results, args.pages, args.out, max_rows=args.max_rows)
     print(f"Wrote human audit queue to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def blind_audit_command(args: argparse.Namespace) -> int:
+    queue, key = write_blind_audit_queue(
+        args.results,
+        args.pages,
+        args.out,
+        out_key_path=args.out_key,
+        max_items=args.max_items,
+    )
+    print(f"Wrote {len(queue)} blinded audit items to {args.out}")
+    if args.out_key is not None:
+        print(f"Wrote {len(key)} unblinding key rows to {args.out_key}")
     return 0
 
 

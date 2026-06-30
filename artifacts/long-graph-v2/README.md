@@ -13,6 +13,8 @@ public repository.
 | `hosted-gpt5-mini-summary.json` | Summary metrics recomputed from the primary public rows. |
 | `hosted-gpt41-mini-a8-a10-results.jsonl` | Cross-model replication: A8, A9, and A10 over the same 24 tasks and 3 repeats. |
 | `hosted-gpt41-mini-a8-a10-summary.json` | Summary metrics recomputed from the cross-model public rows. |
+| `blind-audit-queue.jsonl` | Condition-blinded evidence-review queue generated from all 576 public rows. |
+| `blind-audit-key.jsonl` | Unblinding key joining audit IDs back to task, condition, deployment, answer, and metric fields. |
 
 ## Row Schema
 
@@ -51,6 +53,7 @@ From a local checkout that still has the private hosted output directories:
 
 ```bash
 make public-snapshot-long-graph-v2
+make blind-audit-long-graph-v2-public
 make validate-long-graph-v2-public-artifacts
 make artifact-manifest-refresh
 ```

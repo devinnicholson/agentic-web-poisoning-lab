@@ -46,8 +46,23 @@ DEFAULT_MANIFEST_ENTRIES = (
         "json",
     ),
     ManifestEntry(
+        "Blinded long-graph v2 audit queue",
+        Path("artifacts/long-graph-v2/blind-audit-queue.jsonl"),
+        "jsonl",
+    ),
+    ManifestEntry(
+        "Long-graph v2 audit unblinding key",
+        Path("artifacts/long-graph-v2/blind-audit-key.jsonl"),
+        "jsonl",
+    ),
+    ManifestEntry(
         "Long-graph v2 corpus card",
         Path("docs/long-graph-v2-corpus-card.md"),
+        "markdown",
+    ),
+    ManifestEntry(
+        "Long-graph v2 benchmark specification",
+        Path("docs/benchmark-spec.md"),
         "markdown",
     ),
     ManifestEntry(
@@ -68,6 +83,16 @@ DEFAULT_MANIFEST_ENTRIES = (
     ManifestEntry(
         "Submission checklist",
         Path("docs/submission-checklist.md"),
+        "markdown",
+    ),
+    ManifestEntry(
+        "Blind manual audit protocol",
+        Path("docs/manual-audit-protocol.md"),
+        "markdown",
+    ),
+    ManifestEntry(
+        "Held-out v3 replication preregistration",
+        Path("docs/v3-replication-plan.md"),
         "markdown",
     ),
     ManifestEntry(
@@ -137,6 +162,7 @@ def build_artifact_manifest(
         "```bash",
         "make long-graph-v2-corpus-card-refresh",
         "make public-snapshot-long-graph-v2",
+        "make blind-audit-long-graph-v2-public",
         "make paired-analysis-long-graph-v2-preservation",
         "make casebook-long-graph-v2-preservation",
         "make transition-analysis-long-graph-v2-preservation",
@@ -174,6 +200,7 @@ def build_artifact_manifest(
             "| --- | --- |",
             (
                 "| Corpus design is balanced and page-budget controlled | "
+                "`docs/benchmark-spec.md`, "
                 "`docs/long-graph-v2-corpus-card.md`, "
                 "`data/tasks.graph-long-v2.jsonl`, "
                 "`data/pages.graph-long-v2.jsonl` |"
@@ -206,6 +233,13 @@ def build_artifact_manifest(
                 "`artifacts/long-graph-v2/README.md`, "
                 "`docs/long-graph-v2-public-artifact-validation.md`, "
                 "`docs/research-artifact-manifest.md` |"
+            ),
+            (
+                "| Blind review and held-out replication are preregistered | "
+                "`docs/manual-audit-protocol.md`, "
+                "`artifacts/long-graph-v2/blind-audit-queue.jsonl`, "
+                "`artifacts/long-graph-v2/blind-audit-key.jsonl`, "
+                "`docs/v3-replication-plan.md` |"
             ),
             (
                 "| Reviewer path and safety scope are documented | "

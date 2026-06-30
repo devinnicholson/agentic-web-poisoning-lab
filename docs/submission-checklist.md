@@ -26,12 +26,15 @@ Primary references:
 - [x] Public rows are sanitized for provider-only identifiers.
 - [x] Public row schema and redactions are documented.
 - [x] Artifact checksums are recorded.
+- [x] Blinded manual-audit queue and unblinding key are generated from the
+      public row snapshots.
 - [x] Machine validation checks row counts, summary consistency, redaction,
       condition coverage, and task/page references.
 
 Primary references:
 
 - `artifacts/long-graph-v2/README.md`
+- `artifacts/long-graph-v2/blind-audit-queue.jsonl`
 - `docs/long-graph-v2-public-artifact-validation.md`
 - `docs/research-artifact-manifest.md`
 
@@ -42,12 +45,16 @@ Primary references:
 - [x] Defense conditions are compared on the same task/repeat cells.
 - [x] Cross-model replication is included.
 - [x] Row-level qualitative cases are available for inspection.
+- [x] Benchmark schema, model-adapter contract, and metrics are specified.
+- [x] Held-out v3 replication criteria are preregistered before v3 collection.
 
 Primary references:
 
+- `docs/benchmark-spec.md`
 - `docs/long-graph-v2-corpus-card.md`
 - `docs/long-graph-v2-preservation-casebook.md`
 - `docs/long-graph-v2-preservation-transition-analysis.md`
+- `docs/v3-replication-plan.md`
 
 ## Reproducibility
 
@@ -56,9 +63,11 @@ Primary references:
       directories.
 - [x] CI passes on Python 3.11 and 3.12.
 - [x] Citation metadata is present.
+- [x] Blind audit generation is covered by tests.
 
 Primary references:
 
+- `tests/test_blind_audit.py`
 - `tests/test_generated_research_artifacts.py`
 - `.github/workflows/ci.yml`
 - `CITATION.cff`
