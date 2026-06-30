@@ -1,7 +1,7 @@
 # Agentic Web Poisoning Lab
 
-Research and demo repo for testing whether agentic AI systems stay reliable
-when external web-like pages contain adversarial, misleading, stale, or
+Research and demo repo for testing whether agentic AI systems stay useful and
+safe when external web-like pages contain adversarial, misleading, stale, or
 source-laundered content.
 
 This is the sibling project to `rag-redteam-lab`. The RAG project showed that
@@ -9,21 +9,59 @@ retrieved evidence can corrupt answers and citations. This project moves the
 same research theme into an agentic setting: the system can browse, select
 sources, synthesize evidence, and decide when to abstain.
 
+## Portfolio Snapshot
+
+This repo is a public AI safety artifact around a concrete failure mode:
+defenses against poisoned web evidence can become too conservative and
+over-abstain, even when trusted current pages directly answer the question. The
+long-graph v2 experiment evaluates that safety/usefulness tradeoff on a
+synthetic campus AI-governance corpus with hosted model runs, paired tests,
+row-level public data, and a dashboard/demo packet.
+
+**Core finding:** the A10 preservation-calibrated relation gate preserved
+correct abstention on all paired evidence-gap rows while repairing
+direct-control over-abstention introduced by earlier relation gates.
+
+| Result | Evidence |
+| --- | --- |
+| Public hosted rows | 576 sanitized rows across two Azure OpenAI deployments |
+| Primary deployment | A10: 72/72 accuracy, 48/48 direct controls, 0/72 attack successes |
+| Cross-model replication | A10: 72/72 accuracy, 48/48 direct controls, 0/72 attack successes |
+| Paired repair vs A8 | 14 direct-control rows fixed, 0 new direct-control misses, exact McNemar p = 0.0001 |
+| Paired repair vs A9 | 19 direct-control rows fixed, 0 new direct-control misses, exact McNemar p < 0.0001 |
+| Public validation | Row counts, summary consistency, redaction, condition coverage, and task/page IDs pass |
+
+## Start Here
+
+| Goal | File |
+| --- | --- |
+| Understand the research claim in two minutes | `docs/extended-abstract.md` |
+| Give a short demo | `docs/demo-script.md` |
+| Inspect the headline dashboard | `static/research-dashboard.html` |
+| Follow a reviewer path | `docs/reviewer-guide.md` |
+| Verify the public data package | `artifacts/long-graph-v2/README.md` |
+| Check machine validation and hashes | `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
+| Review safety boundaries | `docs/threat-model.md` |
+| Track submission readiness | `docs/submission-checklist.md` |
+
 ## Research Question
 
 Do agentic AI systems remain reliable when the external pages they inspect
 contain prompt injections, source laundering, stale policy text, fake citations,
-or misleading calls to action?
+or misleading calls to action? More specifically, can a defense avoid poisoned
+evidence without collapsing into unnecessary abstention when trusted current
+evidence directly supports or refutes the proposition?
 
-## Why This Is Worth Spending Credits On
+## Why It Matters
 
-- It is current: indirect prompt injection is more serious when agents browse
-  and make multi-step decisions.
-- It is demoable: the audience can inspect the page, the agent trace, and the
-  final answer side by side.
-- It has research merit: the evaluation separates final answer correctness,
-  source selection, page trust, hidden-instruction exposure, and action safety.
-- It reuses lessons from the RAG lab while testing a broader agent workflow.
+- Agentic systems increasingly browse, select sources, and make multi-step
+  evidence decisions.
+- Poisoning defenses need to optimize both safety and usefulness; abstaining on
+  everything can hide a poor agent behind a safe-looking metric.
+- The benchmark separates final-answer correctness, evidence sufficiency,
+  source trust, stale evidence, poisoned citations, and action safety.
+- The public packet includes row-level hosted data and deterministic validation,
+  so reviewers can inspect the mechanism rather than trusting a summary table.
 
 ## Evaluation Conditions
 

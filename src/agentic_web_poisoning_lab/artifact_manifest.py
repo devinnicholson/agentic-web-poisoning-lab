@@ -17,6 +17,7 @@ class ManifestEntry:
 
 DEFAULT_MANIFEST_ENTRIES = (
     ManifestEntry("Citation metadata", Path("CITATION.cff"), "yaml"),
+    ManifestEntry("Repository README", Path("README.md"), "markdown"),
     ManifestEntry("Long-graph v2 tasks", Path("data/tasks.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry("Long-graph v2 pages", Path("data/pages.graph-long-v2.jsonl"), "jsonl"),
     ManifestEntry(
@@ -174,6 +175,7 @@ def build_artifact_manifest(
             ),
             (
                 "| A10 repairs direct-control over-abstention across two deployments | "
+                "`README.md`, "
                 "`docs/extended-abstract.md`, "
                 "`docs/paired-long-graph-v2-preservation-analysis.md`, "
                 "`docs/hosted-long-graph-v2-summary.md`, "
