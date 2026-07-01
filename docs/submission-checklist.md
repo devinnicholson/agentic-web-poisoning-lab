@@ -30,6 +30,7 @@ Primary references:
       public row snapshots.
 - [x] Blinded audit queue and unblinding key have a deterministic validation
       report.
+- [x] Future human label files have a documented schema and CLI validator.
 - [x] Machine validation checks row counts, summary consistency, redaction,
       condition coverage, and task/page references.
 
@@ -38,6 +39,7 @@ Primary references:
 - `artifacts/long-graph-v2/README.md`
 - `artifacts/long-graph-v2/blind-audit-queue.jsonl`
 - `docs/blind-audit-validation.md`
+- `docs/blind-audit-label-schema.md`
 - `docs/long-graph-v2-public-artifact-validation.md`
 - `docs/research-artifact-manifest.md`
 

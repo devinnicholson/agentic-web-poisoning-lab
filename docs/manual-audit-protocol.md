@@ -11,6 +11,10 @@ make blind-audit-long-graph-v2-public
 make validate-blind-audit-long-graph-v2
 ```
 
+Reviewer label files should follow `docs/blind-audit-label-schema.md` and can
+be checked with the `audit-label-validation` CLI before any labels are used in
+analysis.
+
 ## Purpose
 
 The long-graph v2 artifact packet is useful only if its headline claims survive

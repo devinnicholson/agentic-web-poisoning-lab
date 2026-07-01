@@ -61,5 +61,6 @@ make artifact-manifest-refresh
 
 The committed public snapshot validation report is
 `docs/long-graph-v2-public-artifact-validation.md`; the blind-audit validation
-report is `docs/blind-audit-validation.md`; the checksum manifest is
+report is `docs/blind-audit-validation.md`; the reviewer label schema is
+`docs/blind-audit-label-schema.md`; the checksum manifest is
 `docs/research-artifact-manifest.md`.

@@ -224,6 +224,7 @@ The committed aggregate snapshots are:
 - `docs/long-graph-v2-preservation-casebook.md`
 - `docs/long-graph-v2-preservation-transition-analysis.md`
 - `docs/blind-audit-validation.md`
+- `docs/blind-audit-label-schema.md`
 - `docs/research-artifact-manifest.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`

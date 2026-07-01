@@ -14,6 +14,8 @@ preservation result without reading the whole repository.
    pages.
 5. Open `docs/blind-audit-validation.md` and confirm the 576-row blinded
    queue/key packet passes leakage and alignment checks.
+6. Open `docs/blind-audit-label-schema.md` to see how independent reviewer
+   labels would be validated before analysis.
 
 Expected takeaway: A10 reaches 72/72 accuracy on both deployments, while A8
 and A9 preserve evidence-gap abstention but over-abstain on direct controls.
@@ -82,6 +84,8 @@ The result would be weakened if any of the following are found:
 - The blinded audit validation report finds raw task/page IDs, condition names,
   metric labels, provider metadata, non-null reviewer labels, or queue/key
   alignment failures.
+- Submitted blind-audit labels cannot be validated against
+  `docs/blind-audit-label-schema.md`.
 
 ## Safety Scope
 

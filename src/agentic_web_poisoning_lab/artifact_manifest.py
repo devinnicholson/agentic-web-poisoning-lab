@@ -96,6 +96,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry(
+        "Blind audit label schema",
+        Path("docs/blind-audit-label-schema.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Held-out v3 replication preregistration",
         Path("docs/v3-replication-plan.md"),
         "markdown",
@@ -246,6 +251,7 @@ def build_artifact_manifest(
                 "`artifacts/long-graph-v2/blind-audit-queue.jsonl`, "
                 "`artifacts/long-graph-v2/blind-audit-key.jsonl`, "
                 "`docs/blind-audit-validation.md`, "
+                "`docs/blind-audit-label-schema.md`, "
                 "`docs/v3-replication-plan.md` |"
             ),
             (

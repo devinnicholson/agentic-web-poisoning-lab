@@ -51,7 +51,7 @@ direct-control over-abstention introduced by earlier relation gates.
 | Follow a reviewer path | `docs/reviewer-guide.md` |
 | Verify the public data package | `artifacts/long-graph-v2/README.md` |
 | Check machine validation and hashes | `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
-| Run a blind evidence audit | `docs/manual-audit-protocol.md`, `artifacts/long-graph-v2/blind-audit-queue.jsonl`, `docs/blind-audit-validation.md` |
+| Run a blind evidence audit | `docs/manual-audit-protocol.md`, `docs/blind-audit-label-schema.md`, `artifacts/long-graph-v2/blind-audit-queue.jsonl`, `docs/blind-audit-validation.md` |
 | Inspect the held-out replication plan | `docs/v3-replication-plan.md` |
 | Review safety boundaries | `docs/threat-model.md` |
 | Track submission readiness | `docs/submission-checklist.md` |
@@ -444,7 +444,9 @@ The blind audit protocol in `docs/manual-audit-protocol.md` and generated queue
 in `artifacts/long-graph-v2/blind-audit-queue.jsonl` support condition-blinded
 evidence review. `docs/blind-audit-validation.md` machine-checks queue/key
 alignment, empty reviewer labels, citation alias resolution, and configured
-leakage strings. The future-facing preregistration in
+leakage strings. `docs/blind-audit-label-schema.md` defines the human label
+JSONL schema and the CLI validator for submitted reviewer labels. The
+future-facing preregistration in
 `docs/v3-replication-plan.md` defines held-out hypotheses, budget gates, and
 success/failure criteria before any v3 rows are collected.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and

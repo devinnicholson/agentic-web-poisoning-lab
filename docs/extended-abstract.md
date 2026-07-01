@@ -63,6 +63,7 @@ hosted run directories:
 | `docs/long-graph-v2-preservation-transition-analysis.md` | Relation-label transition analysis for repaired rows. |
 | `docs/long-graph-v2-public-artifact-validation.md` | Machine checks for row counts, redaction, summaries, and IDs. |
 | `docs/blind-audit-validation.md` | Machine checks for blind queue/key alignment and leakage control. |
+| `docs/blind-audit-label-schema.md` | Schema and CLI validator contract for future reviewer labels. |
 | `docs/research-artifact-manifest.md` | SHA-256 checksums and claim map. |
 
 ## Limitations

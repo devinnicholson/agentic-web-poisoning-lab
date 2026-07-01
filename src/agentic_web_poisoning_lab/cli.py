@@ -8,6 +8,10 @@ from agentic_web_poisoning_lab.agent import DeterministicWebAgent
 from agentic_web_poisoning_lab.artifact_manifest import write_artifact_manifest
 from agentic_web_poisoning_lab.artifact_validation import write_public_artifact_validation
 from agentic_web_poisoning_lab.audit import write_audit_queue
+from agentic_web_poisoning_lab.audit_label_validation import (
+    AuditLabelValidationSpec,
+    write_audit_label_validation,
+)
 from agentic_web_poisoning_lab.blind_audit import write_blind_audit_queue
 from agentic_web_poisoning_lab.blind_audit_validation import (
     BlindAuditValidationSpec,
@@ -353,6 +357,27 @@ def main(argv: list[str] | None = None) -> int:
         default=Path("docs/blind-audit-validation.md"),
     )
 
+    audit_label_validation_parser = subparsers.add_parser(
+        "audit-label-validation",
+        help="Validate submitted blind-audit human label JSONL.",
+    )
+    audit_label_validation_parser.add_argument(
+        "--labels",
+        type=Path,
+        required=True,
+        help="Reviewer label JSONL file to validate.",
+    )
+    audit_label_validation_parser.add_argument(
+        "--queue",
+        type=Path,
+        default=Path("artifacts/long-graph-v2/blind-audit-queue.jsonl"),
+    )
+    audit_label_validation_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/audit-label-validation.md"),
+    )
+
     args = parser.parse_args(argv)
     if args.command == "run":
         return run_command(args)
@@ -386,6 +411,8 @@ def main(argv: list[str] | None = None) -> int:
         return blind_audit_command(args)
     if args.command == "blind-audit-validation":
         return blind_audit_validation_command(args)
+    if args.command == "audit-label-validation":
+        return audit_label_validation_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
 
 
@@ -572,6 +599,15 @@ def blind_audit_validation_command(args: argparse.Namespace) -> int:
         ),
     )
     print(f"Wrote blind audit validation to {args.out} ({len(markdown.splitlines())} lines)")
+    return 0
+
+
+def audit_label_validation_command(args: argparse.Namespace) -> int:
+    markdown = write_audit_label_validation(
+        args.out,
+        AuditLabelValidationSpec(labels_path=args.labels, queue_path=args.queue),
+    )
+    print(f"Wrote audit label validation to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 
