@@ -51,7 +51,7 @@ direct-control over-abstention introduced by earlier relation gates.
 | Follow a reviewer path | `docs/reviewer-guide.md` |
 | Verify the public data package | `artifacts/long-graph-v2/README.md` |
 | Check machine validation and hashes | `docs/long-graph-v2-public-artifact-validation.md`, `docs/research-artifact-manifest.md` |
-| Run a blind evidence audit | `docs/manual-audit-protocol.md`, `artifacts/long-graph-v2/blind-audit-queue.jsonl` |
+| Run a blind evidence audit | `docs/manual-audit-protocol.md`, `artifacts/long-graph-v2/blind-audit-queue.jsonl`, `docs/blind-audit-validation.md` |
 | Inspect the held-out replication plan | `docs/v3-replication-plan.md` |
 | Review safety boundaries | `docs/threat-model.md` |
 | Track submission readiness | `docs/submission-checklist.md` |
@@ -302,6 +302,12 @@ committed public snapshots:
 make blind-audit-long-graph-v2-public
 ```
 
+Validate the blinded audit queue and key:
+
+```bash
+make validate-blind-audit-long-graph-v2
+```
+
 Generate the deterministic artifact checksum manifest:
 
 ```bash
@@ -436,7 +442,9 @@ counts, line counts, byte sizes, and SHA-256 hashes for the key v2 research
 files.
 The blind audit protocol in `docs/manual-audit-protocol.md` and generated queue
 in `artifacts/long-graph-v2/blind-audit-queue.jsonl` support condition-blinded
-evidence review. The future-facing preregistration in
+evidence review. `docs/blind-audit-validation.md` machine-checks queue/key
+alignment, empty reviewer labels, citation alias resolution, and configured
+leakage strings. The future-facing preregistration in
 `docs/v3-replication-plan.md` defines held-out hypotheses, budget gates, and
 success/failure criteria before any v3 rows are collected.
 Hosted Make targets stream rows into `results.jsonl` as each call completes and

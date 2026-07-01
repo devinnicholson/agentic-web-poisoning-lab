@@ -205,6 +205,7 @@ Regenerate derived analyses from the committed public v2 row snapshots:
 ```bash
 make long-graph-v2-corpus-card-refresh
 make blind-audit-long-graph-v2-public
+make validate-blind-audit-long-graph-v2
 make paired-analysis-long-graph-v2-preservation
 make casebook-long-graph-v2-preservation
 make transition-analysis-long-graph-v2-preservation

@@ -74,10 +74,13 @@ yes/no label with trusted current citations.
 
 "The public rows are committed, sanitized, and machine-validated. The validation
 report checks row counts, redaction, summary consistency, condition coverage,
-and task/page references. The manifest gives SHA-256 checksums for the public
-packet."
+and task/page references. The blind-audit validation checks the 576-row
+reviewer queue for queue/key alignment, empty label slots, alias resolution,
+and configured leakage strings. The manifest gives SHA-256 checksums for the
+public packet."
 
 Open `docs/long-graph-v2-public-artifact-validation.md`, then
+`docs/blind-audit-validation.md`, then
 `docs/research-artifact-manifest.md`.
 
 If asked about safety scope, open `docs/threat-model.md` and emphasize that the

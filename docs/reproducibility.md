@@ -197,6 +197,7 @@ make transition-analysis-long-graph-v2-preservation
 Regenerate the deterministic artifact checksum manifest:
 
 ```bash
+make validate-blind-audit-long-graph-v2
 make artifact-manifest-refresh
 ```
 
@@ -222,6 +223,7 @@ The committed aggregate snapshots are:
 - `docs/paired-long-graph-v2-preservation-analysis.md`
 - `docs/long-graph-v2-preservation-casebook.md`
 - `docs/long-graph-v2-preservation-transition-analysis.md`
+- `docs/blind-audit-validation.md`
 - `docs/research-artifact-manifest.md`
 - `docs/hosted-graph-summary.md`
 - `docs/hosted-long-graph-summary.md`

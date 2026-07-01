@@ -54,10 +54,12 @@ From a local checkout that still has the private hosted output directories:
 ```bash
 make public-snapshot-long-graph-v2
 make blind-audit-long-graph-v2-public
+make validate-blind-audit-long-graph-v2
 make validate-long-graph-v2-public-artifacts
 make artifact-manifest-refresh
 ```
 
-The committed validation report is
-`docs/long-graph-v2-public-artifact-validation.md`; the checksum manifest is
+The committed public snapshot validation report is
+`docs/long-graph-v2-public-artifact-validation.md`; the blind-audit validation
+report is `docs/blind-audit-validation.md`; the checksum manifest is
 `docs/research-artifact-manifest.md`.

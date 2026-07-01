@@ -57,10 +57,12 @@ hosted run directories:
 | `artifacts/long-graph-v2/README.md` | Data package schema, redactions, and rebuild path. |
 | `artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl` | Sanitized primary hosted rows. |
 | `artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl` | Sanitized cross-model replication rows. |
+| `artifacts/long-graph-v2/blind-audit-queue.jsonl` | Blinded evidence-review queue for all 576 public rows. |
 | `docs/paired-long-graph-v2-preservation-analysis.md` | Deployment-aware paired tests and effect sizes. |
 | `docs/long-graph-v2-preservation-casebook.md` | Row-level repair cases with trusted/current evidence pages. |
 | `docs/long-graph-v2-preservation-transition-analysis.md` | Relation-label transition analysis for repaired rows. |
 | `docs/long-graph-v2-public-artifact-validation.md` | Machine checks for row counts, redaction, summaries, and IDs. |
+| `docs/blind-audit-validation.md` | Machine checks for blind queue/key alignment and leakage control. |
 | `docs/research-artifact-manifest.md` | SHA-256 checksums and claim map. |
 
 ## Limitations

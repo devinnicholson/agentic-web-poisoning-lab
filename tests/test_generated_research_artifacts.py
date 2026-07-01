@@ -14,6 +14,10 @@ from agentic_web_poisoning_lab.artifact_validation import (
     DEFAULT_PUBLIC_SNAPSHOT_VALIDATION_SPECS,
     build_public_artifact_validation,
 )
+from agentic_web_poisoning_lab.blind_audit_validation import (
+    DEFAULT_BLIND_AUDIT_VALIDATION_SPEC,
+    build_blind_audit_validation,
+)
 from agentic_web_poisoning_lab.corpus_card import build_corpus_card
 from agentic_web_poisoning_lab.io import load_pages, load_tasks, read_jsonl
 from agentic_web_poisoning_lab.paired_analysis import build_preservation_analysis
@@ -103,6 +107,22 @@ class GeneratedResearchArtifactsTest(unittest.TestCase):
         actual = (ROOT / "docs/long-graph-v2-public-artifact-validation.md").read_text(
             encoding="utf-8"
         )
+
+        self.assertEqual(actual, expected)
+
+    def test_committed_blind_audit_validation_is_current(self) -> None:
+        spec = DEFAULT_BLIND_AUDIT_VALIDATION_SPEC
+        source_rows = []
+        for path in spec.results_paths:
+            for line, row in enumerate(read_jsonl(ROOT / path), start=1):
+                source_rows.append((path, line, row))
+        expected = build_blind_audit_validation(
+            read_jsonl(ROOT / spec.queue_path),
+            read_jsonl(ROOT / spec.key_path),
+            source_rows,
+            spec,
+        )
+        actual = (ROOT / "docs/blind-audit-validation.md").read_text(encoding="utf-8")
 
         self.assertEqual(actual, expected)
 

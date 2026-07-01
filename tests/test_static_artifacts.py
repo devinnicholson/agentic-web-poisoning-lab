@@ -83,6 +83,7 @@ class StaticArtifactsTest(unittest.TestCase):
         self.assertIn("artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl", html)
         self.assertIn("artifacts/long-graph-v2/blind-audit-queue.jsonl", html)
         self.assertIn("artifacts/long-graph-v2/blind-audit-key.jsonl", html)
+        self.assertIn("docs/blind-audit-validation.md", html)
         self.assertIn("docs/long-graph-v2-public-artifact-validation.md", html)
         self.assertIn("docs/research-artifact-manifest.md", html)
         self.assertIn("docs/reviewer-guide.md", html)

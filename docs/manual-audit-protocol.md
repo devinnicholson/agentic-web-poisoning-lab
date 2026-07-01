@@ -8,6 +8,7 @@ Generate the current full public queue and unblinding key with:
 
 ```bash
 make blind-audit-long-graph-v2-public
+make validate-blind-audit-long-graph-v2
 ```
 
 ## Purpose

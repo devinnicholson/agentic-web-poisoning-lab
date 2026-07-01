@@ -91,6 +91,11 @@ DEFAULT_MANIFEST_ENTRIES = (
         "markdown",
     ),
     ManifestEntry(
+        "Blind audit validation report",
+        Path("docs/blind-audit-validation.md"),
+        "markdown",
+    ),
+    ManifestEntry(
         "Held-out v3 replication preregistration",
         Path("docs/v3-replication-plan.md"),
         "markdown",
@@ -163,6 +168,7 @@ def build_artifact_manifest(
         "make long-graph-v2-corpus-card-refresh",
         "make public-snapshot-long-graph-v2",
         "make blind-audit-long-graph-v2-public",
+        "make validate-blind-audit-long-graph-v2",
         "make paired-analysis-long-graph-v2-preservation",
         "make casebook-long-graph-v2-preservation",
         "make transition-analysis-long-graph-v2-preservation",
@@ -239,6 +245,7 @@ def build_artifact_manifest(
                 "`docs/manual-audit-protocol.md`, "
                 "`artifacts/long-graph-v2/blind-audit-queue.jsonl`, "
                 "`artifacts/long-graph-v2/blind-audit-key.jsonl`, "
+                "`docs/blind-audit-validation.md`, "
                 "`docs/v3-replication-plan.md` |"
             ),
             (

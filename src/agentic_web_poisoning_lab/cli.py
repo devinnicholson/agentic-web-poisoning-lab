@@ -9,6 +9,10 @@ from agentic_web_poisoning_lab.artifact_manifest import write_artifact_manifest
 from agentic_web_poisoning_lab.artifact_validation import write_public_artifact_validation
 from agentic_web_poisoning_lab.audit import write_audit_queue
 from agentic_web_poisoning_lab.blind_audit import write_blind_audit_queue
+from agentic_web_poisoning_lab.blind_audit_validation import (
+    BlindAuditValidationSpec,
+    write_blind_audit_validation,
+)
 from agentic_web_poisoning_lab.comparison import write_comparison_report
 from agentic_web_poisoning_lab.conditions import CONDITIONS, DEFAULT_CONDITIONS
 from agentic_web_poisoning_lab.corpus_card import write_corpus_card
@@ -320,6 +324,35 @@ def main(argv: list[str] | None = None) -> int:
     )
     blind_audit_parser.add_argument("--max-items", type=int, default=96)
 
+    blind_audit_validation_parser = subparsers.add_parser(
+        "blind-audit-validation",
+        help="Validate a blinded JSONL reviewer queue and unblinding key.",
+    )
+    blind_audit_validation_parser.add_argument(
+        "--queue",
+        type=Path,
+        default=Path("artifacts/long-graph-v2/blind-audit-queue.jsonl"),
+    )
+    blind_audit_validation_parser.add_argument(
+        "--key",
+        type=Path,
+        default=Path("artifacts/long-graph-v2/blind-audit-key.jsonl"),
+    )
+    blind_audit_validation_parser.add_argument(
+        "--results",
+        type=Path,
+        nargs="+",
+        default=[
+            Path("artifacts/long-graph-v2/hosted-gpt5-mini-results.jsonl"),
+            Path("artifacts/long-graph-v2/hosted-gpt41-mini-a8-a10-results.jsonl"),
+        ],
+    )
+    blind_audit_validation_parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("docs/blind-audit-validation.md"),
+    )
+
     args = parser.parse_args(argv)
     if args.command == "run":
         return run_command(args)
@@ -351,6 +384,8 @@ def main(argv: list[str] | None = None) -> int:
         return audit_command(args)
     if args.command == "blind-audit":
         return blind_audit_command(args)
+    if args.command == "blind-audit-validation":
+        return blind_audit_validation_command(args)
     raise AssertionError(f"Unhandled command: {args.command}")
 
 
@@ -524,6 +559,19 @@ def blind_audit_command(args: argparse.Namespace) -> int:
     print(f"Wrote {len(queue)} blinded audit items to {args.out}")
     if args.out_key is not None:
         print(f"Wrote {len(key)} unblinding key rows to {args.out_key}")
+    return 0
+
+
+def blind_audit_validation_command(args: argparse.Namespace) -> int:
+    markdown = write_blind_audit_validation(
+        args.out,
+        spec=BlindAuditValidationSpec(
+            queue_path=args.queue,
+            key_path=args.key,
+            results_paths=tuple(args.results),
+        ),
+    )
+    print(f"Wrote blind audit validation to {args.out} ({len(markdown.splitlines())} lines)")
     return 0
 
 

@@ -53,6 +53,10 @@ def build_blind_audit_artifacts(
     return queue, key
 
 
+def audit_item_id_for_row(row: Mapping[str, Any]) -> str:
+    return _audit_item_id(row)
+
+
 def _read_result_records(results_paths: Sequence[Path]) -> list[ResultRecord]:
     records: list[ResultRecord] = []
     for path in results_paths:
